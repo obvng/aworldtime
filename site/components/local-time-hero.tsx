@@ -64,17 +64,20 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
     const browserZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const detected = saved || browserZone;
     if (!detected || !validTimeZone(detected)) return;
-    const timer = window.setTimeout(() => setTimeZone(detected), 0);
+    const timer = window.setTimeout(() => {
+      setCurrentTime(new Date());
+      setTimeZone(detected);
+    }, 0);
     return () => window.clearTimeout(timer);
   }, [detectTimeZone]);
 
   useEffect(() => {
     const timer = window.setInterval(
-      () => setCurrentTime((value) => new Date(value.getTime() + 1000)),
+      () => setCurrentTime((value) => detectTimeZone ? new Date() : new Date(value.getTime() + 1000)),
       1000,
     );
     return () => window.clearInterval(timer);
-  }, []);
+  }, [detectTimeZone]);
 
   useEffect(() => {
     if (!city || (city.latitude === 0 && city.longitude === 0)) {
