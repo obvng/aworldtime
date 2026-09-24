@@ -269,7 +269,7 @@ main {
   position: absolute;
   width: 220px;
   height: 220px;
-  right: 10%;
+  right: -48px;
   top: 76px;
   border: 1px solid rgba(244, 163, 64, .35);
   border-radius: 50%;

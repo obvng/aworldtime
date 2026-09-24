@@ -1,7 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CITIES, findCity, type City } from "@/lib/cities";
 
 type CitySearchProps = {
@@ -10,7 +10,7 @@ type CitySearchProps = {
 
 export function CitySearch({ onSelect }: CitySearchProps) {
   const [query, setQuery] = useState("");
-  const listId = useId();
+  const listId = "city-search-input";
   const matches = useMemo(
     () => (query ? findCity(query).slice(0, 6) : CITIES.slice(0, 5)),
     [query],

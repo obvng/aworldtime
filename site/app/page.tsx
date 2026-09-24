@@ -21,12 +21,13 @@ const guides = [
 ];
 
 export default function Home() {
+  const initialNow = new Date().toISOString();
   return (
     <div className="site-shell">
       <SiteHeader />
       <main>
-        <LocalTimeHero />
-        <CityClockStrip />
+        <LocalTimeHero now={initialNow} detectTimeZone />
+        <CityClockStrip initialNow={initialNow} />
 
         <section className="quick-actions" aria-label="Time tools">
           <Link href="/converter" className="quick-action quick-action-blue">

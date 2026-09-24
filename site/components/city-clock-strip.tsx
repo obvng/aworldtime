@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { POPULAR_CITIES } from "@/lib/cities";
 import { formatTime, timeZoneName } from "@/lib/time";
 
-export function CityClockStrip() {
-  const [now, setNow] = useState(() => new Date());
+export function CityClockStrip({ initialNow }: { initialNow: string }) {
+  const [now, setNow] = useState(() => new Date(initialNow));
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 30_000);

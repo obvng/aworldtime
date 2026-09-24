@@ -9,8 +9,18 @@ import type { WeatherSummary } from "@/lib/weather";
 
 type LocalTimeHeroProps = {
   initialTimeZone?: string;
-  now?: Date;
+  now?: Date | string;
+  detectTimeZone?: boolean;
 };
+
+function isWeatherSummary(value: unknown): value is WeatherSummary {
+  const weather = value as Partial<WeatherSummary> | null;
+  return Boolean(
+    weather &&
+    typeof weather.temperatureC === "number" &&
+    typeof weather.condition === "string",
+  );
+}
 
 function validTimeZone(timeZone: string) {
   try {
@@ -39,22 +49,24 @@ function friendlyZoneCity(timeZone: string): City | undefined {
   };
 }
 
-export function LocalTimeHero({ initialTimeZone, now }: LocalTimeHeroProps) {
+export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: LocalTimeHeroProps) {
   const initialZone = initialTimeZone && validTimeZone(initialTimeZone)
     ? initialTimeZone
     : "UTC";
   const [timeZone, setTimeZone] = useState(initialZone);
-  const [currentTime, setCurrentTime] = useState(now ?? new Date());
+  const [currentTime, setCurrentTime] = useState(() => now ? new Date(now) : new Date(0));
   const [weather, setWeather] = useState<WeatherSummary | null>(null);
   const city = useMemo(() => friendlyZoneCity(timeZone), [timeZone]);
 
   useEffect(() => {
-    if (now) return;
+    if (!detectTimeZone) return;
     const saved = window.localStorage.getItem("aworldtime:city");
     const browserZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const detected = saved || browserZone;
-    if (detected && validTimeZone(detected)) setTimeZone(detected);
-  }, [now]);
+    if (!detected || !validTimeZone(detected)) return;
+    const timer = window.setTimeout(() => setTimeZone(detected), 0);
+    return () => window.clearTimeout(timer);
+  }, [detectTimeZone]);
 
   useEffect(() => {
     const timer = window.setInterval(
@@ -66,7 +78,6 @@ export function LocalTimeHero({ initialTimeZone, now }: LocalTimeHeroProps) {
 
   useEffect(() => {
     if (!city || (city.latitude === 0 && city.longitude === 0)) {
-      setWeather(null);
       return;
     }
     const controller = new AbortController();
@@ -74,12 +85,13 @@ export function LocalTimeHero({ initialTimeZone, now }: LocalTimeHeroProps) {
       signal: controller.signal,
     })
       .then((response) => response.status === 204 ? null : response.json())
-      .then((value) => setWeather(value))
+      .then((value: unknown) => setWeather(isWeatherSummary(value) ? value : null))
       .catch(() => setWeather(null));
     return () => controller.abort();
   }, [city]);
 
   function chooseCity(nextCity: City) {
+    setWeather(null);
     setTimeZone(nextCity.timeZone);
     window.localStorage.setItem("aworldtime:city", nextCity.timeZone);
   }
