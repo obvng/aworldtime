@@ -31,6 +31,22 @@ describe("LocalTimeHero", () => {
     expect(screen.getByTestId("local-time")).toHaveTextContent("14:27:01");
   });
 
+  it("syncs a detected local clock to the visitor's device time", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-09-24T13:38:00Z"));
+
+    render(
+      <LocalTimeHero
+        initialTimeZone="Africa/Lagos"
+        now={new Date("2026-09-24T13:27:00Z")}
+        detectTimeZone
+      />,
+    );
+
+    act(() => vi.advanceTimersByTime(0));
+    expect(screen.getByTestId("local-time")).toHaveTextContent("14:38:00");
+  });
+
   it("falls back to UTC when the browser zone is unknown", () => {
     render(
       <LocalTimeHero
