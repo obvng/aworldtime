@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CITIES, type City } from "@/lib/cities";
 import { cityForTimeZone, formatDate, formatTime, timeZoneName } from "@/lib/time";
 import { CitySearch } from "@/components/city-search";
+import type { WeatherSummary } from "@/lib/weather";
 
 type LocalTimeHeroProps = {
   initialTimeZone?: string;
@@ -44,6 +45,7 @@ export function LocalTimeHero({ initialTimeZone, now }: LocalTimeHeroProps) {
     : "UTC";
   const [timeZone, setTimeZone] = useState(initialZone);
   const [currentTime, setCurrentTime] = useState(now ?? new Date());
+  const [weather, setWeather] = useState<WeatherSummary | null>(null);
   const city = useMemo(() => friendlyZoneCity(timeZone), [timeZone]);
 
   useEffect(() => {
@@ -61,6 +63,21 @@ export function LocalTimeHero({ initialTimeZone, now }: LocalTimeHeroProps) {
     );
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (!city || (city.latitude === 0 && city.longitude === 0)) {
+      setWeather(null);
+      return;
+    }
+    const controller = new AbortController();
+    fetch(`/api/weather?latitude=${city.latitude}&longitude=${city.longitude}`, {
+      signal: controller.signal,
+    })
+      .then((response) => response.status === 204 ? null : response.json())
+      .then((value) => setWeather(value))
+      .catch(() => setWeather(null));
+    return () => controller.abort();
+  }, [city]);
 
   function chooseCity(nextCity: City) {
     setTimeZone(nextCity.timeZone);
@@ -84,10 +101,10 @@ export function LocalTimeHero({ initialTimeZone, now }: LocalTimeHeroProps) {
         </time>
         <p className="local-date">{formatDate(currentTime, timeZone)}</p>
         <p className="zone-name">{timeZone === "UTC" ? "Coordinated Universal Time" : timeZoneName(currentTime, timeZone)}</p>
-        {city ? (
-          <p className="weather-placeholder"><SunMedium aria-hidden="true" /> Local conditions will appear here</p>
+        {weather ? (
+          <p className="weather-placeholder"><SunMedium aria-hidden="true" /> {weather.temperatureC}°C · {weather.condition}</p>
         ) : (
-          <button type="button" className="choose-city" onClick={() => chooseCity(CITIES[0])}>Choose your city</button>
+          !city ? <button type="button" className="choose-city" onClick={() => chooseCity(CITIES[0])}>Choose your city</button> : null
         )}
         <CitySearch onSelect={chooseCity} />
       </div>
