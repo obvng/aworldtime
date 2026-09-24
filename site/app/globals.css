@@ -1431,3 +1431,382 @@ footer p {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Approved AWORLDTIME visual direction */
+:root {
+  --background: #eef7ff;
+  --foreground: #172b4d;
+  --primary: #316df5;
+  --secondary: #e7f1ff;
+  --muted: #eaf3fb;
+  --muted-foreground: #61738f;
+  --accent: #ffc857;
+  --border: #cfe0f2;
+  --input: #bfd3ea;
+  --ring: #316df5;
+}
+
+body {
+  background: #eef7ff;
+  font-family: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Avenir Next", Avenir, sans-serif;
+}
+
+.site-shell {
+  background-color: #eef7ff;
+  background-image: url("/time-sky.png");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: max(100%, 1440px) auto;
+}
+
+.site-header {
+  width: min(1180px, calc(100% - 48px));
+  min-height: 70px;
+  margin-top: 18px;
+  padding: 0 18px;
+  border: 1px solid rgba(185, 211, 239, .86);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 16px 45px rgba(37, 92, 153, .11);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  color: #173e7a;
+  font-size: 1.08rem;
+  letter-spacing: -.04em;
+}
+
+.brand-mark {
+  color: #fff;
+  background: #316df5;
+  border-radius: 50%;
+  box-shadow: 0 7px 16px rgba(49, 109, 245, .28);
+}
+
+.site-header nav {
+  gap: 10px;
+  padding: 5px;
+  border-radius: 14px;
+  background: rgba(231, 241, 255, .8);
+}
+
+.site-header nav a {
+  padding: 9px 14px;
+  border-radius: 10px;
+}
+
+.site-header nav a:hover {
+  color: #173e7a;
+  background: #fff;
+}
+
+main {
+  width: min(1180px, calc(100% - 48px));
+  padding-top: 22px;
+}
+
+.time-hero {
+  min-height: 500px;
+  border: 1px solid rgba(176, 205, 237, .88);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, .76);
+  box-shadow:
+    0 28px 70px rgba(57, 104, 161, .15),
+    inset 0 1px 0 rgba(255, 255, 255, .95);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.time-hero::before {
+  width: 280px;
+  height: 280px;
+  left: -115px;
+  top: -145px;
+  border: 1px solid rgba(49, 109, 245, .2);
+  background: rgba(212, 233, 255, .72);
+  box-shadow: 0 0 0 44px rgba(255, 200, 87, .12);
+}
+
+.time-hero::after {
+  width: 220px;
+  height: 220px;
+  right: -86px;
+  top: auto;
+  bottom: -110px;
+  border: 1px solid rgba(255, 187, 55, .25);
+  background: rgba(255, 225, 150, .5);
+  box-shadow: 0 0 0 36px rgba(215, 235, 255, .55);
+}
+
+.time-orbit {
+  width: 170px;
+  height: 170px;
+  right: 45px;
+  top: 42px;
+  border-color: rgba(49, 109, 245, .16);
+  opacity: .72;
+}
+
+.time-orbit::before {
+  inset: 28px;
+  border-color: rgba(255, 184, 47, .32);
+}
+
+.time-orbit::after {
+  inset: 58px;
+  background: #ffc857;
+  box-shadow: 0 0 0 14px rgba(255, 200, 87, .2);
+}
+
+.time-hero-inner {
+  width: min(760px, calc(100% - 64px));
+  padding-top: 54px;
+}
+
+.local-label {
+  width: max-content;
+  margin: 0 auto 12px;
+  padding: 8px 13px;
+  color: #2158b0;
+  border: 1px solid #c4d9f5;
+  border-radius: 999px;
+  background: rgba(232, 242, 255, .9);
+  font-size: .86rem;
+  font-weight: 760;
+}
+
+.city-heading-row h1 {
+  color: #17325c;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -.055em;
+}
+
+.country-code {
+  color: #28518a;
+  border: 1px solid #bdd3ed;
+  background: #e6f1ff;
+}
+
+.local-clock {
+  margin-top: 7px;
+  color: #17325c;
+  font-size: clamp(5.5rem, 12vw, 9.5rem);
+  font-weight: 850;
+  letter-spacing: -.085em;
+  text-shadow: 0 7px 0 rgba(49, 109, 245, .08);
+}
+
+.local-date {
+  margin-top: 13px;
+  color: #25446f;
+}
+
+.zone-name {
+  color: #70819a;
+}
+
+.weather-placeholder {
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255, 246, 216, .92);
+}
+
+.city-search {
+  min-height: 66px;
+  margin-top: 24px;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 34px rgba(39, 90, 150, .15),
+    0 0 0 1px #c8dbf0;
+}
+
+.section-heading h2 {
+  color: #17325c;
+  font-size: 1.55rem;
+}
+
+.section-heading a {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .74);
+}
+
+.city-clock-strip {
+  gap: 16px;
+}
+
+.city-clock {
+  min-height: 150px;
+  padding: 23px;
+  border: 1px solid rgba(181, 209, 238, .9);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .86);
+  box-shadow: 0 15px 35px rgba(50, 94, 145, .1);
+}
+
+.city-clock:nth-child(2n) {
+  background: rgba(255, 249, 228, .9);
+}
+
+.city-clock p {
+  color: #39597f;
+}
+
+.city-clock time {
+  margin-top: 17px;
+  color: #17325c;
+  font-size: clamp(2.2rem, 3.6vw, 3rem);
+}
+
+.quick-actions {
+  gap: 18px;
+}
+
+.quick-action {
+  min-height: 126px;
+  border-radius: 25px;
+  box-shadow: 0 14px 30px rgba(50, 94, 145, .08);
+}
+
+.quick-action-blue {
+  border-color: #bad5f6;
+  background: rgba(226, 240, 255, .92);
+}
+
+.quick-action-amber {
+  border-color: #f2d994;
+  background: rgba(255, 246, 214, .93);
+}
+
+.quick-action > span {
+  border-radius: 50%;
+  box-shadow: 0 9px 18px rgba(32, 76, 132, .15);
+}
+
+.guide-grid {
+  gap: 18px;
+}
+
+.post-card {
+  min-height: 184px;
+  border-color: rgba(186, 211, 238, .9);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, .84);
+  box-shadow: 0 14px 34px rgba(50, 94, 145, .08);
+}
+
+footer {
+  border-top-color: rgba(174, 202, 231, .75);
+}
+
+@media (max-width: 760px) {
+  .site-shell {
+    background-position: center top;
+    background-size: auto 820px;
+  }
+
+  .site-header,
+  main,
+  footer {
+    width: min(100% - 24px, 620px);
+  }
+
+  .site-header {
+    min-height: 62px;
+    margin-top: 12px;
+    padding: 0 13px;
+    border-radius: 18px;
+  }
+
+  .brand span:last-child {
+    font-size: .94rem;
+  }
+
+  main {
+    padding-top: 14px;
+  }
+
+  .time-hero {
+    min-height: 475px;
+    border-radius: 28px;
+  }
+
+  .time-orbit {
+    width: 105px;
+    height: 105px;
+    right: -22px;
+    top: 34px;
+  }
+
+  .time-orbit::before {
+    inset: 18px;
+  }
+
+  .time-orbit::after {
+    inset: 36px;
+  }
+
+  .time-hero-inner {
+    width: calc(100% - 34px);
+    padding-top: 34px;
+  }
+
+  .local-label {
+    margin-left: 0;
+    padding: 7px 11px;
+  }
+
+  .city-heading-row {
+    max-width: calc(100% - 48px);
+  }
+
+  .city-heading-row h1 {
+    font-size: clamp(1.72rem, 8.4vw, 2.2rem);
+  }
+
+  .country-code {
+    display: none;
+  }
+
+  .local-clock {
+    margin-top: 18px;
+    font-size: clamp(4.6rem, 25vw, 6.5rem);
+    line-height: .9;
+  }
+
+  .local-date {
+    max-width: 250px;
+    margin-top: 18px;
+    line-height: 1.35;
+  }
+
+  .city-search {
+    min-height: 60px;
+    margin-top: 24px;
+  }
+
+  .city-section,
+  .guide-section {
+    padding-top: 32px;
+  }
+
+  .city-clock-strip {
+    width: calc(100vw - 12px);
+    gap: 12px;
+  }
+
+  .city-clock {
+    flex-basis: 154px;
+    min-height: 136px;
+    padding: 20px;
+    border-radius: 21px;
+  }
+
+  .quick-action,
+  .post-card {
+    border-radius: 22px;
+  }
+}
