@@ -3,7 +3,7 @@
 import { MapPin, SunMedium } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { CITIES, countryCodeToFlag, skylineForCity, type City } from "@/lib/cities";
-import { cityForTimeZone, formatDate, formatTime, timeZoneName } from "@/lib/time";
+import { cityForTimeZone, formatDate, formatTimeWithPeriod, timeZoneName } from "@/lib/time";
 import { CitySearch } from "@/components/city-search";
 import type { WeatherSummary } from "@/lib/weather";
 
@@ -58,6 +58,8 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
   const [currentTime, setCurrentTime] = useState(() => now ? new Date(now) : new Date(0));
   const [weather, setWeather] = useState<WeatherSummary | null>(null);
   const city = useMemo(() => friendlyZoneCity(timeZone), [timeZone]);
+  const desktopTime = formatTimeWithPeriod(currentTime, timeZone, true);
+  const mobileTime = formatTimeWithPeriod(currentTime, timeZone, false);
 
   useEffect(() => {
     if (!detectTimeZone) return;
@@ -119,8 +121,8 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
           ) : null}
         </div>
         <time className="local-clock" data-testid="local-time" dateTime={currentTime.toISOString()}>
-          <span className="clock-desktop">{formatTime(currentTime, timeZone, true)}</span>
-          <span className="clock-mobile">{formatTime(currentTime, timeZone, false)}</span>
+          <span className="clock-desktop">{desktopTime.time} <span className="clock-period">{desktopTime.period}</span></span>
+          <span className="clock-mobile">{mobileTime.time} <span className="clock-period">{mobileTime.period}</span></span>
         </time>
         <p className="local-date">{formatDate(currentTime, timeZone)}</p>
         <p className="zone-name">{timeZone === "UTC" ? "Coordinated Universal Time" : timeZoneName(currentTime, timeZone)}</p>

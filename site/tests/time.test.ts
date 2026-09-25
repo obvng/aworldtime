@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { countryCodeToFlag } from "@/lib/cities";
 import {
   cityForTimeZone,
   convertWallTime,
   formatDate,
   formatTime,
+  formatTimeWithPeriod,
 } from "@/lib/time";
 
 describe("world time helpers", () => {
@@ -13,9 +15,26 @@ describe("world time helpers", () => {
     expect(cityForTimeZone("Africa/Lagos")?.name).toBe("Lagos");
   });
 
+  it("turns an ISO country code into its flag", () => {
+    expect(countryCodeToFlag("NG")).toBe("🇳🇬");
+    expect(countryCodeToFlag("gb")).toBe("🇬🇧");
+    expect(countryCodeToFlag("")).toBe("");
+  });
+
   it("formats one instant in different zones", () => {
     expect(formatTime(instant, "Africa/Lagos", false)).toBe("14:27");
     expect(formatTime(instant, "America/New_York", false)).toBe("09:27");
+  });
+
+  it("formats display clocks with the correct AM or PM period", () => {
+    expect(formatTimeWithPeriod(instant, "Africa/Lagos", false)).toEqual({
+      time: "02:27",
+      period: "PM",
+    });
+    expect(formatTimeWithPeriod(instant, "America/New_York", true)).toEqual({
+      time: "09:27:00",
+      period: "AM",
+    });
   });
 
   it("formats the local calendar date", () => {

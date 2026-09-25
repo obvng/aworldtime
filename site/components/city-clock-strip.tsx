@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { countryCodeToFlag, POPULAR_CITIES } from "@/lib/cities";
-import { formatTime, timeZoneName } from "@/lib/time";
+import { formatTimeWithPeriod, timeZoneName } from "@/lib/time";
 
 export function CityClockStrip({ initialNow }: { initialNow: string }) {
   const [now, setNow] = useState(() => new Date(initialNow));
@@ -19,18 +19,19 @@ export function CityClockStrip({ initialNow }: { initialNow: string }) {
         <a href="/world-clock">See all</a>
       </div>
       <div className="city-clock-strip">
-        {POPULAR_CITIES.map((city) => (
-          <article className="city-clock" key={city.timeZone}>
+        {POPULAR_CITIES.map((city) => {
+          const cityTime = formatTimeWithPeriod(now, city.timeZone, false);
+          return <article className="city-clock" key={city.timeZone}>
             <p className="city-name-with-flag">
               <span className="city-card-flag" role="img" aria-label={`${city.country} flag`}>
                 {countryCodeToFlag(city.countryCode)}
               </span>
               {city.name}
             </p>
-            <time dateTime={now.toISOString()}>{formatTime(now, city.timeZone, false)}</time>
+            <time dateTime={now.toISOString()}>{cityTime.time} <span className="city-clock-period">{cityTime.period}</span></time>
             <small>{timeZoneName(now, city.timeZone)}</small>
           </article>
-        ))}
+        })}
       </div>
     </section>
   );

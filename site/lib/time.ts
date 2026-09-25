@@ -71,6 +71,27 @@ export function formatTime(date: Date, timeZone: string, includeSeconds = true) 
   }).format(date);
 }
 
+export function formatTimeWithPeriod(
+  date: Date,
+  timeZone: string,
+  includeSeconds = true,
+) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    ...(includeSeconds ? { second: "2-digit" } : {}),
+    hourCycle: "h12",
+  }).formatToParts(date);
+  const value = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? "";
+
+  return {
+    time: [value("hour"), value("minute"), ...(includeSeconds ? [value("second")] : [])].join(":"),
+    period: value("dayPeriod").toUpperCase(),
+  };
+}
+
 export function formatDate(date: Date, timeZone: string) {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone,

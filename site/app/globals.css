@@ -1983,6 +1983,34 @@ footer {
   font-size: clamp(1.65rem, 2.8vw, 2.45rem);
 }
 
+.clock-desktop,
+.clock-mobile,
+.city-clock time {
+  white-space: nowrap;
+}
+
+.clock-period,
+.city-clock-period,
+.directory-clock-period {
+  display: inline-block;
+  font-weight: 850;
+  letter-spacing: .04em;
+  line-height: 1;
+  vertical-align: .55em;
+}
+
+.clock-period {
+  font-size: clamp(.95rem, 2vw, 1.35rem) !important;
+}
+
+.city-clock-period {
+  font-size: .64rem !important;
+}
+
+.directory-clock-period {
+  font-size: .78rem !important;
+}
+
 @media (max-width: 760px) {
   .city-clock-strip {
     width: 100%;

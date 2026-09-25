@@ -16,7 +16,9 @@ describe("LocalTimeHero", () => {
     expect(screen.getByRole("heading", { name: "Lagos, Nigeria" })).toBeVisible();
     expect(screen.getByRole("img", { name: "Nigeria flag" })).toHaveTextContent("🇳🇬");
     expect(screen.getByRole("img", { name: "Nigeria flag" })).toHaveClass("hero-country-flag");
-    expect(screen.getByTestId("local-time")).toHaveTextContent("14:27:00");
+    expect(screen.getByTestId("local-time")).toHaveTextContent("02:27:00");
+    expect(screen.getByTestId("local-time")).toHaveTextContent("PM");
+    expect(screen.getAllByText("PM")[0]).toHaveClass("clock-period");
     expect(screen.getByText("Thursday, 24 September 2026")).toBeVisible();
     expect(screen.getByTestId("city-skyline")).toHaveStyle({
       backgroundImage: 'url("/cities/lagos.webp")',
@@ -34,7 +36,7 @@ describe("LocalTimeHero", () => {
     );
 
     act(() => vi.advanceTimersByTime(1000));
-    expect(screen.getByTestId("local-time")).toHaveTextContent("14:27:01");
+    expect(screen.getByTestId("local-time")).toHaveTextContent("02:27:01 PM");
   });
 
   it("syncs a detected local clock to the visitor's device time", () => {
@@ -50,7 +52,7 @@ describe("LocalTimeHero", () => {
     );
 
     act(() => vi.advanceTimersByTime(0));
-    expect(screen.getByTestId("local-time")).toHaveTextContent("14:38:00");
+    expect(screen.getByTestId("local-time")).toHaveTextContent("02:38:00 PM");
   });
 
   it("falls back to UTC when the browser zone is unknown", () => {

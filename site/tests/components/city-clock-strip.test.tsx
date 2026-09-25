@@ -22,6 +22,8 @@ describe("CityClockStrip", () => {
     for (const city of ["London", "New York", "Dubai", "Tokyo", "Toronto", "Beijing"]) {
       expect(screen.getByText(city)).toBeVisible();
     }
+    expect(screen.getAllByText(/AM|PM/)).toHaveLength(6);
+    expect(screen.getAllByText(/AM|PM/)[0]).toHaveClass("city-clock-period");
   });
 
   it("does not use JavaScript viewport detection for layout", () => {
