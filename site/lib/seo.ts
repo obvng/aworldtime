@@ -91,9 +91,16 @@ export function buildPostMetadata(post: Post): Metadata {
       title: post.og_title || title,
       description: post.og_description || description,
       url: postUrl(post),
+      siteName: "AWORLDTIME.COM",
       publishedTime: post.published_at ?? undefined,
       modifiedTime: post.updated_at,
       ...(images ? { images: [{ url: images, alt: post.featured_image_alt ?? undefined }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.og_title || title,
+      description: post.og_description || description,
+      ...(images ? { images: [images] } : {}),
     },
   };
 }
@@ -109,7 +116,7 @@ export function buildArticleJsonLd(post: Post) {
     dateModified: post.updated_at,
     mainEntityOfPage: postUrl(post),
     author: { "@type": "Organization", name: "AWORLDTIME.COM" },
-    publisher: { "@type": "Organization", name: "AWORLDTIME.COM", url: SITE_ORIGIN },
+    publisher: { "@type": "Organization", "@id": `${SITE_ORIGIN}/#organization`, name: "AWORLDTIME.COM", url: SITE_ORIGIN },
     ...(image ? { image: [image] } : {}),
   };
 }

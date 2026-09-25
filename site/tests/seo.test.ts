@@ -6,7 +6,10 @@ import {
   buildWebApplicationJsonLd,
   buildWebsiteJsonLd,
   serializeJsonLd,
+  buildArticleJsonLd,
+  buildPostMetadata,
 } from "@/lib/seo";
+import { fixturePost } from "@/lib/posts";
 
 describe("shared SEO helpers", () => {
   it("uses the canonical www origin for internal URLs", () => {
@@ -63,6 +66,49 @@ describe("shared SEO helpers", () => {
       applicationCategory: "UtilitiesApplication",
       operatingSystem: "Any",
       isAccessibleForFree: true,
+    });
+  });
+
+  it("builds canonical and social metadata for an article", () => {
+    const post = fixturePost({
+      slug: "meeting-times",
+      featured_image_url: "https://images.example.com/meeting.webp",
+      featured_image_alt: "People joining a global meeting",
+    });
+    const metadata = buildPostMetadata(post);
+
+    expect(metadata.alternates).toEqual({ canonical: "https://www.aworldtime.com/blog/meeting-times" });
+    expect(metadata.openGraph).toMatchObject({
+      type: "article",
+      url: "https://www.aworldtime.com/blog/meeting-times",
+      siteName: "AWORLDTIME.COM",
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      images: ["https://images.example.com/meeting.webp"],
+    });
+  });
+
+  it("preserves an external article canonical and noindex setting", () => {
+    const metadata = buildPostMetadata(fixturePost({
+      canonical_url: "https://example.com/original-guide",
+      noindex: true,
+    }));
+
+    expect(metadata.alternates).toEqual({ canonical: "https://example.com/original-guide" });
+    expect(metadata.robots).toEqual({ index: false, follow: false });
+  });
+
+  it("connects Article schema to its canonical publisher", () => {
+    expect(buildArticleJsonLd(fixturePost({ slug: "meeting-times" }))).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      mainEntityOfPage: "https://www.aworldtime.com/blog/meeting-times",
+      publisher: {
+        "@type": "Organization",
+        "@id": "https://www.aworldtime.com/#organization",
+        name: "AWORLDTIME.COM",
+      },
     });
   });
 });
