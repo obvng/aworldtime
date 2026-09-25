@@ -28,8 +28,17 @@ export function AdminSetupForm() {
 
     setSaving(true);
     const supabase = createClient();
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) {
+    const code = new URLSearchParams(window.location.search).get("code");
+    const sessionResult = code
+      ? await supabase.auth.exchangeCodeForSession(code)
+      : await supabase.auth.getSession();
+
+    if ("error" in sessionResult && sessionResult.error) {
+      setError("This invitation link is invalid or has expired. Request a new invitation.");
+      setSaving(false);
+      return;
+    }
+    if (!sessionResult.data.session) {
       setError("This invitation link is invalid or has expired. Request a new invitation.");
       setSaving(false);
       return;
