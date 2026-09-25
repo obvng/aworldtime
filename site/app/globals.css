@@ -1084,6 +1084,27 @@ footer p {
   background: #fff0f1;
 }
 
+.admin-success {
+  margin: 18px 0;
+  padding: 12px 14px;
+  border: 1px solid #8bc8aa;
+  border-radius: 10px;
+  color: #075b36;
+  background: #ecfbf3;
+}
+
+.admin-forgot-link,
+.admin-login-link {
+  display: block;
+  margin-top: 14px;
+  color: var(--primary);
+  font-size: .9rem;
+  font-weight: 750;
+}
+
+.admin-forgot-link { text-align: right; }
+.admin-login-link { text-align: center; }
+
 .admin-shell {
   width: min(1240px, calc(100% - 40px));
   min-height: 100vh;
