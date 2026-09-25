@@ -4,24 +4,11 @@ import { CityClockStrip } from "@/components/city-clock-strip";
 import { LocalTimeHero } from "@/components/local-time-hero";
 import { PostCard } from "@/components/blog/post-card";
 import { SiteHeader } from "@/components/site-header";
+import { listPublishedPosts, selectLatestGuides } from "@/lib/posts";
 
-const guides = [
-  {
-    category: "Meeting guide",
-    title: "How to plan a meeting across time zones",
-    excerpt: "A simple way to find a fair hour for everyone.",
-    href: "/blog/plan-a-meeting-across-time-zones",
-  },
-  {
-    category: "Time zones",
-    title: "Daylight saving time in 2026",
-    excerpt: "The dates and clock changes worth knowing.",
-    href: "/blog/daylight-saving-time-2026",
-  },
-];
-
-export default function Home() {
+export default async function Home() {
   const initialNow = new Date().toISOString();
+  const guides = selectLatestGuides(await listPublishedPosts());
   return (
     <div className="site-shell">
       <SiteHeader />
@@ -46,7 +33,16 @@ export default function Home() {
             <Link href="/blog">View all articles</Link>
           </div>
           <div className="guide-grid">
-            {guides.map((guide) => <PostCard key={guide.href} {...guide} />)}
+            {guides.map((guide) => (
+              <PostCard
+                key={guide.id}
+                title={guide.title}
+                excerpt={guide.excerpt}
+                category={guide.category}
+                href={`/blog/${guide.slug}`}
+                imageUrl={guide.featured_image_url}
+              />
+            ))}
           </div>
         </section>
       </main>

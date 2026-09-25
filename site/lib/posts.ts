@@ -75,6 +75,15 @@ export function isPublicPost(post: Post, now = new Date()) {
   return post.status === "published" && Boolean(post.published_at) && new Date(post.published_at as string) <= now;
 }
 
+export function selectLatestGuides(posts: Post[], now = new Date()) {
+  return posts
+    .filter((post) => isPublicPost(post, now))
+    .sort((left, right) =>
+      new Date(right.published_at as string).getTime() - new Date(left.published_at as string).getTime(),
+    )
+    .slice(0, 2);
+}
+
 export async function listPublishedPosts(): Promise<Post[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return SAMPLE_POSTS.filter((post) => isPublicPost(post));
   try {

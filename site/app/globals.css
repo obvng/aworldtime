@@ -2006,3 +2006,55 @@ footer {
     font-size: clamp(1.55rem, 7.8vw, 1.95rem);
   }
 }
+
+.post-card {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(150px, 34%) 1fr;
+  overflow: hidden;
+}
+
+.post-card-image {
+  min-height: 180px;
+  background-position: center;
+  background-size: cover;
+}
+
+.post-card-copy {
+  padding: 22px;
+  align-self: center;
+}
+
+.post-card-copy > p {
+  width: max-content;
+  margin: 0 0 17px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  color: #31557f;
+  background: var(--secondary);
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+@media (max-width: 760px) {
+  .post-card {
+    grid-template-columns: 104px 1fr;
+    min-height: 132px;
+  }
+
+  .post-card-image {
+    min-height: 132px;
+  }
+
+  .post-card-copy {
+    padding: 15px;
+  }
+
+  .post-card-copy > p {
+    margin-bottom: 10px;
+  }
+
+  .post-card-copy > span {
+    display: none;
+  }
+}
