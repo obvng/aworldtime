@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { CITIES, findCity, type City } from "@/lib/cities";
+import { CITIES, countryCodeToFlag, findCity, type City } from "@/lib/cities";
 
 type CitySearchProps = {
   onSelect: (city: City) => void;
@@ -40,7 +40,10 @@ export function CitySearch({ onSelect }: CitySearchProps) {
                 setQuery("");
               }}
             >
-              <span>{city.name}</span>
+              <span className="search-city-label">
+                <span role="img" aria-label={`${city.country} flag`}>{countryCodeToFlag(city.countryCode)}</span>
+                {city.name}
+              </span>
               <small>{city.country} · {city.timeZone}</small>
             </button>
           )) : <p>No city found. Try a country or time-zone name.</p>}

@@ -2,7 +2,7 @@
 
 import { MapPin, SunMedium } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { CITIES, type City } from "@/lib/cities";
+import { CITIES, countryCodeToFlag, type City } from "@/lib/cities";
 import { cityForTimeZone, formatDate, formatTime, timeZoneName } from "@/lib/time";
 import { CitySearch } from "@/components/city-search";
 import type { WeatherSummary } from "@/lib/weather";
@@ -108,7 +108,11 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
         <p className="local-label"><MapPin size={18} aria-hidden="true" /> Your local time</p>
         <div className="city-heading-row">
           <h1 id="local-time-heading">{city ? `${city.name}${city.country === "Your location" ? "" : `, ${city.country}`}` : "Your city"}</h1>
-          {city?.countryCode ? <span className="country-code">{city.countryCode}</span> : null}
+          {city?.countryCode ? (
+            <span className="country-flag" role="img" aria-label={`${city.country} flag`}>
+              {countryCodeToFlag(city.countryCode)}
+            </span>
+          ) : null}
         </div>
         <time className="local-clock" data-testid="local-time" dateTime={currentTime.toISOString()}>
           <span className="clock-desktop">{formatTime(currentTime, timeZone, true)}</span>
