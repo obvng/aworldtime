@@ -72,8 +72,11 @@ export async function savePost(id: string | null, formData: FormData) {
 }
 
 export async function deletePost(id: string) {
-  const { supabase } = await requireAdminAction();
-  await supabase.from("posts").delete().eq("id", id);
+  const { supabase, userId } = await requireAdminAction();
+  await supabase.from("posts").delete().eq("id", id).eq("author_id", userId);
+  revalidatePath("/");
   revalidatePath("/blog");
+  revalidatePath("/sitemap.xml");
+  revalidatePath("/feed.xml");
   redirect("/admin");
 }

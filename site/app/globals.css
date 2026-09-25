@@ -1148,6 +1148,82 @@ footer p {
   text-align: center;
 }
 
+.admin-status-tabs {
+  margin: -8px 0 18px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.admin-status-tabs a {
+  padding: 9px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #31557f;
+  background: white;
+  font-size: .84rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.admin-status-tabs a[aria-current="page"] {
+  border-color: var(--primary);
+  color: white;
+  background: var(--primary);
+}
+
+.admin-status-tabs span {
+  margin-left: 4px;
+  opacity: .72;
+}
+
+.delete-dialog {
+  width: min(420px, calc(100% - 32px));
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(11, 31, 58, .24);
+}
+
+.delete-dialog::backdrop {
+  background: rgba(11, 31, 58, .46);
+}
+
+.delete-dialog-body {
+  padding: 26px;
+}
+
+.delete-dialog h2,
+.delete-dialog p {
+  margin-top: 0;
+}
+
+.delete-dialog-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.delete-dialog-actions form {
+  display: block;
+}
+
+.delete-dialog button {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  font-weight: 750;
+}
+
+.delete-dialog .delete-confirm {
+  border-color: #b42332;
+  color: white;
+  background: #b42332;
+}
+
 .post-editor {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(320px, .75fr);
