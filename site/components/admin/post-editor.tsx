@@ -19,10 +19,12 @@ export function PostEditor({ post }: { post?: Post | null }) {
   const [slugEdited, setSlugEdited] = useState(Boolean(post?.slug));
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
+  const [category, setCategory] = useState(post?.category ?? "Guides");
   const [seoTitle, setSeoTitle] = useState(post?.seo_title ?? "");
   const [metaDescription, setMetaDescription] = useState(post?.meta_description ?? "");
   const [activeView, setActiveView] = useState<"write" | "preview">("write");
   const [dirty, setDirty] = useState(false);
+  const [saveStatus, setSaveStatus] = useState(post ? "Saved" : "Not saved yet");
 
   useEffect(() => {
     if (!dirty) return;
@@ -31,15 +33,40 @@ export function PostEditor({ post }: { post?: Post | null }) {
     return () => window.removeEventListener("beforeunload", warn);
   }, [dirty]);
 
+  useEffect(() => {
+    if (!post || post.status !== "draft" || !dirty) return;
+    const timer = window.setTimeout(async () => {
+      setSaveStatus("Saving…");
+      try {
+        const response = await fetch(`/api/admin/posts/${post.id}/autosave`, {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ title, slug, excerpt, content, category }),
+        });
+        if (!response.ok) throw new Error();
+        setDirty(false);
+        setSaveStatus("Draft saved");
+      } catch {
+        setSaveStatus("Autosave failed. Use Save post.");
+      }
+    }, 1500);
+    return () => window.clearTimeout(timer);
+  }, [post, dirty, title, slug, excerpt, content, category]);
+
+  function markDirty() {
+    setDirty(true);
+    setSaveStatus("Unsaved changes");
+  }
+
   function updateTitle(value: string) {
     setTitle(value);
     if (!slugEdited) setSlug(normalizeSlug(value));
-    setDirty(true);
+    markDirty();
   }
 
   function applyEdit(edit: MarkdownEdit) {
     setContent(edit.value);
-    setDirty(true);
+    markDirty();
     requestAnimationFrame(() => {
       textareaRef.current?.focus();
       textareaRef.current?.setSelectionRange(edit.selectionStart, edit.selectionEnd);
@@ -47,7 +74,7 @@ export function PostEditor({ post }: { post?: Post | null }) {
   }
 
   return (
-    <form action={action} className="post-editor" onChange={() => setDirty(true)}>
+    <form action={action} className="post-editor" onChange={markDirty}>
       <div className="editor-main">
         <label>Title<input name="title" required maxLength={180} value={title} onChange={(event) => updateTitle(event.target.value)} /></label>
         <label>URL slug<input name="slug" required value={slug} placeholder="meeting-across-time-zones" onChange={(event) => { setSlug(event.target.value); setSlugEdited(true); }} /></label>
@@ -66,8 +93,8 @@ export function PostEditor({ post }: { post?: Post | null }) {
         </div>
       </div>
       <aside className="editor-side">
-        <p className="editor-save-status" aria-live="polite">{dirty ? "Unsaved changes" : post ? "Saved" : "Not saved yet"}</p>
-        <label>Category<input name="category" defaultValue={post?.category ?? "Guides"} /></label>
+        <p className="editor-save-status" aria-live="polite">{dirty && !post ? "Unsaved changes" : saveStatus}</p>
+        <label>Category<input name="category" value={category} onChange={(event) => setCategory(event.target.value)} /></label>
         <label>Status<select name="status" defaultValue={post?.status ?? "draft"}><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="published">Published</option></select></label>
         <label>Publication date<input name="published_at" type="datetime-local" defaultValue={dateValue} /></label>
         <input name="featured_image_url" type="hidden" value={post?.featured_image_url ?? ""} readOnly />

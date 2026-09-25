@@ -2,18 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { AdminAuthError, requireAdmin } from "@/lib/admin-auth";
 import { postSchema } from "@/lib/post-validation";
 import { createClient, hasSupabaseConfig } from "@/lib/supabase/server";
 
-async function requireAdmin() {
-  if (!hasSupabaseConfig()) redirect("/admin/login?error=Connect+Supabase+before+signing+in.");
-  const supabase = await createClient();
-  const { data: claims } = await supabase.auth.getClaims();
-  const userId = claims?.claims?.sub;
-  if (!userId) redirect("/admin/login");
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).single();
-  if (profile?.role !== "admin") redirect("/admin/login?error=This+account+does+not+have+administrator+access.");
-  return { supabase, userId };
+async function requireAdminAction() {
+  try {
+    return await requireAdmin();
+  } catch (error) {
+    if (error instanceof AdminAuthError) redirect(`/admin/login?error=${encodeURIComponent(error.message)}`);
+    throw error;
+  }
 }
 
 export async function signIn(formData: FormData) {
@@ -35,7 +34,7 @@ export async function signOut() {
 }
 
 export async function savePost(id: string | null, formData: FormData) {
-  const { supabase, userId } = await requireAdmin();
+  const { supabase, userId } = await requireAdminAction();
   const parsed = postSchema.safeParse({
     title: formData.get("title"), slug: formData.get("slug"), excerpt: formData.get("excerpt"), content: formData.get("content"), category: formData.get("category"), featured_image_url: formData.get("featured_image_url"), featured_image_alt: formData.get("featured_image_alt"), status: formData.get("status"), published_at: formData.get("published_at"), seo_title: formData.get("seo_title"), meta_description: formData.get("meta_description"), canonical_url: formData.get("canonical_url"), og_title: formData.get("og_title"), og_description: formData.get("og_description"), noindex: formData.get("noindex") === "on",
   });
@@ -73,7 +72,7 @@ export async function savePost(id: string | null, formData: FormData) {
 }
 
 export async function deletePost(id: string) {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requireAdminAction();
   await supabase.from("posts").delete().eq("id", id);
   revalidatePath("/blog");
   redirect("/admin");
