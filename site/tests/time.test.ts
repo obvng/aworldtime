@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { countryCodeToFlag } from "@/lib/cities";
 import {
   cityForTimeZone,
   convertWallTime,
@@ -11,6 +12,12 @@ describe("world time helpers", () => {
 
   it("maps a browser time zone to its representative city", () => {
     expect(cityForTimeZone("Africa/Lagos")?.name).toBe("Lagos");
+  });
+
+  it("turns an ISO country code into its flag", () => {
+    expect(countryCodeToFlag("NG")).toBe("🇳🇬");
+    expect(countryCodeToFlag("gb")).toBe("🇬🇧");
+    expect(countryCodeToFlag("")).toBe("");
   });
 
   it("formats one instant in different zones", () => {
