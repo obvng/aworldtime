@@ -8,7 +8,7 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="site-header" style={{ position: "relative" }}>
+    <header className="site-header" style={{ position: "relative", zIndex: 50 }}>
       <Link href="/" className="brand" aria-label="AWORLDTIME.COM home">
         <span className="brand-mark"><Globe2 aria-hidden="true" /></span>
         <span>AWORLDTIME.COM</span>
