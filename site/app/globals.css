@@ -929,11 +929,70 @@ footer p {
   border-top: 1px solid var(--border);
 }
 
-.article-body p {
+.article-featured-image {
+  width: 100%;
+  height: auto;
+  margin-top: 36px;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+.article-body p,
+.markdown-article li {
   margin: 0 0 24px;
   color: #183655;
   font-size: 1.08rem;
   line-height: 1.85;
+}
+
+.markdown-article h2,
+.markdown-article h3,
+.markdown-article h4 {
+  margin: 38px 0 14px;
+  color: var(--foreground);
+  letter-spacing: -.025em;
+}
+
+.markdown-article ul,
+.markdown-article ol {
+  padding-left: 24px;
+}
+
+.markdown-article li {
+  margin-bottom: 9px;
+}
+
+.markdown-article a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.markdown-article img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+
+.markdown-article table {
+  width: 100%;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+
+.markdown-article th,
+.markdown-article td {
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.markdown-article blockquote {
+  margin-left: 0;
+  padding-left: 18px;
+  border-left: 4px solid var(--primary);
+  color: #31557f;
 }
 
 .admin-login {

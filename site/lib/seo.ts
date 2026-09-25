@@ -23,7 +23,7 @@ export function buildPostMetadata(post: Post): Metadata {
       url: postUrl(post),
       publishedTime: post.published_at ?? undefined,
       modifiedTime: post.updated_at,
-      ...(images ? { images: [images] } : {}),
+      ...(images ? { images: [{ url: images, alt: post.featured_image_alt ?? undefined }] } : {}),
     },
   };
 }

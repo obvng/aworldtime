@@ -20,6 +20,15 @@ describe("blog publication and SEO", () => {
     expect(metadata.description).toBe("Search description");
   });
 
+  it("adds image alt text to social metadata", () => {
+    const post = fixturePost({ featured_image_url: "https://example.com/lagos.webp", featured_image_alt: "Lagos skyline at sunrise" });
+    expect(buildPostMetadata(post).openGraph?.images).toEqual([{ url: post.featured_image_url, alt: post.featured_image_alt }]);
+  });
+
+  it("marks private search articles as no-index", () => {
+    expect(buildPostMetadata(fixturePost({ noindex: true })).robots).toEqual({ index: false, follow: false });
+  });
+
   it("builds article structured data with the canonical URL", () => {
     const post = fixturePost({ slug: "meeting-times" });
     expect(buildArticleJsonLd(post).mainEntityOfPage).toBe("https://aworldtime.com/blog/meeting-times");
