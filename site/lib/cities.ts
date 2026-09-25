@@ -34,6 +34,15 @@ export const POPULAR_CITIES = ["Europe/London", "America/New_York", "Asia/Dubai"
   .map((timeZone) => CITIES.find((city) => city.timeZone === timeZone))
   .filter((city): city is City => Boolean(city));
 
+export function countryCodeToFlag(countryCode: string) {
+  const normalized = countryCode.trim().toUpperCase();
+  if (!/^[A-Z]{2}$/.test(normalized)) return "";
+
+  return String.fromCodePoint(
+    ...[...normalized].map((letter) => 127397 + letter.charCodeAt(0)),
+  );
+}
+
 export function findCity(query: string): City[] {
   const normalized = query.trim().toLocaleLowerCase();
   if (!normalized) return [];
