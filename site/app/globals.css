@@ -1949,3 +1949,60 @@ footer {
     border-radius: 14px;
   }
 }
+
+.city-clock-strip {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.city-clock {
+  min-width: 0;
+  padding: 16px 12px;
+}
+
+.city-name-with-flag {
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.city-card-flag {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #d3e1f1;
+  border-radius: 50%;
+  background: white;
+  font-size: 1.55rem;
+  box-shadow: 0 7px 16px rgba(30, 75, 126, .12);
+}
+
+.city-clock time {
+  font-size: clamp(1.65rem, 2.8vw, 2.45rem);
+}
+
+@media (max-width: 760px) {
+  .city-clock-strip {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+  }
+
+  .city-clock {
+    min-height: 112px;
+    padding: 12px 9px;
+  }
+
+  .city-card-flag {
+    width: 32px;
+    height: 32px;
+    font-size: 1.15rem;
+  }
+
+  .city-clock time {
+    font-size: clamp(1.55rem, 7.8vw, 1.95rem);
+  }
+}
