@@ -1,40 +1,114 @@
 import { describe, expect, it } from "vitest";
-import { buildArticleJsonLd, buildPostMetadata, xmlEscape } from "@/lib/seo";
-import { fixturePost, isPublicPost } from "@/lib/posts";
+import {
+  SITE_ORIGIN,
+  absoluteUrl,
+  buildPageMetadata,
+  buildWebApplicationJsonLd,
+  buildWebsiteJsonLd,
+  serializeJsonLd,
+  buildArticleJsonLd,
+  buildPostMetadata,
+} from "@/lib/seo";
+import { fixturePost } from "@/lib/posts";
 
-describe("blog publication and SEO", () => {
-  it("excludes future scheduled posts", () => {
-    const post = fixturePost({ status: "scheduled", published_at: "2099-01-01T00:00:00Z" });
-    expect(isPublicPost(post, new Date("2026-09-24T00:00:00Z"))).toBe(false);
+describe("shared SEO helpers", () => {
+  it("uses the canonical www origin for internal URLs", () => {
+    expect(SITE_ORIGIN).toBe("https://www.aworldtime.com");
+    expect(absoluteUrl("/converter")).toBe("https://www.aworldtime.com/converter");
   });
 
-  it("publishes posts whose publication date has arrived", () => {
-    const post = fixturePost({ status: "published", published_at: "2026-09-23T00:00:00Z" });
-    expect(isPublicPost(post, new Date("2026-09-24T00:00:00Z"))).toBe(true);
+  it("builds canonical and social metadata for a public page", () => {
+    expect(buildPageMetadata({
+      title: "Time Zone Converter",
+      description: "Convert a date and time between cities and time zones.",
+      path: "/converter",
+    })).toMatchObject({
+      alternates: { canonical: "https://www.aworldtime.com/converter" },
+      openGraph: {
+        title: "Time Zone Converter",
+        description: "Convert a date and time between cities and time zones.",
+        url: "https://www.aworldtime.com/converter",
+        siteName: "AWORLDTIME.COM",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Time Zone Converter",
+        description: "Convert a date and time between cities and time zones.",
+      },
+    });
   });
 
-  it("uses the SEO title and description when supplied", () => {
-    const post = fixturePost({ title: "Article", seo_title: "Search title", meta_description: "Search description" });
+  it("builds linked website and organization schema", () => {
+    expect(buildWebsiteJsonLd()).toMatchObject({
+      "@context": "https://schema.org",
+      "@graph": [
+        { "@type": "WebSite", "@id": "https://www.aworldtime.com/#website" },
+        { "@type": "Organization", "@id": "https://www.aworldtime.com/#organization" },
+      ],
+    });
+  });
+
+  it("escapes markup-significant characters in JSON-LD", () => {
+    expect(serializeJsonLd({ name: "</script>" })).not.toContain("</script>");
+    expect(serializeJsonLd({ name: "</script>" })).toContain("\\u003c/script>");
+  });
+
+  it("describes a free browser-based time tool", () => {
+    expect(buildWebApplicationJsonLd(
+      "Time Zone Converter",
+      "Convert a date and time between cities.",
+      "/converter",
+    )).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Time Zone Converter",
+      url: "https://www.aworldtime.com/converter",
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Any",
+      isAccessibleForFree: true,
+    });
+  });
+
+  it("builds canonical and social metadata for an article", () => {
+    const post = fixturePost({
+      slug: "meeting-times",
+      featured_image_url: "https://images.example.com/meeting.webp",
+      featured_image_alt: "People joining a global meeting",
+    });
     const metadata = buildPostMetadata(post);
-    expect(metadata.title).toBe("Search title");
-    expect(metadata.description).toBe("Search description");
+
+    expect(metadata.alternates).toEqual({ canonical: "https://www.aworldtime.com/blog/meeting-times" });
+    expect(metadata.openGraph).toMatchObject({
+      type: "article",
+      url: "https://www.aworldtime.com/blog/meeting-times",
+      siteName: "AWORLDTIME.COM",
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      images: ["https://images.example.com/meeting.webp"],
+    });
   });
 
-  it("adds image alt text to social metadata", () => {
-    const post = fixturePost({ featured_image_url: "https://example.com/lagos.webp", featured_image_alt: "Lagos skyline at sunrise" });
-    expect(buildPostMetadata(post).openGraph?.images).toEqual([{ url: post.featured_image_url, alt: post.featured_image_alt }]);
+  it("preserves an external article canonical and noindex setting", () => {
+    const metadata = buildPostMetadata(fixturePost({
+      canonical_url: "https://example.com/original-guide",
+      noindex: true,
+    }));
+
+    expect(metadata.alternates).toEqual({ canonical: "https://example.com/original-guide" });
+    expect(metadata.robots).toEqual({ index: false, follow: false });
   });
 
-  it("marks private search articles as no-index", () => {
-    expect(buildPostMetadata(fixturePost({ noindex: true })).robots).toEqual({ index: false, follow: false });
-  });
-
-  it("builds article structured data with the canonical URL", () => {
-    const post = fixturePost({ slug: "meeting-times" });
-    expect(buildArticleJsonLd(post).mainEntityOfPage).toBe("https://aworldtime.com/blog/meeting-times");
-  });
-
-  it("escapes unsafe XML characters in RSS text", () => {
-    expect(xmlEscape("Time & <Date>")).toBe("Time &amp; &lt;Date&gt;");
+  it("connects Article schema to its canonical publisher", () => {
+    expect(buildArticleJsonLd(fixturePost({ slug: "meeting-times" }))).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      mainEntityOfPage: "https://www.aworldtime.com/blog/meeting-times",
+      publisher: {
+        "@type": "Organization",
+        "@id": "https://www.aworldtime.com/#organization",
+        name: "AWORLDTIME.COM",
+      },
+    });
   });
 });
