@@ -3,6 +3,7 @@ import {
   SITE_ORIGIN,
   absoluteUrl,
   buildPageMetadata,
+  buildWebApplicationJsonLd,
   buildWebsiteJsonLd,
   serializeJsonLd,
 } from "@/lib/seo";
@@ -47,5 +48,21 @@ describe("shared SEO helpers", () => {
   it("escapes markup-significant characters in JSON-LD", () => {
     expect(serializeJsonLd({ name: "</script>" })).not.toContain("</script>");
     expect(serializeJsonLd({ name: "</script>" })).toContain("\\u003c/script>");
+  });
+
+  it("describes a free browser-based time tool", () => {
+    expect(buildWebApplicationJsonLd(
+      "Time Zone Converter",
+      "Convert a date and time between cities.",
+      "/converter",
+    )).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Time Zone Converter",
+      url: "https://www.aworldtime.com/converter",
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Any",
+      isAccessibleForFree: true,
+    });
   });
 });

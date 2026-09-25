@@ -56,6 +56,19 @@ export function buildWebsiteJsonLd() {
   };
 }
 
+export function buildWebApplicationJsonLd(name: string, description: string, path: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name,
+    description,
+    url: absoluteUrl(path),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    isAccessibleForFree: true,
+  };
+}
+
 export function serializeJsonLd(value: object) {
   return JSON.stringify(value).replaceAll("<", "\\u003c");
 }
