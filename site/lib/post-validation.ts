@@ -10,6 +10,8 @@ export const postSchema = z.object({
   excerpt: z.string().trim().max(320).default(""),
   content: z.string().trim().min(1, "Article content is required."),
   category: z.string().trim().min(1).max(80).default("Guides"),
+  featured_image_url: z.union([z.literal(""), z.string().url()]).optional().default(""),
+  featured_image_alt: z.string().trim().max(240).optional().default(""),
   status: z.enum(["draft", "scheduled", "published"]),
   published_at: z.string().optional().default(""),
   seo_title: z.string().trim().max(180).optional().default(""),
@@ -20,4 +22,5 @@ export const postSchema = z.object({
   noindex: z.boolean().default(false),
 }).superRefine((value, context) => {
   if (value.status === "scheduled" && !value.published_at) context.addIssue({ code: "custom", path: ["published_at"], message: "Choose a publication date for a scheduled post." });
+  if (value.featured_image_url && !value.featured_image_alt) context.addIssue({ code: "custom", path: ["featured_image_alt"], message: "Describe the featured image for screen-reader users." });
 });

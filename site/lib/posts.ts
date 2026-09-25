@@ -8,6 +8,7 @@ export type Post = {
   content: string;
   category: string;
   featured_image_url: string | null;
+  featured_image_alt: string | null;
   status: PostStatus;
   published_at: string | null;
   created_at: string;
@@ -31,6 +32,7 @@ const SAMPLE_POSTS: Post[] = [
     content: "Start with the working hours in each city, then look for the overlap. A 9:00 meeting in Lagos is 8:00 in London during British Summer Time and 4:00 in New York during Eastern Daylight Time.\n\nUse the meeting planner to compare the whole day before choosing a time. Confirm the date as well as the hour because some conversions cross midnight.",
     category: "Meeting guide",
     featured_image_url: null,
+    featured_image_alt: null,
     status: "published",
     published_at: "2026-09-20T09:00:00Z",
     created_at: "2026-09-20T09:00:00Z",
@@ -52,6 +54,7 @@ const SAMPLE_POSTS: Post[] = [
     content: "Not every country changes its clocks, and those that do may change on different dates. That means the time difference between two cities can shift even when neither city moves.\n\nCheck the date in the converter instead of relying on a time difference you remembered from another month.",
     category: "Time zones",
     featured_image_url: null,
+    featured_image_alt: null,
     status: "published",
     published_at: "2026-09-18T09:00:00Z",
     created_at: "2026-09-18T09:00:00Z",

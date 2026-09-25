@@ -15,4 +15,17 @@ describe("admin post validation", () => {
     const result = postSchema.safeParse({ title: "Scheduled guide", slug: "scheduled-guide", content: "Body", status: "scheduled", published_at: "" });
     expect(result.success).toBe(false);
   });
+
+  it("requires alt text when a featured image URL exists", () => {
+    const result = postSchema.safeParse({
+      title: "Lagos guide",
+      slug: "lagos-guide",
+      content: "Body",
+      status: "draft",
+      featured_image_url: "https://example.com/lagos.webp",
+      featured_image_alt: "",
+    });
+
+    expect(result.success).toBe(false);
+  });
 });

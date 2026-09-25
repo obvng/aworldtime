@@ -37,7 +37,7 @@ export async function signOut() {
 export async function savePost(id: string | null, formData: FormData) {
   const { supabase, userId } = await requireAdmin();
   const parsed = postSchema.safeParse({
-    title: formData.get("title"), slug: formData.get("slug"), excerpt: formData.get("excerpt"), content: formData.get("content"), category: formData.get("category"), status: formData.get("status"), published_at: formData.get("published_at"), seo_title: formData.get("seo_title"), meta_description: formData.get("meta_description"), canonical_url: formData.get("canonical_url"), og_title: formData.get("og_title"), og_description: formData.get("og_description"), noindex: formData.get("noindex") === "on",
+    title: formData.get("title"), slug: formData.get("slug"), excerpt: formData.get("excerpt"), content: formData.get("content"), category: formData.get("category"), featured_image_url: formData.get("featured_image_url"), featured_image_alt: formData.get("featured_image_alt"), status: formData.get("status"), published_at: formData.get("published_at"), seo_title: formData.get("seo_title"), meta_description: formData.get("meta_description"), canonical_url: formData.get("canonical_url"), og_title: formData.get("og_title"), og_description: formData.get("og_description"), noindex: formData.get("noindex") === "on",
   });
   if (!parsed.success) redirect(`/admin/posts/${id ?? "new"}?error=${encodeURIComponent(parsed.error.issues[0]?.message ?? "Check the post fields.")}`);
 
@@ -61,6 +61,7 @@ export async function savePost(id: string | null, formData: FormData) {
     canonical_url: values.canonical_url || null,
     og_title: values.og_title || null,
     og_description: values.og_description || null,
+    featured_image_alt: values.featured_image_alt || null,
     author_id: userId,
     ...(featuredImageUrl ? { featured_image_url: featuredImageUrl } : {}),
   };
