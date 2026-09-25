@@ -1,7 +1,64 @@
 import type { Metadata } from "next";
 import type { Post } from "@/lib/posts";
 
-export const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aworldtime.com";
+export const SITE_ORIGIN = "https://www.aworldtime.com";
+
+type PageMetadataInput = {
+  title: string;
+  description: string;
+  path: string;
+};
+
+export function absoluteUrl(path: string) {
+  return new URL(path, `${SITE_ORIGIN}/`).toString().replace(/\/$/, path === "/" ? "/" : "");
+}
+
+export function buildPageMetadata({ title, description, path }: PageMetadataInput): Metadata {
+  const url = absoluteUrl(path);
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url,
+      siteName: "AWORLDTIME.COM",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
+export function buildWebsiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_ORIGIN}/#website`,
+        url: `${SITE_ORIGIN}/`,
+        name: "AWORLDTIME.COM",
+        description: "World clocks, time-zone conversion, meeting planning, and practical time guides.",
+        publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+      },
+      {
+        "@type": "Organization",
+        "@id": `${SITE_ORIGIN}/#organization`,
+        url: `${SITE_ORIGIN}/`,
+        name: "AWORLDTIME.COM",
+      },
+    ],
+  };
+}
+
+export function serializeJsonLd(value: object) {
+  return JSON.stringify(value).replaceAll("<", "\\u003c");
+}
 
 export function postUrl(post: Post) {
   return post.canonical_url || `${SITE_ORIGIN}/blog/${post.slug}`;
