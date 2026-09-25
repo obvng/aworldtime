@@ -337,14 +337,18 @@ main {
   letter-spacing: -0.045em;
 }
 
-.country-code {
-  padding: 5px 8px;
-  color: white;
-  background: #0a8f4c;
-  border-radius: 7px;
-  font-size: .76rem;
-  font-weight: 800;
-  letter-spacing: .06em;
+.country-flag {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #cbdcf0;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 7px 18px rgba(30, 75, 126, .13);
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .local-clock {
@@ -463,6 +467,26 @@ main {
 
 .city-search-results span {
   font-weight: 750;
+}
+
+.search-city-label,
+.city-name-with-flag,
+.directory-city-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-city-label > span,
+.directory-city-name > span:first-child {
+  flex: 0 0 auto;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.city-card-flag {
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .city-search-results small {
@@ -1582,12 +1606,6 @@ main {
   letter-spacing: -.055em;
 }
 
-.country-code {
-  color: #28518a;
-  border: 1px solid #bdd3ed;
-  background: #e6f1ff;
-}
-
 .local-clock {
   margin-top: 7px;
   color: #17325c;
@@ -1767,8 +1785,10 @@ footer {
     font-size: clamp(1.72rem, 8.4vw, 2.2rem);
   }
 
-  .country-code {
-    display: none;
+  .country-flag {
+    width: 30px;
+    height: 30px;
+    font-size: 1.05rem;
   }
 
   .local-clock {
@@ -1794,15 +1814,43 @@ footer {
   }
 
   .city-clock-strip {
-    width: calc(100vw - 12px);
-    gap: 12px;
+    width: 100%;
+    padding-right: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+    scroll-snap-type: none;
   }
 
   .city-clock {
-    flex-basis: 154px;
-    min-height: 136px;
-    padding: 20px;
-    border-radius: 21px;
+    min-width: 0;
+    min-height: 112px;
+    padding: 13px 10px;
+    border-radius: 18px;
+  }
+
+  .city-clock p {
+    gap: 5px;
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+
+  .city-card-flag {
+    font-size: .95rem;
+  }
+
+  .city-clock time {
+    margin-top: 13px;
+    font-size: clamp(1.62rem, 8vw, 2rem);
+  }
+
+  .city-clock small {
+    display: block;
+    overflow: hidden;
+    font-size: .65rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .quick-action,
