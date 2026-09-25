@@ -14,6 +14,7 @@ describe("LocalTimeHero", () => {
     );
 
     expect(screen.getByRole("heading", { name: "Lagos, Nigeria" })).toBeVisible();
+    expect(screen.getByRole("img", { name: "Nigeria flag" })).toHaveTextContent("🇳🇬");
     expect(screen.getByTestId("local-time")).toHaveTextContent("14:27:00");
     expect(screen.getByText("Thursday, 24 September 2026")).toBeVisible();
   });
