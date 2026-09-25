@@ -218,6 +218,18 @@ button {
   display: none;
 }
 
+.mobile-navigation a {
+  padding: 11px 13px;
+  border-radius: 10px;
+  color: #173e7a;
+  font-size: .92rem;
+  font-weight: 750;
+}
+
+.mobile-navigation a:hover {
+  background: #eaf3ff;
+}
+
 .header-actions a:hover,
 .header-actions button:hover {
   background: var(--secondary);
@@ -1818,7 +1830,7 @@ footer {
     padding-right: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    gap: 7px;
     overflow: visible;
     scroll-snap-type: none;
   }
