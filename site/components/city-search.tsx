@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { CITIES, findCity, type City } from "@/lib/cities";
+import { CITIES, countryCodeToFlag, findCity, type City } from "@/lib/cities";
 
 type CitySearchProps = {
   onSelect: (city: City) => void;
@@ -17,7 +17,7 @@ export function CitySearch({ onSelect }: CitySearchProps) {
   );
 
   return (
-    <div className="city-search">
+    <form className="city-search" onSubmit={(event) => event.preventDefault()}>
       <Search aria-hidden="true" size={23} strokeWidth={2.2} />
       <label className="sr-only" htmlFor={listId}>Search any city or time zone</label>
       <input
@@ -27,6 +27,9 @@ export function CitySearch({ onSelect }: CitySearchProps) {
         placeholder="Search any city or time zone"
         autoComplete="off"
       />
+      <button className="city-search-submit" type="submit" aria-label="Search cities">
+        <Search aria-hidden="true" size={25} strokeWidth={2.3} />
+      </button>
       {query ? (
         <div className="city-search-results" role="listbox" aria-label="City matches">
           {matches.length ? matches.map((city) => (
@@ -40,12 +43,15 @@ export function CitySearch({ onSelect }: CitySearchProps) {
                 setQuery("");
               }}
             >
-              <span>{city.name}</span>
+              <span className="search-city-label">
+                <span role="img" aria-label={`${city.country} flag`}>{countryCodeToFlag(city.countryCode)}</span>
+                {city.name}
+              </span>
               <small>{city.country} · {city.timeZone}</small>
             </button>
           )) : <p>No city found. Try a country or time-zone name.</p>}
         </div>
       ) : null}
-    </div>
+    </form>
   );
 }

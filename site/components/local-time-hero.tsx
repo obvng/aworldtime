@@ -2,7 +2,7 @@
 
 import { MapPin, SunMedium } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { CITIES, type City } from "@/lib/cities";
+import { CITIES, countryCodeToFlag, skylineForCity, type City } from "@/lib/cities";
 import { cityForTimeZone, formatDate, formatTime, timeZoneName } from "@/lib/time";
 import { CitySearch } from "@/components/city-search";
 import type { WeatherSummary } from "@/lib/weather";
@@ -46,6 +46,7 @@ function friendlyZoneCity(timeZone: string): City | undefined {
     latitude: 0,
     longitude: 0,
     aliases: [],
+    skylineImage: "/cities/fallback.webp",
   };
 }
 
@@ -101,14 +102,21 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
 
   return (
     <section className="time-hero" aria-labelledby="local-time-heading">
-      <div className="time-orbit" aria-hidden="true">
-        <span />
-      </div>
+      <div
+        className="city-skyline"
+        data-testid="city-skyline"
+        aria-hidden="true"
+        style={{ backgroundImage: `url("${skylineForCity(city)}")` }}
+      />
       <div className="time-hero-inner">
         <p className="local-label"><MapPin size={18} aria-hidden="true" /> Your local time</p>
         <div className="city-heading-row">
           <h1 id="local-time-heading">{city ? `${city.name}${city.country === "Your location" ? "" : `, ${city.country}`}` : "Your city"}</h1>
-          {city?.countryCode ? <span className="country-code">{city.countryCode}</span> : null}
+          {city?.countryCode ? (
+            <span className="country-flag hero-country-flag" role="img" aria-label={`${city.country} flag`}>
+              {countryCodeToFlag(city.countryCode)}
+            </span>
+          ) : null}
         </div>
         <time className="local-clock" data-testid="local-time" dateTime={currentTime.toISOString()}>
           <span className="clock-desktop">{formatTime(currentTime, timeZone, true)}</span>
