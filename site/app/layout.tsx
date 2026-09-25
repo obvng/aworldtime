@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "AWORLDTIME.COM",
   description: "Local time, world clocks, time conversion, and practical guides.",
+  verification: {
+    google: "SsFYfch7pPzhqxvKb0WBvhV9_EJ2pC0DeP-DyrJ7UaE",
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
