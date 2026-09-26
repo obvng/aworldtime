@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -66,7 +66,7 @@ describe("AdminSetupForm", () => {
     expect(replace).toHaveBeenCalledWith("/admin/login?reset=success");
   });
 
-  it("accepts a recovery link opened outside the browser that requested it", async () => {
+  it("captures a cross-browser recovery session as soon as the page opens", async () => {
     window.history.replaceState(
       {},
       "",
@@ -75,6 +75,15 @@ describe("AdminSetupForm", () => {
     getSession.mockResolvedValue({ data: { session: null }, error: null });
     const user = userEvent.setup();
     render(<AdminSetupForm mode="reset" />);
+
+    await waitFor(() => {
+      expect(setSession).toHaveBeenCalledWith({
+        access_token: "recovery-access",
+        refresh_token: "recovery-refresh",
+      });
+    });
+
+    window.history.replaceState({}, "", "/admin/setup?mode=reset");
 
     await user.type(screen.getByLabelText("New password"), "secure-owner-password");
     await user.type(screen.getByLabelText("Confirm password"), "secure-owner-password");

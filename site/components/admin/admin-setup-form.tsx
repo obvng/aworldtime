@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -8,6 +8,23 @@ export function AdminSetupForm({ mode = "setup" }: { mode?: "setup" | "reset" })
   const router = useRouter();
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [supabase] = useState(createClient);
+  const recoverySessionRef = useRef<ReturnType<ReturnType<typeof createClient>["auth"]["setSession"]> | null>(null);
+
+  useEffect(() => {
+    if (mode !== "reset") return;
+
+    const hash = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = hash.get("access_token");
+    const refreshToken = hash.get("refresh_token");
+    if (!accessToken || !refreshToken) return;
+
+    recoverySessionRef.current = supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    });
+    window.history.replaceState({}, "", `${window.location.pathname}${window.location.search}`);
+  }, [mode, supabase]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,16 +45,17 @@ export function AdminSetupForm({ mode = "setup" }: { mode?: "setup" | "reset" })
     }
 
     setSaving(true);
-    const supabase = createClient();
     const code = new URLSearchParams(window.location.search).get("code");
     const hash = new URLSearchParams(window.location.hash.slice(1));
     const accessToken = hash.get("access_token");
     const refreshToken = hash.get("refresh_token");
-    const sessionResult = accessToken && refreshToken
-      ? await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
-      : code
-        ? await supabase.auth.exchangeCodeForSession(code)
-        : await supabase.auth.getSession();
+    const sessionResult = recoverySessionRef.current
+      ? await recoverySessionRef.current
+      : accessToken && refreshToken
+        ? await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
+        : code
+          ? await supabase.auth.exchangeCodeForSession(code)
+          : await supabase.auth.getSession();
     const invalidLinkMessage = isRecovery
       ? "This reset link is invalid or has expired. Request a new reset link."
       : "This invitation link is invalid or has expired. Request a new invitation.";
