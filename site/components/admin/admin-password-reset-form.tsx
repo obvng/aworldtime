@@ -4,7 +4,7 @@ import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { createRecoveryClient } from "@/lib/supabase/client";
 
-const REQUEST_MESSAGE = "If that email belongs to the admin account, a six-digit code is on its way.";
+const REQUEST_MESSAGE = "If that email belongs to the admin account, a reset code is on its way.";
 const REQUEST_ERROR = "We could not send the reset code. Wait a moment and try again.";
 const CODE_ERROR = "That code is invalid or has expired. Request a new code and try again.";
 
@@ -52,8 +52,8 @@ export function AdminPasswordResetForm() {
     const password = String(form.get("password") ?? "");
     const confirmation = String(form.get("password_confirmation") ?? "");
 
-    if (!/^\d{6}$/.test(token)) {
-      setError("Enter the six-digit code from the email.");
+    if (!/^\d{6,10}$/.test(token)) {
+      setError("Enter the numeric reset code from the email.");
       return;
     }
     if (password.length < 8) {
@@ -101,12 +101,12 @@ export function AdminPasswordResetForm() {
     return (
       <form onSubmit={changePassword}>
         <h1>Enter your reset code</h1>
-        <p>We sent a six-digit code to {email}. It expires shortly and can only be used once.</p>
+        <p>We sent a reset code to {email}. It expires shortly and can only be used once.</p>
         {message ? <div className="admin-success" role="status">{message}</div> : null}
         {error ? <div className="admin-error" role="alert">{error}</div> : null}
         <label>
-          Six-digit code
-          <input name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required />
+          Reset code
+          <input name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6,10}" maxLength={10} required />
         </label>
         <label>
           New password
@@ -129,7 +129,7 @@ export function AdminPasswordResetForm() {
   return (
     <form onSubmit={requestCode}>
       <h1>Reset your admin password</h1>
-      <p>Enter the email attached to your admin account. We will send you a six-digit reset code.</p>
+      <p>Enter the email attached to your admin account. We will send you a reset code.</p>
       {error ? <div className="admin-error" role="alert">{error}</div> : null}
       <label>
         Admin email

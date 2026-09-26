@@ -30,9 +30,9 @@ describe("AdminPasswordResetForm", () => {
     await user.click(screen.getByRole("button", { name: "Send reset code" }));
 
     expect(resetPasswordForEmail).toHaveBeenCalledWith("owner@example.com");
-    expect(await screen.findByLabelText("Six-digit code")).toBeInTheDocument();
+    expect(await screen.findByLabelText("Reset code")).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent(
-      "If that email belongs to the admin account, a six-digit code is on its way.",
+      "If that email belongs to the admin account, a reset code is on its way.",
     );
   });
 
@@ -42,7 +42,7 @@ describe("AdminPasswordResetForm", () => {
 
     await user.type(screen.getByLabelText("Admin email"), "owner@example.com");
     await user.click(screen.getByRole("button", { name: "Send reset code" }));
-    await user.type(await screen.findByLabelText("Six-digit code"), "482913");
+    await user.type(await screen.findByLabelText("Reset code"), "482913");
     await user.type(screen.getByLabelText("New password"), "secure-owner-password");
     await user.type(screen.getByLabelText("Confirm password"), "secure-owner-password");
     await user.click(screen.getByRole("button", { name: "Save new password" }));
@@ -52,6 +52,21 @@ describe("AdminPasswordResetForm", () => {
     expect(await screen.findByRole("status")).toHaveTextContent("Your password has been updated.");
   });
 
+  it("accepts the eight-digit recovery code sent by Supabase", async () => {
+    const user = userEvent.setup();
+    render(<AdminPasswordResetForm />);
+
+    await user.type(screen.getByLabelText("Admin email"), "owner@example.com");
+    await user.click(screen.getByRole("button", { name: "Send reset code" }));
+    await user.type(await screen.findByLabelText("Reset code"), "48291375");
+    await user.type(screen.getByLabelText("New password"), "secure-owner-password");
+    await user.type(screen.getByLabelText("Confirm password"), "secure-owner-password");
+    await user.click(screen.getByRole("button", { name: "Save new password" }));
+
+    expect(verifyOtp).toHaveBeenCalledWith({ email: "owner@example.com", token: "48291375", type: "recovery" });
+    expect(updateUser).toHaveBeenCalledWith({ password: "secure-owner-password" });
+  });
+
   it("does not change the password when the code is invalid", async () => {
     verifyOtp.mockResolvedValue({ data: { session: null }, error: new Error("expired") });
     const user = userEvent.setup();
@@ -59,7 +74,7 @@ describe("AdminPasswordResetForm", () => {
 
     await user.type(screen.getByLabelText("Admin email"), "owner@example.com");
     await user.click(screen.getByRole("button", { name: "Send reset code" }));
-    await user.type(await screen.findByLabelText("Six-digit code"), "000000");
+    await user.type(await screen.findByLabelText("Reset code"), "000000");
     await user.type(screen.getByLabelText("New password"), "secure-owner-password");
     await user.type(screen.getByLabelText("Confirm password"), "secure-owner-password");
     await user.click(screen.getByRole("button", { name: "Save new password" }));
