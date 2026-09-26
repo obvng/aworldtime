@@ -20,7 +20,7 @@ export async function updateSession(request: NextRequest) {
   });
 
   const { data } = await supabase.auth.getClaims();
-  const publicAdminPaths = new Set(["/admin/login", "/admin/setup"]);
+  const publicAdminPaths = new Set(["/admin/login", "/admin/setup", "/admin/forgot-password"]);
   if (!data?.claims && request.nextUrl.pathname.startsWith("/admin") && !publicAdminPaths.has(request.nextUrl.pathname)) {
     const redirect = request.nextUrl.clone();
     redirect.pathname = "/admin/login";

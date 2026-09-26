@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export function AdminSetupForm() {
+export function AdminSetupForm({ mode = "setup" }: { mode?: "setup" | "reset" }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -16,6 +16,7 @@ export function AdminSetupForm() {
     const form = new FormData(event.currentTarget);
     const password = String(form.get("password") ?? "");
     const confirmation = String(form.get("password_confirmation") ?? "");
+    const isRecovery = mode === "reset";
 
     if (password.length < 8) {
       setError("Use at least 8 characters for your password.");
@@ -32,14 +33,17 @@ export function AdminSetupForm() {
     const sessionResult = code
       ? await supabase.auth.exchangeCodeForSession(code)
       : await supabase.auth.getSession();
+    const invalidLinkMessage = isRecovery
+      ? "This reset link is invalid or has expired. Request a new reset link."
+      : "This invitation link is invalid or has expired. Request a new invitation.";
 
     if ("error" in sessionResult && sessionResult.error) {
-      setError("This invitation link is invalid or has expired. Request a new invitation.");
+      setError(invalidLinkMessage);
       setSaving(false);
       return;
     }
     if (!sessionResult.data.session) {
-      setError("This invitation link is invalid or has expired. Request a new invitation.");
+      setError(invalidLinkMessage);
       setSaving(false);
       return;
     }
@@ -51,12 +55,12 @@ export function AdminSetupForm() {
       return;
     }
 
-    router.replace("/admin");
+    router.replace(isRecovery ? "/admin/login?reset=success" : "/admin");
   }
 
   return (
     <form onSubmit={submit}>
-      <h1>Create your admin password</h1>
+      <h1>{mode === "reset" ? "Choose a new password" : "Create your admin password"}</h1>
       <p>Choose the password you will use to publish and manage articles.</p>
       {error ? <div className="admin-error" role="alert">{error}</div> : null}
       <label>
@@ -68,7 +72,7 @@ export function AdminSetupForm() {
         <input name="password_confirmation" type="password" autoComplete="new-password" minLength={8} required />
       </label>
       <button type="submit" className="admin-primary" disabled={saving}>
-        {saving ? "Saving…" : "Create admin password"}
+        {saving ? "Saving…" : mode === "reset" ? "Save new password" : "Create admin password"}
       </button>
     </form>
   );

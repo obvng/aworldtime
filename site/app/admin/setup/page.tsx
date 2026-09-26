@@ -7,11 +7,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminSetupPage() {
+export default async function AdminSetupPage({ searchParams }: { searchParams: Promise<{ mode?: string }> }) {
+  const { mode } = await searchParams;
   return (
     <main className="admin-login">
       <Link href="/" className="admin-brand">AWORLDTIME.COM</Link>
-      <AdminSetupForm />
+      <AdminSetupForm mode={mode === "reset" ? "reset" : "setup"} />
     </main>
   );
 }

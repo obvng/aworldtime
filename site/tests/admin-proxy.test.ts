@@ -27,4 +27,10 @@ describe("admin session proxy", () => {
 
     expect(response.headers.get("location")).toBeNull();
   });
+
+  it("allows an owner to request a password reset without a server session", async () => {
+    const response = await updateSession(new NextRequest("https://www.aworldtime.com/admin/forgot-password"));
+
+    expect(response.headers.get("location")).toBeNull();
+  });
 });

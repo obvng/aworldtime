@@ -51,6 +51,35 @@ describe("AdminSetupForm", () => {
     expect(replace).toHaveBeenCalledWith("/admin");
   });
 
+  it("returns a recovered owner to sign in with the new password", async () => {
+    window.history.replaceState({}, "", "/admin/setup?mode=reset&code=recovery-code");
+    const user = userEvent.setup();
+    render(<AdminSetupForm mode="reset" />);
+
+    await user.type(screen.getByLabelText("New password"), "secure-owner-password");
+    await user.type(screen.getByLabelText("Confirm password"), "secure-owner-password");
+    await user.click(screen.getByRole("button", { name: "Save new password" }));
+
+    expect(updateUser).toHaveBeenCalledWith({ password: "secure-owner-password" });
+    expect(replace).toHaveBeenCalledWith("/admin/login?reset=success");
+  });
+
+  it("explains when a recovery link has expired", async () => {
+    window.history.replaceState({}, "", "/admin/setup?mode=reset&code=expired-code");
+    exchangeCodeForSession.mockResolvedValue({ data: { session: null }, error: new Error("expired") });
+    const user = userEvent.setup();
+    render(<AdminSetupForm mode="reset" />);
+
+    await user.type(screen.getByLabelText("New password"), "secure-owner-password");
+    await user.type(screen.getByLabelText("Confirm password"), "secure-owner-password");
+    await user.click(screen.getByRole("button", { name: "Save new password" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "This reset link is invalid or has expired. Request a new reset link.",
+    );
+    expect(updateUser).not.toHaveBeenCalled();
+  });
+
   it("rejects passwords that do not match", async () => {
     const user = userEvent.setup();
     render(<AdminSetupForm />);
