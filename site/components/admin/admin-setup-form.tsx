@@ -30,9 +30,14 @@ export function AdminSetupForm({ mode = "setup" }: { mode?: "setup" | "reset" })
     setSaving(true);
     const supabase = createClient();
     const code = new URLSearchParams(window.location.search).get("code");
-    const sessionResult = code
-      ? await supabase.auth.exchangeCodeForSession(code)
-      : await supabase.auth.getSession();
+    const hash = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = hash.get("access_token");
+    const refreshToken = hash.get("refresh_token");
+    const sessionResult = accessToken && refreshToken
+      ? await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
+      : code
+        ? await supabase.auth.exchangeCodeForSession(code)
+        : await supabase.auth.getSession();
     const invalidLinkMessage = isRecovery
       ? "This reset link is invalid or has expired. Request a new reset link."
       : "This invitation link is invalid or has expired. Request a new invitation.";

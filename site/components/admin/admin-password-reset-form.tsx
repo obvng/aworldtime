@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
+import { createRecoveryClient } from "@/lib/supabase/client";
 
 const REQUEST_MESSAGE = "If that email belongs to the admin account, a reset link is on its way.";
 const ERROR_MESSAGE = "We could not send the reset email. Wait a moment and try again.";
@@ -21,7 +21,7 @@ export function AdminPasswordResetForm() {
     const form = new FormData(event.currentTarget);
     const email = String(form.get("email") ?? "").trim();
     const redirectTo = `${window.location.origin}/admin/setup?mode=reset`;
-    const { error: resetError } = await createClient().auth.resetPasswordForEmail(email, { redirectTo });
+    const { error: resetError } = await createRecoveryClient().auth.resetPasswordForEmail(email, { redirectTo });
 
     if (resetError) setError(ERROR_MESSAGE);
     else setMessage(REQUEST_MESSAGE);

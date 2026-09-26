@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const resetPasswordForEmail = vi.fn();
 
 vi.mock("@/lib/supabase/client", () => ({
-  createClient: () => ({ auth: { resetPasswordForEmail } }),
+  createRecoveryClient: () => ({ auth: { resetPasswordForEmail } }),
 }));
 
 import { AdminPasswordResetForm } from "@/components/admin/admin-password-reset-form";
