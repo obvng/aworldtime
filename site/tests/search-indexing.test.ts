@@ -16,14 +16,28 @@ describe("search indexing documents", () => {
 
   it("points crawlers to the canonical www host and blocks private routes", () => {
     expect(robots()).toEqual({
-      rules: {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/admin/", "/preview/"],
-      },
+      rules: [
+        { userAgent: "*", allow: "/", disallow: ["/admin/", "/preview/"] },
+        { userAgent: "OAI-SearchBot", allow: "/", disallow: ["/admin/", "/preview/"] },
+        { userAgent: "GPTBot", allow: "/", disallow: ["/admin/", "/preview/"] },
+        { userAgent: "Claude-SearchBot", allow: "/", disallow: ["/admin/", "/preview/"] },
+        { userAgent: "ClaudeBot", allow: "/", disallow: ["/admin/", "/preview/"] },
+      ],
       sitemap: "https://www.aworldtime.com/sitemap.xml",
       host: "https://www.aworldtime.com",
     });
+  });
+
+  it("publishes a plain-text discovery guide for AI systems", async () => {
+    const { GET } = await import("@/app/llms.txt/route");
+    const response = await GET();
+    const content = await response.text();
+
+    expect(response.headers.get("content-type")).toContain("text/plain");
+    expect(content).toContain("# AWORLDTIME.COM");
+    expect(content).toContain("https://www.aworldtime.com/world-clock");
+    expect(content).toContain("https://www.aworldtime.com/blog");
+    expect(content).toContain("https://www.aworldtime.com/sitemap.xml");
   });
 
   it("returns canonical public routes with stable modification dates", async () => {
