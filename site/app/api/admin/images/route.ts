@@ -1,10 +1,5 @@
 import { adminAuthResponse, requireAdmin } from "@/lib/admin-auth";
-
-const allowedTypes = new Map([
-  ["image/jpeg", "jpg"],
-  ["image/png", "png"],
-  ["image/webp", "webp"],
-]);
+import { ImageUploadError, sanitizeImageUpload } from "@/lib/image-security";
 
 export async function POST(request: Request) {
   try {
@@ -16,17 +11,11 @@ export async function POST(request: Request) {
     if (typeof image === "string" || image === null || image.size === 0) {
       return Response.json({ error: "Choose an image to upload." }, { status: 400 });
     }
-    const extension = allowedTypes.get(image.type);
-    if (!extension) {
-      return Response.json({ error: "Use a PNG, JPEG, or WebP image." }, { status: 415 });
-    }
-    if (image.size > 5_000_000) {
-      return Response.json({ error: "The image must be smaller than 5 MB." }, { status: 413 });
-    }
+    const safeImage = await sanitizeImageUpload(image);
 
-    const path = `${userId}/${crypto.randomUUID()}.${extension}`;
-    const { error } = await supabase.storage.from("blog-images").upload(path, image, {
-      contentType: image.type,
+    const path = `${userId}/${crypto.randomUUID()}.${safeImage.extension}`;
+    const { error } = await supabase.storage.from("blog-images").upload(path, safeImage.body, {
+      contentType: safeImage.mimeType,
       upsert: false,
     });
     if (error) return Response.json({ error: error.message }, { status: 500 });
@@ -34,6 +23,9 @@ export async function POST(request: Request) {
     const url = supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl;
     return Response.json({ url, markdown: `![${alt.replaceAll("]", "")}](${url})` });
   } catch (error) {
+    if (error instanceof ImageUploadError) {
+      return Response.json({ error: error.message }, { status: error.status });
+    }
     return adminAuthResponse(error);
   }
 }

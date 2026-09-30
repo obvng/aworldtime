@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { AdminAuthError, requireAdmin } from "@/lib/admin-auth";
+import { ImageUploadError, sanitizeImageUpload } from "@/lib/image-security";
 import { postSchema } from "@/lib/post-validation";
 import { createClient, hasSupabaseConfig } from "@/lib/supabase/server";
 
@@ -44,10 +45,15 @@ export async function savePost(id: string | null, formData: FormData) {
   let featuredImageUrl: string | null | undefined;
   const image = formData.get("featured_image");
   if (image instanceof File && image.size > 0) {
-    if (image.size > 5_000_000) redirect(`/admin/posts/${id ?? "new"}?error=The+image+must+be+smaller+than+5MB.`);
-    const extension = image.name.split(".").pop()?.toLowerCase() || "jpg";
-    const path = `${userId}/${crypto.randomUUID()}.${extension}`;
-    const { error } = await supabase.storage.from("blog-images").upload(path, image, { contentType: image.type, upsert: false });
+    let safeImage;
+    try {
+      safeImage = await sanitizeImageUpload(image);
+    } catch (error) {
+      if (error instanceof ImageUploadError) redirect(`/admin/posts/${id ?? "new"}?error=${encodeURIComponent(error.message)}`);
+      throw error;
+    }
+    const path = `${userId}/${crypto.randomUUID()}.${safeImage.extension}`;
+    const { error } = await supabase.storage.from("blog-images").upload(path, safeImage.body, { contentType: safeImage.mimeType, upsert: false });
     if (error) redirect(`/admin/posts/${id ?? "new"}?error=${encodeURIComponent(error.message)}`);
     featuredImageUrl = supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl;
   }
