@@ -16,20 +16,29 @@ export const pageSeoSchema = z.object({
 
 type SeoClient = {
   from: (table: string) => {
-    upsert: (payload: Record<string, unknown>, options: { onConflict: string }) => Promise<{ error: { message: string } | null }>;
-    select: (columns: string) => { eq: (column: string, value: string) => { maybeSingle: () => Promise<{ data: unknown; error: { message: string } | null }> } };
+    upsert: (payload: Record<string, unknown>, options: { onConflict: string }) => {
+      select: (columns: string) => {
+        single: () => Promise<{ data: unknown; error: { message: string } | null }>;
+      };
+    };
   };
 };
 
 export async function persistPageSeo(client: SeoClient, input: z.input<typeof pageSeoSchema>) {
   const values = pageSeoSchema.parse(input);
-  const table = client.from("page_seo");
-  const { error: saveError } = await table.upsert(values, { onConflict: "path" });
-  if (saveError) throw new Error(saveError.message);
-  const { data, error: readError } = await table.select("path,seo_title,meta_description,updated_at").eq("path", values.path).maybeSingle();
-  if (readError) throw new Error(readError.message);
-  if (!data) throw new Error("The SEO settings were not returned after saving.");
-  return data as PageSeo;
+  const { data, error } = await client
+    .from("page_seo")
+    .upsert(values, { onConflict: "path" })
+    .select("path,seo_title,meta_description,updated_at")
+    .single();
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error("The database did not return the saved SEO settings.");
+
+  const saved = data as PageSeo;
+  if (saved.path !== values.path || saved.seo_title !== values.seo_title || saved.meta_description !== values.meta_description) {
+    throw new Error("The database returned different SEO settings after saving. Your changes were not applied.");
+  }
+  return saved;
 }
 
 export async function getPageSeo(path: string): Promise<PageSeo | null> {
