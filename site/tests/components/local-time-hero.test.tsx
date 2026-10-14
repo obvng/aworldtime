@@ -13,7 +13,8 @@ describe("LocalTimeHero", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: "Lagos, Nigeria" })).toBeVisible();
+    expect(screen.getByRole("heading", { level: 1, name: "Current time around the world" })).toBeVisible();
+    expect(screen.getByRole("heading", { level: 2, name: "Lagos, Nigeria" })).toBeVisible();
     expect(screen.getByRole("img", { name: "Nigeria flag" })).toHaveTextContent("🇳🇬");
     expect(screen.getByRole("img", { name: "Nigeria flag" })).toHaveClass("hero-country-flag");
     expect(screen.getByTestId("local-time")).toHaveTextContent("02:27:00");
@@ -63,7 +64,7 @@ describe("LocalTimeHero", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: "Your city" })).toBeVisible();
+    expect(screen.getByRole("heading", { level: 2, name: "Your city" })).toBeVisible();
     expect(screen.getByText("Choose your city")).toBeVisible();
   });
 });

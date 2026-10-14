@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fixturePost } from "@/lib/posts";
 import robots from "@/app/robots";
+import { CITIES } from "@/lib/cities";
 
 const { listPublishedPosts } = vi.hoisted(() => ({ listPublishedPosts: vi.fn() }));
 
@@ -45,14 +46,20 @@ describe("search indexing documents", () => {
     const { default: sitemap } = await import("@/app/sitemap");
     const entries = await sitemap();
 
-    expect(entries.map((entry) => entry.url)).toEqual([
+    expect(entries.slice(0, 5).map((entry) => entry.url)).toEqual([
       "https://www.aworldtime.com/",
       "https://www.aworldtime.com/world-clock",
       "https://www.aworldtime.com/converter",
       "https://www.aworldtime.com/meeting-planner",
       "https://www.aworldtime.com/blog",
     ]);
-    expect(entries.every((entry) => new Date(entry.lastModified as Date).toISOString() === "2026-09-25T00:00:00.000Z")).toBe(true);
+    const cityEntries = entries.filter((entry) => entry.url.includes("/world-clock/"));
+    expect(cityEntries).toHaveLength(100);
+    expect(cityEntries.map((entry) => entry.url)).toEqual(
+      CITIES.map((city) => `https://www.aworldtime.com/world-clock/${city.slug}`),
+    );
+    expect(cityEntries[0]?.lastModified).toEqual(new Date(CITIES[0].contentUpdatedAt));
+    expect(entries.slice(0, 5).every((entry) => new Date(entry.lastModified as Date).toISOString() === "2026-09-25T00:00:00.000Z")).toBe(true);
     expect(entries.some((entry) => entry.url.includes("/admin"))).toBe(false);
   });
 

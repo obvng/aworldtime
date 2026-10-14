@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { CITIES } from "@/lib/cities";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CITIES, cityBySlug } from "@/lib/cities";
+import { citySlugForSelection } from "@/lib/converter-usage";
 import { convertWallTime } from "@/lib/time";
 
 type TimeConverterProps = {
@@ -19,23 +20,43 @@ export function TimeConverter({
 }: TimeConverterProps) {
   const [date, setDate] = useState(initialDate);
   const [time, setTime] = useState(initialTime);
-  const [from, setFrom] = useState(initialFrom);
-  const [to, setTo] = useState(initialTo);
+  const [from, setFrom] = useState(() => citySlugForSelection(initialFrom, "lagos"));
+  const [to, setTo] = useState(() => citySlugForSelection(initialTo, "london"));
+  const hasChangedPair = useRef(false);
+  const source = cityBySlug(from);
+  const destination = cityBySlug(to);
   const converted = useMemo(() => {
     try {
-      return convertWallTime({ date, time, from, to });
+      if (!source || !destination) return null;
+      return convertWallTime({ date, time, from: source.timeZone, to: destination.timeZone });
     } catch {
       return null;
     }
-  }, [date, time, from, to]);
-  const destination = CITIES.find((city) => city.timeZone === to);
+  }, [date, time, source, destination]);
+
+  useEffect(() => {
+    if (!hasChangedPair.current) {
+      hasChangedPair.current = true;
+      return;
+    }
+    if (from === to) return;
+    const timer = window.setTimeout(() => {
+      fetch("/api/converter-usage", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ from, to }),
+        keepalive: true,
+      }).catch(() => undefined);
+    }, 800);
+    return () => window.clearTimeout(timer);
+  }, [from, to]);
 
   return (
     <div className="converter-card">
       <div className="converter-fields">
         <label>From
           <select value={from} onChange={(event) => setFrom(event.target.value)}>
-            {CITIES.map((city) => <option key={city.timeZone} value={city.timeZone}>{city.name}, {city.country}</option>)}
+            {CITIES.map((city) => <option key={city.slug} value={city.slug}>{city.name}, {city.country}</option>)}
           </select>
         </label>
         <label>Date
@@ -46,7 +67,7 @@ export function TimeConverter({
         </label>
         <label>To
           <select value={to} onChange={(event) => setTo(event.target.value)}>
-            {CITIES.map((city) => <option key={city.timeZone} value={city.timeZone}>{city.name}, {city.country}</option>)}
+            {CITIES.map((city) => <option key={city.slug} value={city.slug}>{city.name}, {city.country}</option>)}
           </select>
         </label>
       </div>

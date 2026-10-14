@@ -39,6 +39,7 @@ function friendlyZoneCity(timeZone: string): City | undefined {
   const name = timeZone.split("/").at(-1)?.replaceAll("_", " ");
   if (!name) return undefined;
   return {
+    slug: timeZone.toLocaleLowerCase().replaceAll("/", "-").replaceAll("_", "-"),
     name,
     country: "Your location",
     countryCode: "",
@@ -47,6 +48,7 @@ function friendlyZoneCity(timeZone: string): City | undefined {
     longitude: 0,
     aliases: [],
     skylineImage: "/cities/fallback.webp",
+    contentUpdatedAt: "2026-10-14T00:00:00.000Z",
   };
 }
 
@@ -103,7 +105,7 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
   }
 
   return (
-    <section className="time-hero" aria-labelledby="local-time-heading">
+    <section className="time-hero" aria-labelledby="site-purpose-heading">
       <div
         className="city-skyline"
         data-testid="city-skyline"
@@ -111,9 +113,10 @@ export function LocalTimeHero({ initialTimeZone, now, detectTimeZone = false }: 
         style={{ backgroundImage: `url("${skylineForCity(city)}")` }}
       />
       <div className="time-hero-inner">
+        <h1 id="site-purpose-heading" className="sr-only">Current time around the world</h1>
         <p className="local-label"><MapPin size={18} aria-hidden="true" /> Your local time</p>
         <div className="city-heading-row">
-          <h1 id="local-time-heading">{city ? `${city.name}${city.country === "Your location" ? "" : `, ${city.country}`}` : "Your city"}</h1>
+          <h2 id="local-time-heading">{city ? `${city.name}${city.country === "Your location" ? "" : `, ${city.country}`}` : "Your city"}</h2>
           {city?.countryCode ? (
             <span className="country-flag hero-country-flag" role="img" aria-label={`${city.country} flag`}>
               {countryCodeToFlag(city.countryCode)}

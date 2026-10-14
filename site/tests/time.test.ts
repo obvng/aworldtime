@@ -3,9 +3,11 @@ import { countryCodeToFlag } from "@/lib/cities";
 import {
   cityForTimeZone,
   convertWallTime,
+  describeTimeZone,
   formatDate,
   formatTime,
   formatTimeWithPeriod,
+  getSolarTimes,
 } from "@/lib/time";
 
 describe("world time helpers", () => {
@@ -74,5 +76,35 @@ describe("world time helpers", () => {
         to: "Asia/Tokyo",
       }),
     ).toEqual({ date: "2026-09-25", time: "07:30" });
+  });
+
+  it("reports the current UTC offset, DST state, and next transition", () => {
+    const details = describeTimeZone(new Date("2026-01-15T12:00:00Z"), "Europe/London");
+
+    expect(details.offsetLabel).toBe("UTC+00:00");
+    expect(details.isDaylightSavingTime).toBe(false);
+    expect(details.nextTransition?.toISOString()).toBe("2026-03-29T01:00:00.000Z");
+    expect(details.nextOffsetLabel).toBe("UTC+01:00");
+  });
+
+  it("reports zones without daylight-saving transitions", () => {
+    const details = describeTimeZone(new Date("2026-01-15T12:00:00Z"), "Africa/Lagos");
+
+    expect(details.offsetLabel).toBe("UTC+01:00");
+    expect(details.isDaylightSavingTime).toBe(false);
+    expect(details.nextTransition).toBeNull();
+  });
+
+  it("calculates local sunrise and sunset from city coordinates", () => {
+    const solar = getSolarTimes(new Date("2026-09-24T12:00:00Z"), {
+      latitude: 6.5244,
+      longitude: 3.3792,
+      timeZone: "Africa/Lagos",
+    });
+
+    expect(solar.sunrise).toMatch(/^06:3\d$/);
+    expect(solar.sunset).toBe("18:42");
+    expect(solar.dayLengthMinutes).toBeGreaterThan(710);
+    expect(solar.dayLengthMinutes).toBeLessThan(740);
   });
 });

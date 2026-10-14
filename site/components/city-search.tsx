@@ -34,7 +34,7 @@ export function CitySearch({ onSelect }: CitySearchProps) {
         <div className="city-search-results" role="listbox" aria-label="City matches">
           {matches.length ? matches.map((city) => (
             <button
-              key={city.timeZone}
+              key={city.slug}
               type="button"
               role="option"
               aria-selected="false"

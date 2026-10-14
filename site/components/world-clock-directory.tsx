@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { CITIES, countryCodeToFlag, findCity } from "@/lib/cities";
 import { formatDate, formatTimeWithPeriod, timeZoneName } from "@/lib/time";
 
@@ -19,7 +20,7 @@ export function WorldClockDirectory() {
       <div className="directory-grid">
         {cities.map((city) => {
           const cityTime = formatTimeWithPeriod(now, city.timeZone, false);
-          return <article key={city.timeZone}><p className="directory-city-name"><span role="img" aria-label={`${city.country} flag`}>{countryCodeToFlag(city.countryCode)}</span><span>{city.name}, {city.country}</span></p><time>{cityTime.time} <span className="directory-clock-period">{cityTime.period}</span></time><small>{formatDate(now, city.timeZone)} · {timeZoneName(now, city.timeZone)}</small></article>;
+          return <article key={city.slug}><p className="directory-city-name"><span role="img" aria-label={`${city.country} flag`}>{countryCodeToFlag(city.countryCode)}</span><Link href={`/world-clock/${city.slug}`}>{city.name}, {city.country}</Link></p><time>{cityTime.time} <span className="directory-clock-period">{cityTime.period}</span></time><small>{formatDate(now, city.timeZone)} · {timeZoneName(now, city.timeZone)}</small></article>;
         })}
       </div>
       {!cities.length ? <p className="empty-state">No city found. Try a country or time-zone abbreviation.</p> : null}

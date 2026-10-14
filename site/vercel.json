@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/refresh-city-pages",
+      "schedule": "17 0 * * *"
+    }
+  ]
+}

@@ -6,6 +6,32 @@
   scrollbar-width: thin;
 }
 
+.city-detail-page { padding: 1.5rem clamp(1rem, 4vw, 4rem) 4rem; }
+.city-breadcrumb { display: flex; gap: .6rem; color: #526583; margin-bottom: 1.5rem; }
+.city-breadcrumb a { color: #0b64eb; }
+.city-detail-hero { border-radius: 28px; padding: clamp(1.5rem, 5vw, 4rem); text-align: center; background: radial-gradient(circle at 80% 18%, #ffe7a1 0 5%, transparent 5.5%), linear-gradient(135deg, #e8f5ff, #fff 60%, #eef7ff); border: 1px solid #cfe2fb; }
+.city-detail-kicker { color: #145ed6; font-weight: 700; }
+.city-detail-hero h1 { font-size: clamp(1.8rem, 4vw, 3.4rem); margin: .5rem 0; }
+.city-page-clock time { display: block; color: #06123c; font-size: clamp(3.1rem, 9vw, 7rem); font-weight: 800; letter-spacing: -.07em; line-height: 1; }
+.city-page-clock time span { color: #1665e8; font-size: .27em; letter-spacing: 0; }
+.city-page-clock p { font-size: clamp(1rem, 2vw, 1.35rem); }
+.city-page-clock .city-clock-loading { color: #526583; font-size: 1rem; margin: 2rem 0; }
+.city-fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 1.25rem 0; }
+.city-fact-grid article { border: 1px solid #dce7f5; border-radius: 18px; padding: 1.25rem; background: #fff; }
+.city-fact-grid span { color: #5a6d8c; font-size: .83rem; }
+.city-fact-grid strong { display: block; color: #07163f; font-size: 1.35rem; margin: .4rem 0; }
+.city-fact-grid p { color: #526583; font-size: .9rem; margin: 0; }
+.city-explainer, .related-cities { max-width: 900px; margin: 2rem auto; }
+.city-explainer p { color: #354968; line-height: 1.75; }
+.related-cities > div { display: flex; flex-wrap: wrap; gap: .7rem; }
+.related-cities a { border: 1px solid #cfe0f8; border-radius: 999px; padding: .7rem 1rem; color: #0a55c7; background: #f5faff; }
+@media (max-width: 760px) { .city-fact-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 430px) { .city-fact-grid { grid-template-columns: 1fr; } .city-page-clock time { font-size: 3.4rem; } }
+.admin-seo-picker, .admin-seo-form { display: grid; gap: 1rem; max-width: 760px; background: #fff; border: 1px solid #dce7f5; border-radius: 18px; padding: 1.25rem; margin: 1rem 0; }
+.admin-seo-picker label, .admin-seo-form label { display: grid; gap: .45rem; font-weight: 700; }
+.admin-seo-picker select, .admin-seo-form input, .admin-seo-form textarea { width: 100%; border: 1px solid #bfcde1; border-radius: 10px; padding: .8rem; font: inherit; }
+.admin-success { padding: .8rem 1rem; border-radius: 10px; background: #e9f8ee; color: #176235; }
+
 @utility scrollbar-none {
   scrollbar-width: none;
 

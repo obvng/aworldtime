@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { countryCodeToFlag, POPULAR_CITIES } from "@/lib/cities";
 import { formatTimeWithPeriod, timeZoneName } from "@/lib/time";
 
@@ -16,7 +17,7 @@ export function CityClockStrip({ initialNow }: { initialNow: string }) {
     <section className="city-section" aria-labelledby="popular-cities-heading">
       <div className="section-heading">
         <h2 id="popular-cities-heading">Popular cities</h2>
-        <a href="/world-clock">See all</a>
+        <Link href="/world-clock">See all</Link>
       </div>
       <div className="city-clock-strip">
         {POPULAR_CITIES.map((city) => {
@@ -26,7 +27,7 @@ export function CityClockStrip({ initialNow }: { initialNow: string }) {
               <span className="city-card-flag" role="img" aria-label={`${city.country} flag`}>
                 {countryCodeToFlag(city.countryCode)}
               </span>
-              {city.name}
+              <Link href={`/world-clock/${city.slug}`}>{city.name}</Link>
             </p>
             <time dateTime={now.toISOString()}>{cityTime.time} <span className="city-clock-period">{cityTime.period}</span></time>
             <small>{timeZoneName(now, city.timeZone)}</small>

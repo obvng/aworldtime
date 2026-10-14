@@ -4,7 +4,7 @@ import { CITIES, POPULAR_CITIES, skylineForCity } from "@/lib/cities";
 
 describe("city presentation data", () => {
   it("gives every catalogue city a skyline", () => {
-    expect(CITIES).toHaveLength(19);
+    expect(CITIES).toHaveLength(100);
     expect(
       CITIES.every((city) => city.skylineImage.startsWith("/cities/")),
     ).toBe(true);

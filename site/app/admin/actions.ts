@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { AdminAuthError, requireAdmin } from "@/lib/admin-auth";
 import { ImageUploadError, sanitizeImageUpload } from "@/lib/image-security";
 import { postSchema } from "@/lib/post-validation";
+import { pageSeoSchema, persistPageSeo } from "@/lib/page-seo";
 import { createClient, hasSupabaseConfig } from "@/lib/supabase/server";
 
 async function requireAdminAction() {
@@ -85,4 +86,23 @@ export async function deletePost(id: string) {
   revalidatePath("/sitemap.xml");
   revalidatePath("/feed.xml");
   redirect("/admin");
+}
+
+export async function savePageSeoOverride(formData: FormData) {
+  const { supabase } = await requireAdminAction();
+  const parsed = pageSeoSchema.safeParse({
+    path: formData.get("path"),
+    seo_title: formData.get("seo_title"),
+    meta_description: formData.get("meta_description"),
+  });
+  const slug = String(formData.get("path") ?? "").split("/").at(-1) ?? "lagos";
+  if (!parsed.success) redirect(`/admin/seo?city=${encodeURIComponent(slug)}&error=${encodeURIComponent(parsed.error.issues[0]?.message ?? "Check the SEO fields.")}`);
+  try {
+    await persistPageSeo(supabase as unknown as Parameters<typeof persistPageSeo>[0], parsed.data);
+  } catch (error) {
+    redirect(`/admin/seo?city=${encodeURIComponent(slug)}&error=${encodeURIComponent(error instanceof Error ? error.message : "The SEO settings could not be saved.")}`);
+  }
+  revalidatePath(parsed.data.path);
+  revalidatePath("/sitemap.xml");
+  redirect(`/admin/seo?city=${encodeURIComponent(slug)}&saved=1`);
 }
