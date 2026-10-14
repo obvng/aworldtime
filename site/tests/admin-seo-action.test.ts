@@ -38,7 +38,7 @@ describe("city SEO admin form action", () => {
     formData.set("seo_title", "Lagos Current Time and UTC Offset");
     formData.set("meta_description", "Check the live time in Lagos, UTC offset, daylight-saving status, sunrise and sunset today.");
 
-    await expect(savePageSeoOverride(formData)).rejects.toThrow("REDIRECT:/admin/seo?city=lagos&saved=1");
+    await expect(savePageSeoOverride({ status: "idle" }, formData)).resolves.toEqual({ status: "success" });
     expect(savedRow).toMatchObject({
       path: "/world-clock/lagos",
       seo_title: "Lagos Current Time and UTC Offset",

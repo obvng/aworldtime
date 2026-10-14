@@ -88,21 +88,23 @@ export async function deletePost(id: string) {
   redirect("/admin");
 }
 
-export async function savePageSeoOverride(formData: FormData) {
+export type SavePageSeoState = { status: "idle" | "success" | "error"; message?: string };
+
+export async function savePageSeoOverride(_previousState: SavePageSeoState, formData: FormData): Promise<SavePageSeoState> {
   const { supabase } = await requireAdminAction();
   const parsed = pageSeoSchema.safeParse({
     path: formData.get("path"),
     seo_title: formData.get("seo_title"),
     meta_description: formData.get("meta_description"),
   });
-  const slug = String(formData.get("path") ?? "").split("/").at(-1) ?? "lagos";
-  if (!parsed.success) redirect(`/admin/seo?city=${encodeURIComponent(slug)}&error=${encodeURIComponent(parsed.error.issues[0]?.message ?? "Check the SEO fields.")}`);
+  if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Check the SEO fields." };
   try {
     await persistPageSeo(supabase as unknown as Parameters<typeof persistPageSeo>[0], parsed.data);
   } catch (error) {
-    redirect(`/admin/seo?city=${encodeURIComponent(slug)}&error=${encodeURIComponent(error instanceof Error ? error.message : "The SEO settings could not be saved.")}`);
+    return { status: "error", message: error instanceof Error ? error.message : "The SEO settings could not be saved." };
   }
   revalidatePath(parsed.data.path);
   revalidatePath("/sitemap.xml");
-  redirect(`/admin/seo?city=${encodeURIComponent(slug)}&saved=1`);
+  revalidatePath("/admin/seo");
+  return { status: "success" };
 }
