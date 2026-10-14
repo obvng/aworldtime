@@ -51,6 +51,7 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
     title: override?.seo_title || fallback.title,
     description: override?.meta_description || fallback.description,
     path,
+    absoluteTitle: Boolean(override?.seo_title),
   });
 }
 

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { pageSeoSchema, persistPageSeo } from "@/lib/page-seo";
+import { buildPageMetadata } from "@/lib/seo";
 
 describe("page SEO persistence", () => {
   it("rejects paths outside public city pages", () => {
@@ -26,5 +27,16 @@ describe("page SEO persistence", () => {
     expect(upsert).toHaveBeenCalledWith(expect.objectContaining({ path: "/world-clock/lagos" }), { onConflict: "path" });
     expect(result.seo_title).toBe("Lagos Time Now and Today’s UTC Offset");
     expect(result.meta_description).toContain("sunrise and sunset");
+  });
+
+  it("keeps a saved title absolute so the site name is not appended twice", () => {
+    const metadata = buildPageMetadata({
+      title: "Lagos Time Now | AWORLDTIME.COM",
+      description: "Current time and daylight information for Lagos, Nigeria.",
+      path: "/world-clock/lagos",
+      absoluteTitle: true,
+    });
+
+    expect(metadata.title).toEqual({ absolute: "Lagos Time Now | AWORLDTIME.COM" });
   });
 });

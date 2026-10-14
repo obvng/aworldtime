@@ -7,16 +7,17 @@ type PageMetadataInput = {
   title: string;
   description: string;
   path: string;
+  absoluteTitle?: boolean;
 };
 
 export function absoluteUrl(path: string) {
   return new URL(path, `${SITE_ORIGIN}/`).toString().replace(/\/$/, path === "/" ? "/" : "");
 }
 
-export function buildPageMetadata({ title, description, path }: PageMetadataInput): Metadata {
+export function buildPageMetadata({ title, description, path, absoluteTitle = false }: PageMetadataInput): Metadata {
   const url = absoluteUrl(path);
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: url },
     openGraph: {
