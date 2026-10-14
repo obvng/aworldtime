@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { CityLiveClock } from "@/components/city-live-clock";
 import { SiteHeader } from "@/components/site-header";
 import { CITIES, cityBySlug, countryCodeToFlag } from "@/lib/cities";
+import { citySeoTitle } from "@/lib/city-seo";
 import { getPageSeo } from "@/lib/page-seo";
 import { absoluteUrl, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, getSolarTimes, timeZoneName } from "@/lib/time";
@@ -35,7 +36,7 @@ function defaultSeo(slug: string) {
   const dstText = zone.isDaylightSavingTime ? "DST is active" : "DST is not active";
   const solarText = solar.sunrise && solar.sunset ? `sunrise ${solar.sunrise} and sunset ${solar.sunset}` : "today's daylight times";
   return {
-    title: `Current Time in ${city.name}, ${city.country}`,
+    title: citySeoTitle(city),
     description: `See the current time in ${city.name}, ${city.country}, ${zone.offsetLabel}, ${dstText}, ${solarText}, and the next clock change.`,
   };
 }

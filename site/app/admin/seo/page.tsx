@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminPageSeoForm } from "@/components/admin-page-seo-form";
 import { CITIES, cityBySlug } from "@/lib/cities";
+import { citySeoTitle } from "@/lib/city-seo";
 import { requireAdminPage } from "@/lib/admin-auth";
 import type { PageSeo } from "@/lib/page-seo";
 
@@ -14,7 +15,7 @@ export default async function CitySeoAdminPage({ searchParams }: { searchParams:
   const { supabase } = await requireAdminPage();
   const { data } = await supabase.from("page_seo").select("path,seo_title,meta_description,updated_at").eq("path", path).maybeSingle();
   const saved = data as PageSeo | null;
-  const defaultTitle = `Current Time in ${city.name}, ${city.country}`;
+  const defaultTitle = citySeoTitle(city);
   const defaultDescription = `See the current time in ${city.name}, ${city.country}, its UTC offset, daylight-saving status, sunrise, sunset and next clock change.`;
 
   return (

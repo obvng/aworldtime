@@ -3,10 +3,7 @@ import { metadata, viewport } from "@/app/layout";
 
 describe("AWORLDTIME application", () => {
   it("uses the public brand and description", () => {
-    expect(metadata.title).toEqual({
-      default: "World Clock, Time Zone Converter & Meeting Planner | AWORLDTIME.COM",
-      template: "%s | AWORLDTIME.COM",
-    });
+    expect(metadata.title).toBe("World Clock, Time Zone Converter & Meeting Planner");
     expect(metadata.description).toBe(
       "Check local time worldwide, convert time zones, plan global meetings, and read practical time guides.",
     );

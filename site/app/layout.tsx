@@ -6,10 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
-  title: {
-    default: "World Clock, Time Zone Converter & Meeting Planner | AWORLDTIME.COM",
-    template: "%s | AWORLDTIME.COM",
-  },
+  title: "World Clock, Time Zone Converter & Meeting Planner",
   description: "Check local time worldwide, convert time zones, plan global meetings, and read practical time guides.",
   applicationName: "AWORLDTIME.COM",
   alternates: {

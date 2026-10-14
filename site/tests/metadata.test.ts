@@ -14,9 +14,6 @@ describe("site metadata", () => {
     expect(metadata.alternates).toMatchObject({
       types: { "application/rss+xml": "https://www.aworldtime.com/feed.xml" },
     });
-    expect(metadata.title).toMatchObject({
-      default: "World Clock, Time Zone Converter & Meeting Planner | AWORLDTIME.COM",
-      template: "%s | AWORLDTIME.COM",
-    });
+    expect(metadata.title).toBe("World Clock, Time Zone Converter & Meeting Planner");
   });
 });

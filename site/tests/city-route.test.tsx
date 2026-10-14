@@ -33,6 +33,12 @@ describe("generated city route", () => {
       const metadata = await generateMetadata({ params: Promise.resolve({ city: city.slug }) });
       expect(metadata.alternates?.canonical).toBe(`https://www.aworldtime.com/world-clock/${city.slug}`);
       expect(metadata.robots).not.toMatchObject({ index: false });
+      const fullTitle = `Time in ${city.name}, ${city.country}: Current Local Time and UTC Offset`;
+      const expectedTitle = fullTitle.length <= 70 ? fullTitle : `Time in ${city.name}: Current Local Time and UTC Offset`;
+      expect(metadata.title).toBe(expectedTitle);
+      expect(String(metadata.title).length).toBeLessThanOrEqual(70);
+      expect(String(metadata.title)).not.toContain("AWORLDTIME.COM");
+      expect(String(metadata.title)).not.toContain("Daylight");
     }
   });
 
