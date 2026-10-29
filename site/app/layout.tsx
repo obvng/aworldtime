@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GOOGLE_ANALYTICS_ID } from "@/lib/analytics";
-import { buildWebsiteJsonLd, serializeJsonLd, SITE_ORIGIN } from "@/lib/seo";
+import { buildWebsiteJsonLd, DEFAULT_SOCIAL_IMAGE, serializeJsonLd, SITE_ORIGIN } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,11 +18,13 @@ export const metadata: Metadata = {
     siteName: "AWORLDTIME.COM",
     title: "World Clock, Time Zone Converter & Meeting Planner",
     description: "Check local time worldwide, convert time zones, and plan global meetings.",
+    images: [{ url: DEFAULT_SOCIAL_IMAGE, width: 1200, height: 630, alt: "AWORLDTIME.COM world clock" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "World Clock, Time Zone Converter & Meeting Planner",
     description: "Check local time worldwide, convert time zones, and plan global meetings.",
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   verification: {
     google: "SsFYfch7pPzhqxvKb0WBvhV9_EJ2pC0DeP-DyrJ7UaE",

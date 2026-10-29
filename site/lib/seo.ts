@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Post } from "@/lib/posts";
 
 export const SITE_ORIGIN = "https://www.aworldtime.com";
+export const DEFAULT_SOCIAL_IMAGE = `${SITE_ORIGIN}/opengraph-image`;
 
 type PageMetadataInput = {
   title: string;
@@ -26,11 +27,13 @@ export function buildPageMetadata({ title, description, path, absoluteTitle = fa
       description,
       url,
       siteName: "AWORLDTIME.COM",
+      images: [{ url: DEFAULT_SOCIAL_IMAGE, width: 1200, height: 630, alt: "AWORLDTIME.COM world clock" }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [DEFAULT_SOCIAL_IMAGE],
     },
   };
 }
@@ -95,6 +98,7 @@ export function buildPostMetadata(post: Post): Metadata {
   const title = post.seo_title || post.title;
   const description = post.meta_description || post.excerpt;
   const images = post.og_image_url || post.featured_image_url;
+  const socialImage = images || DEFAULT_SOCIAL_IMAGE;
   return {
     title,
     description,
@@ -108,13 +112,13 @@ export function buildPostMetadata(post: Post): Metadata {
       siteName: "AWORLDTIME.COM",
       publishedTime: post.published_at ?? undefined,
       modifiedTime: post.updated_at,
-      ...(images ? { images: [{ url: images, alt: post.featured_image_alt ?? undefined }] } : {}),
+      images: [{ url: socialImage, alt: images ? post.featured_image_alt ?? undefined : "AWORLDTIME.COM world clock" }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.og_title || title,
       description: post.og_description || description,
-      ...(images ? { images: [images] } : {}),
+      images: [socialImage],
     },
   };
 }

@@ -9,6 +9,7 @@ import {
   buildArticleJsonLd,
   buildPostMetadata,
   buildBreadcrumbJsonLd,
+  DEFAULT_SOCIAL_IMAGE,
 } from "@/lib/seo";
 import { fixturePost } from "@/lib/posts";
 
@@ -30,13 +31,16 @@ describe("shared SEO helpers", () => {
         description: "Convert a date and time between cities and time zones.",
         url: "https://www.aworldtime.com/converter",
         siteName: "AWORLDTIME.COM",
+        images: [{ url: "https://www.aworldtime.com/opengraph-image", width: 1200, height: 630, alt: "AWORLDTIME.COM world clock" }],
       },
       twitter: {
         card: "summary_large_image",
         title: "Time Zone Converter",
         description: "Convert a date and time between cities and time zones.",
+        images: ["https://www.aworldtime.com/opengraph-image"],
       },
     });
+    expect(DEFAULT_SOCIAL_IMAGE).toBe("https://www.aworldtime.com/opengraph-image");
   });
 
   it("builds linked website and organization schema", () => {

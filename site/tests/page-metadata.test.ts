@@ -20,6 +20,7 @@ describe("public page metadata", () => {
     expect(String(metadata.description).length).toBeGreaterThan(50);
     expect(metadata.alternates).toEqual({ canonical: url });
     expect(metadata.openGraph).toMatchObject({ title, url });
-    expect(metadata.twitter).toMatchObject({ title, card: "summary_large_image" });
+    expect(metadata.openGraph).toMatchObject({ images: [expect.objectContaining({ url: "https://www.aworldtime.com/opengraph-image", width: 1200, height: 630 })] });
+    expect(metadata.twitter).toMatchObject({ title, card: "summary_large_image", images: ["https://www.aworldtime.com/opengraph-image"] });
   });
 });
