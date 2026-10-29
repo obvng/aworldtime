@@ -86,4 +86,12 @@ describe("generated city route", () => {
     expect(screen.getByText(/^Sunset on/)).toBeVisible();
     expect(screen.getByText(/Sunrise on \d{2} \w+ \d{4}/)).toBeVisible();
   });
+
+  it("links a city to its country time page when one is available", async () => {
+    getPageSeo.mockResolvedValue(null);
+    const { default: CityPage } = await import("@/app/world-clock/[city]/page");
+    render(await CityPage({ params: Promise.resolve({ city: "sao-paulo" }) }));
+
+    expect(screen.getByRole("link", { name: /all time zones in brazil/i })).toHaveAttribute("href", "/time-in/brazil");
+  });
 });

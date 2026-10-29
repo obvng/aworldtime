@@ -3,6 +3,7 @@ import { listPublishedPosts } from "@/lib/posts";
 import { absoluteUrl } from "@/lib/seo";
 import { CITIES } from "@/lib/cities";
 import { listPageSeo } from "@/lib/page-seo";
+import { COUNTRY_TIME_PAGES } from "@/lib/country-times";
 
 const STATIC_LAST_MODIFIED = new Date("2026-09-25T00:00:00.000Z");
 
@@ -13,6 +14,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = ["/", "/world-clock", "/converter", "/meeting-planner", "/blog"];
   return [
     ...routes.map((route) => ({ url: absoluteUrl(route), lastModified: STATIC_LAST_MODIFIED, changeFrequency: route === "/" ? "daily" as const : "weekly" as const })),
+    { url: absoluteUrl("/utc"), lastModified: new Date("2026-10-29T00:00:00.000Z"), changeFrequency: "daily" as const },
+    ...COUNTRY_TIME_PAGES.map((country) => ({
+      url: absoluteUrl(`/time-in/${country.slug}`),
+      lastModified: new Date(country.updatedAt),
+      changeFrequency: "daily" as const,
+    })),
     ...CITIES.map((city) => ({
       url: absoluteUrl(`/world-clock/${city.slug}`),
       lastModified: new Date(Math.max(

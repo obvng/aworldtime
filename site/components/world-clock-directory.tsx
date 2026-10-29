@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CITIES, countryCodeToFlag, findCity } from "@/lib/cities";
+import { COUNTRY_TIME_PAGES } from "@/lib/country-times";
 import { formatDate, formatTimeWithPeriod, timeZoneName } from "@/lib/time";
 
 export function WorldClockDirectory() {
@@ -16,6 +17,13 @@ export function WorldClockDirectory() {
 
   return (
     <div>
+      <section className="directory-country-links" aria-labelledby="country-time-heading">
+        <div><p>Time tools</p><h2 id="country-time-heading">Country clocks and UTC</h2></div>
+        <nav aria-label="Country time pages">
+          <Link href="/utc">UTC time now</Link>
+          {COUNTRY_TIME_PAGES.map((country) => <Link key={country.slug} href={`/time-in/${country.slug}`}>Time in {country.name}</Link>)}
+        </nav>
+      </section>
       <label className="directory-search">Find a city or time zone<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try Nairobi, Japan, or GMT" /></label>
       <div className="directory-grid">
         {cities.map((city) => {

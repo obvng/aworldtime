@@ -5,6 +5,7 @@ import { CityLiveClock } from "@/components/city-live-clock";
 import { SiteHeader } from "@/components/site-header";
 import { CITIES, cityBySlug, countryCodeToFlag } from "@/lib/cities";
 import { citySeoTitle } from "@/lib/city-seo";
+import { countryTimeByCode } from "@/lib/country-times";
 import { getPageSeo } from "@/lib/page-seo";
 import { absoluteUrl, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, getSolarTimes, timeZoneName } from "@/lib/time";
@@ -59,6 +60,7 @@ export default async function CityPage({ params }: CityPageProps) {
   const facts = cityFacts(slug, now);
   if (!facts) notFound();
   const { city, zone, solar, zoneName } = facts;
+  const countryPage = countryTimeByCode(city.countryCode);
   const related = CITIES.filter((candidate) => candidate.slug !== city.slug && (candidate.country === city.country || candidate.timeZone === city.timeZone)).slice(0, 6);
   const solarDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric", timeZone: city.timeZone }).format(now);
   const transition = zone.nextTransition
@@ -97,6 +99,7 @@ export default async function CityPage({ params }: CityPageProps) {
           <h2>Time in {city.name}</h2>
           <p>{city.name} follows the {city.timeZone} time zone. Its current offset is {zone.offsetLabel}. {zone.isDaylightSavingTime ? `Daylight saving time is currently active, and the next offset change is scheduled for ${transition}.` : zone.nextTransition ? `Daylight saving time is not active now. The next offset change is scheduled for ${transition}.` : `${city.name} keeps the same UTC offset throughout the year.`}</p>
           <p>On {solarDate}, sunrise is at {solar.sunrise ?? "an unavailable time"} and sunset is at {solar.sunset ?? "an unavailable time"}, using coordinates {Math.abs(city.latitude).toFixed(4)}°{city.latitude >= 0 ? "N" : "S"}, {Math.abs(city.longitude).toFixed(4)}°{city.longitude >= 0 ? "E" : "W"}.</p>
+          {countryPage ? <p><Link href={`/time-in/${countryPage.slug}`}>See all time zones in {countryPage.name}</Link>, including their current UTC offsets and seasonal clock changes.</p> : null}
           <Link className="admin-primary" href={`/converter?from=${encodeURIComponent(city.slug)}`}>Convert {city.name} time</Link>
         </section>
 
