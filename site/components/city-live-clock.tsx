@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { formatDate, formatTimeWithPeriod } from "@/lib/time";
 
-export function CityLiveClock({ timeZone }: { timeZone: string }) {
-  const [now, setNow] = useState<Date | null>(null);
+export function CityLiveClock({ timeZone, initialNow }: { timeZone: string; initialNow?: string }) {
+  const [now, setNow] = useState<Date | null>(() => initialNow ? new Date(initialNow) : null);
   const displayed = now ? formatTimeWithPeriod(now, timeZone, true) : null;
 
   useEffect(() => {

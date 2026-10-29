@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { Children, isValidElement, type ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { CityLiveClock } from "@/components/city-live-clock";
 import { CITIES } from "@/lib/cities";
 
-vi.mock("@/lib/page-seo", () => ({
-  getPageSeo: vi.fn().mockResolvedValue(null),
-}));
+const { getPageSeo } = vi.hoisted(() => ({ getPageSeo: vi.fn() }));
+
+vi.mock("@/lib/page-seo", () => ({ getPageSeo }));
 
 function findLiveClock(node: ReactNode): Record<string, unknown> | null {
   if (!isValidElement(node)) return null;
@@ -19,6 +19,12 @@ function findLiveClock(node: ReactNode): Record<string, unknown> | null {
 }
 
 describe("generated city route", () => {
+  afterEach(() => {
+    getPageSeo.mockReset();
+    getPageSeo.mockResolvedValue(null);
+    vi.useRealTimers();
+  });
+
   it("prebuilds exactly the 100 catalogue slugs", async () => {
     const { generateStaticParams } = await import("@/app/world-clock/[city]/page");
     const params = await generateStaticParams();
@@ -43,19 +49,34 @@ describe("generated city route", () => {
   });
 
   it("builds city-specific canonical metadata", async () => {
+    getPageSeo.mockResolvedValue(null);
     const { generateMetadata } = await import("@/app/world-clock/[city]/page");
     const metadata = await generateMetadata({ params: Promise.resolve({ city: "lagos" }) });
 
     expect(metadata.title).toContain("Lagos");
-    expect(metadata.description).toContain("UTC+01:00");
-    expect(metadata.description).toContain("sunrise");
+    expect(metadata.description).toBe("Check the current local time in Lagos, Nigeria, plus its UTC offset, daylight-saving status, sunrise and sunset today.");
     expect(metadata.alternates?.canonical).toBe("https://www.aworldtime.com/world-clock/lagos");
   });
 
+  it("keeps generated descriptions stable when a city enters daylight saving time", async () => {
+    getPageSeo.mockResolvedValue(null);
+    vi.useFakeTimers();
+    const { generateMetadata } = await import("@/app/world-clock/[city]/page");
+
+    vi.setSystemTime(new Date("2026-01-15T12:00:00.000Z"));
+    const winter = await generateMetadata({ params: Promise.resolve({ city: "london" }) });
+    vi.setSystemTime(new Date("2026-07-15T12:00:00.000Z"));
+    const summer = await generateMetadata({ params: Promise.resolve({ city: "london" }) });
+
+    expect(winter.description).toBe("Check the current local time in London, United Kingdom, plus its UTC offset, daylight-saving status, sunrise and sunset today.");
+    expect(summer.description).toBe(winter.description);
+  });
+
   it("renders page-specific time, DST, sunrise and sunset facts", async () => {
+    getPageSeo.mockResolvedValue(null);
     const { default: CityPage } = await import("@/app/world-clock/[city]/page");
     const page = await CityPage({ params: Promise.resolve({ city: "lagos" }) });
-    expect(findLiveClock(page)).toEqual({ timeZone: "Africa/Lagos" });
+    expect(findLiveClock(page)).toMatchObject({ timeZone: "Africa/Lagos", initialNow: expect.any(String) });
     render(page);
 
     expect(screen.getByRole("heading", { level: 1, name: /current time in lagos/i })).toBeVisible();

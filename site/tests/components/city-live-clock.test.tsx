@@ -26,11 +26,12 @@ describe("CityLiveClock", () => {
     expect(screen.getByTestId("city-live-time")).toHaveTextContent("02:38:00 PM");
   });
 
-  it("does not bake a frozen wall-clock time into server HTML", () => {
-    const html = renderToString(<CityLiveClock timeZone="Africa/Lagos" />);
+  it("puts the request-time local clock in server HTML for crawlers", () => {
+    const html = renderToString(<CityLiveClock timeZone="Africa/Lagos" initialNow="2026-09-24T13:27:00.000Z" />);
 
-    expect(html).not.toContain("02:27:00");
-    expect(html).not.toContain("2026-09-24T13:27:00.000Z");
-    expect(html).toContain("Local time loads in your browser");
+    expect(html).toContain("02:27:00");
+    expect(html).toContain("PM");
+    expect(html).toContain("2026-09-24T13:27:00.000Z");
+    expect(html).not.toContain("Local time loads in your browser");
   });
 });

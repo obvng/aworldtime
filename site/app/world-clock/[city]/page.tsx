@@ -12,7 +12,7 @@ import { describeTimeZone, getSolarTimes, timeZoneName } from "@/lib/time";
 type CityPageProps = { params: Promise<{ city: string }> };
 
 export const dynamicParams = false;
-export const revalidate = 86_400;
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
   return CITIES.map((city) => ({ city: city.slug }));
@@ -30,14 +30,11 @@ function cityFacts(slug: string, now = new Date()) {
 }
 
 function defaultSeo(slug: string) {
-  const facts = cityFacts(slug);
-  if (!facts) return null;
-  const { city, zone, solar } = facts;
-  const dstText = zone.isDaylightSavingTime ? "DST is active" : "DST is not active";
-  const solarText = solar.sunrise && solar.sunset ? `sunrise ${solar.sunrise} and sunset ${solar.sunset}` : "today's daylight times";
+  const city = cityBySlug(slug);
+  if (!city) return null;
   return {
     title: citySeoTitle(city),
-    description: `See the current time in ${city.name}, ${city.country}, ${zone.offsetLabel}, ${dstText}, ${solarText}, and the next clock change.`,
+    description: `Check the current local time in ${city.name}, ${city.country}, plus its UTC offset, daylight-saving status, sunrise and sunset today.`,
   };
 }
 
@@ -85,7 +82,7 @@ export default async function CityPage({ params }: CityPageProps) {
         <section className="city-detail-hero">
           <p className="city-detail-kicker">Current local time</p>
           <h1>Current time in {city.name}, {city.country} <span role="img" aria-label={`${city.country} flag`}>{countryCodeToFlag(city.countryCode)}</span></h1>
-          <CityLiveClock timeZone={city.timeZone} />
+          <CityLiveClock timeZone={city.timeZone} initialNow={now.toISOString()} />
           <p>{city.name} uses {zoneName} ({zone.offsetLabel}).</p>
         </section>
 
