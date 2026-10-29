@@ -114,3 +114,10 @@ export function countryTimeByCode(code: string) {
   const normalized = code.trim().toUpperCase();
   return COUNTRY_TIME_PAGES.find((country) => country.countryCode === normalized);
 }
+import { CITIES } from "@/lib/cities";
+
+
+export function citiesForCountryZone(countryCode: string, timeZone: string) {
+  const normalizedCode = countryCode.trim().toUpperCase();
+  return CITIES.filter((city) => city.countryCode === normalizedCode && city.timeZone === timeZone);
+}

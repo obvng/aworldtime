@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 describe("country time route", () => {
@@ -54,5 +54,32 @@ describe("country time route", () => {
     expect(screen.getAllByTestId("country-zone-card")).toHaveLength(16);
     expect(screen.getByText("America/Noronha")).toBeVisible();
     expect(screen.getByText("America/Rio_Branco")).toBeVisible();
+  });
+
+  it("links each represented zone to matching city pages", async () => {
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    render(await CountryTimePage({ params: Promise.resolve({ country: "brazil" }) }));
+
+    const saoPauloZone = screen.getByText("America/Sao_Paulo").closest("article");
+    expect(saoPauloZone).not.toBeNull();
+    expect(within(saoPauloZone!).getByRole("link", { name: "São Paulo" })).toHaveAttribute("href", "/world-clock/sao-paulo");
+    expect(within(saoPauloZone!).getByRole("link", { name: "Rio de Janeiro" })).toHaveAttribute("href", "/world-clock/rio-de-janeiro");
+    expect(within(saoPauloZone!).getByRole("link", { name: "Brasília" })).toHaveAttribute("href", "/world-clock/brasilia");
+  });
+
+  it("links a single-zone country to its catalogue city", async () => {
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    render(await CountryTimePage({ params: Promise.resolve({ country: "bangladesh" }) }));
+
+    expect(screen.getByRole("link", { name: "Dhaka" })).toHaveAttribute("href", "/world-clock/dhaka");
+  });
+
+  it("does not render an empty city-link group for an unrepresented zone", async () => {
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    render(await CountryTimePage({ params: Promise.resolve({ country: "brazil" }) }));
+
+    const noronhaZone = screen.getByText("America/Noronha").closest("article");
+    expect(noronhaZone).not.toBeNull();
+    expect(within(noronhaZone!).queryByLabelText("City clocks in Atlantic islands")).not.toBeInTheDocument();
   });
 });

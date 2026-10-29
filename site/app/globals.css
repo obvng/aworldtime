@@ -50,6 +50,10 @@
 .country-zone-card dt { color: #667895; font-size: .75rem; }
 .country-zone-card dd { margin: .2rem 0 0; color: #172b4d; font-weight: 750; }
 .country-zone-change { margin: 0; color: #425777; font-size: .9rem; line-height: 1.55; }
+.country-zone-cities { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e4edf8; }
+.country-zone-cities > span { color: #667895; font-size: .75rem; font-weight: 750; }
+.country-zone-cities > div { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .5rem; }
+.country-zone-cities a { padding: .45rem .65rem; border-radius: 999px; color: #0a55c7; background: #eef6ff; font-size: .85rem; font-weight: 750; }
 .utc-hero .zone-live-clock time { font-size: clamp(3.4rem, 10vw, 7rem); }
 .utc-comparison-section { margin-top: 2rem; }
 .utc-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }

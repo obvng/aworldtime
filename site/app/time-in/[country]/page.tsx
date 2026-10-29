@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ZoneLiveTime } from "@/components/zone-live-time";
 import { countryCodeToFlag } from "@/lib/cities";
-import { COUNTRY_TIME_PAGES, countryTimeBySlug } from "@/lib/country-times";
+import { COUNTRY_TIME_PAGES, citiesForCountryZone, countryTimeBySlug } from "@/lib/country-times";
 import { absoluteUrl, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, timeZoneName } from "@/lib/time";
 
@@ -52,6 +52,7 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
     ...entry,
     details: describeTimeZone(now, entry.timeZone),
     name: timeZoneName(now, entry.timeZone),
+    cities: citiesForCountryZone(country.countryCode, entry.timeZone),
   }));
   const jsonLd = {
     "@context": "https://schema.org",
@@ -105,6 +106,12 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
                     ? `Next clock change: ${transition} to ${zone.details.nextOffsetLabel}.`
                     : "No seasonal clock change is scheduled for this zone."}
                 </p>
+                {zone.cities.length ? (
+                  <nav className="country-zone-cities" aria-label={`City clocks in ${zone.regions}`}>
+                    <span>City clocks</span>
+                    <div>{zone.cities.map((city) => <Link key={city.slug} href={`/world-clock/${city.slug}`}>{city.name}</Link>)}</div>
+                  </nav>
+                ) : null}
               </article>
             );
           })}
