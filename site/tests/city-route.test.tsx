@@ -94,4 +94,18 @@ describe("generated city route", () => {
 
     expect(screen.getByRole("link", { name: /all time zones in brazil/i })).toHaveAttribute("href", "/time-in/brazil");
   });
+
+  it("emits a city breadcrumb list with canonical URLs", async () => {
+    getPageSeo.mockResolvedValue(null);
+    const { default: CityPage } = await import("@/app/world-clock/[city]/page");
+    const { container } = render(await CityPage({ params: Promise.resolve({ city: "paris" }) }));
+    const schemas = [...container.querySelectorAll('script[type="application/ld+json"]')].map((script) => JSON.parse(script.textContent ?? "{}"));
+    const breadcrumb = schemas.find((schema) => schema["@type"] === "BreadcrumbList");
+
+    expect(breadcrumb?.itemListElement).toEqual([
+      expect.objectContaining({ position: 1, name: "Home", item: "https://www.aworldtime.com/" }),
+      expect.objectContaining({ position: 2, name: "World clock", item: "https://www.aworldtime.com/world-clock" }),
+      expect.objectContaining({ position: 3, name: "Paris", item: "https://www.aworldtime.com/world-clock/paris" }),
+    ]);
+  });
 });

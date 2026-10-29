@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { ZoneLiveTime } from "@/components/zone-live-time";
 import { countryCodeToFlag } from "@/lib/cities";
 import { COUNTRY_TIME_PAGES, citiesForCountryZone, countryTimeBySlug } from "@/lib/country-times";
-import { absoluteUrl, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
+import { absoluteUrl, buildBreadcrumbJsonLd, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, timeZoneName } from "@/lib/time";
 
 type CountryPageProps = { params: Promise<{ country: string }> };
@@ -71,6 +71,11 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
       })),
     },
   };
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "World clock", path: "/world-clock" },
+    { name: country.name, path: `/time-in/${country.slug}` },
+  ]);
 
   return (
     <div className="site-shell country-time-shell">
@@ -118,6 +123,7 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
         </section>
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
     </div>
   );
 }

@@ -82,4 +82,17 @@ describe("country time route", () => {
     expect(noronhaZone).not.toBeNull();
     expect(within(noronhaZone!).queryByLabelText("City clocks in Atlantic islands")).not.toBeInTheDocument();
   });
+
+  it("emits a country breadcrumb list with canonical URLs", async () => {
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    const { container } = render(await CountryTimePage({ params: Promise.resolve({ country: "brazil" }) }));
+    const schemas = [...container.querySelectorAll('script[type="application/ld+json"]')].map((script) => JSON.parse(script.textContent ?? "{}"));
+    const breadcrumb = schemas.find((schema) => schema["@type"] === "BreadcrumbList");
+
+    expect(breadcrumb?.itemListElement).toEqual([
+      expect.objectContaining({ position: 1, name: "Home", item: "https://www.aworldtime.com/" }),
+      expect.objectContaining({ position: 2, name: "World clock", item: "https://www.aworldtime.com/world-clock" }),
+      expect.objectContaining({ position: 3, name: "Brazil", item: "https://www.aworldtime.com/time-in/brazil" }),
+    ]);
+  });
 });

@@ -7,7 +7,7 @@ import { CITIES, cityBySlug, countryCodeToFlag } from "@/lib/cities";
 import { citySeoTitle } from "@/lib/city-seo";
 import { countryTimeByCode } from "@/lib/country-times";
 import { getPageSeo } from "@/lib/page-seo";
-import { absoluteUrl, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
+import { absoluteUrl, buildBreadcrumbJsonLd, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, getSolarTimes, timeZoneName } from "@/lib/time";
 
 type CityPageProps = { params: Promise<{ city: string }> };
@@ -75,6 +75,11 @@ export default async function CityPage({ params }: CityPageProps) {
     about: { "@type": "City", name: city.name, containedInPlace: { "@type": "Country", name: city.country } },
     dateModified: city.contentUpdatedAt,
   };
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "World clock", path: "/world-clock" },
+    { name: city.name, path: `/world-clock/${city.slug}` },
+  ]);
 
   return (
     <div className="site-shell city-page-shell">
@@ -106,6 +111,7 @@ export default async function CityPage({ params }: CityPageProps) {
         {related.length ? <section className="related-cities"><h2>Related city clocks</h2><div>{related.map((item) => <Link key={item.slug} href={`/world-clock/${item.slug}`}>{item.name}, {item.country}</Link>)}</div></section> : null}
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
     </div>
   );
 }

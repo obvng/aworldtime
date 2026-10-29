@@ -8,6 +8,7 @@ import {
   serializeJsonLd,
   buildArticleJsonLd,
   buildPostMetadata,
+  buildBreadcrumbJsonLd,
 } from "@/lib/seo";
 import { fixturePost } from "@/lib/posts";
 
@@ -44,6 +45,22 @@ describe("shared SEO helpers", () => {
       "@graph": [
         { "@type": "WebSite", "@id": "https://www.aworldtime.com/#website" },
         { "@type": "Organization", "@id": "https://www.aworldtime.com/#organization" },
+      ],
+    });
+  });
+
+  it("builds a canonical breadcrumb list with one-based positions", () => {
+    expect(buildBreadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "World clock", path: "/world-clock" },
+      { name: "Paris", path: "/world-clock/paris" },
+    ])).toEqual({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.aworldtime.com/" },
+        { "@type": "ListItem", position: 2, name: "World clock", item: "https://www.aworldtime.com/world-clock" },
+        { "@type": "ListItem", position: 3, name: "Paris", item: "https://www.aworldtime.com/world-clock/paris" },
       ],
     });
   });
