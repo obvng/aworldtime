@@ -14,7 +14,9 @@ export default function OpenGraphImage() {
         <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 120, display: "flex", opacity: .8, background: "linear-gradient(180deg, transparent, #b9dcff)" }} />
         <main style={{ width: "100%", padding: "72px 82px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 34, fontWeight: 800 }}>
-            <span style={{ width: 58, height: 58, display: "flex", alignItems: "center", justifyContent: "center", border: "4px solid #1769ea", borderRadius: 999, color: "#1769ea", fontSize: 34 }}>◉</span>
+            <span style={{ width: 58, height: 58, display: "flex", alignItems: "center", justifyContent: "center", border: "4px solid #1769ea", borderRadius: 999 }}>
+              <span style={{ width: 20, height: 20, display: "flex", border: "4px solid #1769ea", borderRadius: 999 }} />
+            </span>
             AWORLDTIME.COM
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
