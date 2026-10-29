@@ -35,7 +35,7 @@ function defaultSeo(slug: string) {
   if (!city) return null;
   return {
     title: citySeoTitle(city),
-    description: `Check the current local time in ${city.name}, ${city.country}, plus its UTC offset, daylight-saving status, sunrise and sunset today.`,
+    description: `See the current time in ${city.name}, ${city.country}. ${city.name} follows the ${city.timeZone} time zone; check its UTC offset, DST rules, sunrise and sunset today.`,
   };
 }
 

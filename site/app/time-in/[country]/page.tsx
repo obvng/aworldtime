@@ -23,9 +23,11 @@ function countryTitle(name: string, zoneCount: number) {
     : `Time in ${name} Now: Current Local Time`;
 }
 
-function countryDescription(name: string, zoneCount: number) {
-  const zones = zoneCount > 1 ? "time zones" : "time zone";
-  return `See the current time across ${name}'s IANA ${zones}, with regional coverage, UTC offsets and daylight-saving information.`;
+function countryDescription(summary: string, zoneCount: number) {
+  const lead = summary.split(".")[0];
+  return zoneCount > 1
+    ? `${lead}. See all ${zoneCount} IANA zones with current times, UTC offsets and DST rules.`
+    : `${lead}. See its current local time, UTC offset, DST rules and next clock change.`;
 }
 
 export async function generateMetadata({ params }: CountryPageProps): Promise<Metadata> {
@@ -34,7 +36,7 @@ export async function generateMetadata({ params }: CountryPageProps): Promise<Me
   if (!country) return {};
   return buildPageMetadata({
     title: countryTitle(country.name, country.zones.length),
-    description: countryDescription(country.name, country.zones.length),
+    description: countryDescription(country.summary, country.zones.length),
     path: `/time-in/${country.slug}`,
     absoluteTitle: true,
   });

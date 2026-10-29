@@ -23,10 +23,20 @@ describe("country time route", () => {
     const chile = await generateMetadata({ params: Promise.resolve({ country: "chile" }) });
 
     expect(brazil.title).toEqual({ absolute: "Time in Brazil Now: Current Local Times by Region" });
-    expect(brazil.description).toBe("See the current time across Brazil's IANA time zones, with regional coverage, UTC offsets and daylight-saving information.");
+    expect(brazil.description).toBe("Brazil spans several time zones across the mainland and its Atlantic islands. See all 16 IANA zones with current times, UTC offsets and DST rules.");
     expect(brazil.alternates?.canonical).toBe("https://www.aworldtime.com/time-in/brazil");
     expect(chile.alternates?.canonical).toBe("https://www.aworldtime.com/time-in/chile");
     expect(brazil.description).not.toMatch(/UTC[+-]\d|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/);
+  });
+
+  it("uses distinct stable catalogue data in country descriptions", async () => {
+    const { generateMetadata } = await import("@/app/time-in/[country]/page");
+    const brazil = await generateMetadata({ params: Promise.resolve({ country: "brazil" }) });
+    const bangladesh = await generateMetadata({ params: Promise.resolve({ country: "bangladesh" }) });
+
+    expect(bangladesh.description).toBe("Bangladesh uses one national time zone. See its current local time, UTC offset, DST rules and next clock change.");
+    expect(brazil.description).not.toBe(bangladesh.description);
+    expect(`${brazil.description} ${bangladesh.description}`).not.toMatch(/UTC[+-]\d|in effect|not in effect|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/i);
   });
 
   it("renders a useful single-zone Bangladesh page", async () => {

@@ -54,7 +54,7 @@ describe("generated city route", () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ city: "lagos" }) });
 
     expect(metadata.title).toContain("Lagos");
-    expect(metadata.description).toBe("Check the current local time in Lagos, Nigeria, plus its UTC offset, daylight-saving status, sunrise and sunset today.");
+    expect(metadata.description).toBe("See the current time in Lagos, Nigeria. Lagos follows the Africa/Lagos time zone; check its UTC offset, DST rules, sunrise and sunset today.");
     expect(metadata.alternates?.canonical).toBe("https://www.aworldtime.com/world-clock/lagos");
   });
 
@@ -68,8 +68,20 @@ describe("generated city route", () => {
     vi.setSystemTime(new Date("2026-07-15T12:00:00.000Z"));
     const summer = await generateMetadata({ params: Promise.resolve({ city: "london" }) });
 
-    expect(winter.description).toBe("Check the current local time in London, United Kingdom, plus its UTC offset, daylight-saving status, sunrise and sunset today.");
+    expect(winter.description).toBe("See the current time in London, United Kingdom. London follows the Europe/London time zone; check its UTC offset, DST rules, sunrise and sunset today.");
     expect(summer.description).toBe(winter.description);
+  });
+
+  it("uses distinct stable zone data in fallback descriptions", async () => {
+    getPageSeo.mockResolvedValue(null);
+    const { generateMetadata } = await import("@/app/world-clock/[city]/page");
+    const lagos = await generateMetadata({ params: Promise.resolve({ city: "lagos" }) });
+    const tokyo = await generateMetadata({ params: Promise.resolve({ city: "tokyo" }) });
+
+    expect(lagos.description).not.toBe(tokyo.description);
+    expect(lagos.description).toContain("Africa/Lagos");
+    expect(tokyo.description).toContain("Asia/Tokyo");
+    expect(`${lagos.description} ${tokyo.description}`).not.toMatch(/UTC[+-]\d|next change:|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/i);
   });
 
   it("renders page-specific time, DST, sunrise and sunset facts", async () => {
