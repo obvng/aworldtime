@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ZoneLiveTime } from "@/components/zone-live-time";
 import { countryCodeToFlag } from "@/lib/cities";
-import { COUNTRY_TIME_PAGES, citiesForCountryZone, countryTimeBySlug } from "@/lib/country-times";
+import { COUNTRY_TIME_PAGES, citiesForCountryZone, countrySeoDescription, countrySeoTitle, countryTimeBySlug } from "@/lib/country-times";
+import { getPageSeo } from "@/lib/page-seo";
 import { absoluteUrl, buildBreadcrumbJsonLd, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, timeZoneName } from "@/lib/time";
 
@@ -17,26 +18,14 @@ export function generateStaticParams() {
   return COUNTRY_TIME_PAGES.map((country) => ({ country: country.slug }));
 }
 
-function countryTitle(name: string, zoneCount: number) {
-  return zoneCount > 1
-    ? `Time in ${name} Now: Current Local Times by Region`
-    : `Time in ${name} Now: Current Local Time`;
-}
-
-function countryDescription(summary: string, zoneCount: number) {
-  const lead = summary.split(".")[0];
-  return zoneCount > 1
-    ? `${lead}. See all ${zoneCount} IANA zones with current times, UTC offsets and DST rules.`
-    : `${lead}. See its current local time, UTC offset, DST rules and next clock change.`;
-}
-
 export async function generateMetadata({ params }: CountryPageProps): Promise<Metadata> {
   const { country: slug } = await params;
   const country = countryTimeBySlug(slug);
   if (!country) return {};
+  const override = await getPageSeo(`/time-in/${country.slug}`);
   return buildPageMetadata({
-    title: countryTitle(country.name, country.zones.length),
-    description: countryDescription(country.summary, country.zones.length),
+    title: override?.seo_title || countrySeoTitle(country),
+    description: override?.meta_description || countrySeoDescription(country),
     path: `/time-in/${country.slug}`,
     absoluteTitle: true,
   });
@@ -59,7 +48,7 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: countryTitle(country.name, country.zones.length),
+    name: countrySeoTitle(country),
     url: pageUrl,
     dateModified: country.updatedAt,
     about: { "@type": "Country", name: country.name },

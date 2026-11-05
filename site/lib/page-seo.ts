@@ -9,7 +9,7 @@ export type PageSeo = {
 };
 
 export const pageSeoSchema = z.object({
-  path: z.string().regex(/^\/world-clock\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  path: z.string().regex(/^\/(?:world-clock|time-in)\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
   seo_title: z.string().trim().min(10).max(70),
   meta_description: z.string().trim().min(50).max(170),
 });

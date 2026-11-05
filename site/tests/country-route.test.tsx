@@ -1,7 +1,12 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const mocks = vi.hoisted(() => ({ getPageSeo: vi.fn() }));
+
+vi.mock("@/lib/page-seo", () => ({ getPageSeo: mocks.getPageSeo }));
 
 describe("country time route", () => {
+  beforeEach(() => mocks.getPageSeo.mockResolvedValue(null));
   it("prebuilds only the eight approved country slugs", async () => {
     const { generateStaticParams } = await import("@/app/time-in/[country]/page");
 
@@ -37,6 +42,29 @@ describe("country time route", () => {
     expect(bangladesh.description).toBe("Bangladesh uses one national time zone. See its current local time, UTC offset, DST rules and next clock change.");
     expect(brazil.description).not.toBe(bangladesh.description);
     expect(`${brazil.description} ${bangladesh.description}`).not.toMatch(/UTC[+-]\d|in effect|not in effect|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/i);
+  });
+
+  it("uses a saved country title and description in public metadata", async () => {
+    mocks.getPageSeo.mockResolvedValue({
+      path: "/time-in/france",
+      seo_title: "Time in France Now and Current UTC Offset",
+      meta_description: "Check the current time in mainland France, its UTC offset, daylight-saving rules and next clock change.",
+      updated_at: "2026-11-05T10:00:00.000Z",
+    });
+    const { generateMetadata } = await import("@/app/time-in/[country]/page");
+
+    const france = await generateMetadata({ params: Promise.resolve({ country: "france" }) });
+
+    expect(france.title).toEqual({ absolute: "Time in France Now and Current UTC Offset" });
+    expect(france.description).toBe("Check the current time in mainland France, its UTC offset, daylight-saving rules and next clock change.");
+  });
+
+  it("does not describe all of France as a single IANA time zone", async () => {
+    const { generateMetadata } = await import("@/app/time-in/[country]/page");
+    const france = await generateMetadata({ params: Promise.resolve({ country: "france" }) });
+
+    expect(france.description).toContain("mainland France");
+    expect(france.description).not.toMatch(/France (uses|has|follows) (one|a single) (IANA )?time zone/i);
   });
 
   it("renders a useful single-zone Bangladesh page", async () => {

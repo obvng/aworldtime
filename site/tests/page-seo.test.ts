@@ -7,6 +7,14 @@ describe("page SEO persistence", () => {
     expect(pageSeoSchema.safeParse({ path: "/admin", seo_title: "Bad", meta_description: "Bad" }).success).toBe(false);
   });
 
+  it("accepts public country time pages", () => {
+    expect(pageSeoSchema.safeParse({
+      path: "/time-in/france",
+      seo_title: "Time in France Now and Current UTC Offset",
+      meta_description: "Check the current time in mainland France, its UTC offset, daylight-saving rules and next clock change.",
+    }).success).toBe(true);
+  });
+
   it("upserts and reads back the saved title and description", async () => {
     const stored: Record<string, unknown> = {};
     const single = vi.fn(async () => ({ data: stored, error: null }));

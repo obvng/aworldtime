@@ -100,7 +100,7 @@ export const COUNTRY_TIME_PAGES: CountryTimePage[] = [
     slug: "france",
     name: "France",
     countryCode: "FR",
-    summary: "Mainland France uses the Europe/Paris time zone. Overseas territories have their own country codes and are not grouped into this page.",
+    summary: "This page covers mainland France, which follows Europe/Paris. Overseas territories have their own country codes and are not grouped here.",
     updatedAt: UPDATED_AT,
     zones: [{ timeZone: "Europe/Paris", regions: "Mainland France" }],
   },
@@ -113,6 +113,19 @@ export function countryTimeBySlug(slug: string) {
 export function countryTimeByCode(code: string) {
   const normalized = code.trim().toUpperCase();
   return COUNTRY_TIME_PAGES.find((country) => country.countryCode === normalized);
+}
+
+export function countrySeoTitle(country: CountryTimePage) {
+  return country.zones.length > 1
+    ? `Time in ${country.name} Now: Current Local Times by Region`
+    : `Time in ${country.name} Now: Current Local Time`;
+}
+
+export function countrySeoDescription(country: CountryTimePage) {
+  const lead = country.summary.split(".")[0];
+  return country.zones.length > 1
+    ? `${lead}. See all ${country.zones.length} IANA zones with current times, UTC offsets and DST rules.`
+    : `${lead}. See its current local time, UTC offset, DST rules and next clock change.`;
 }
 import { CITIES } from "@/lib/cities";
 

@@ -46,4 +46,27 @@ describe("city SEO admin form action", () => {
     });
     expect(mocks.revalidatePath).toHaveBeenCalledWith("/world-clock/lagos");
   });
+
+  it("writes a country-page override through the same verified save path", async () => {
+    let savedRow: Record<string, unknown> | null = null;
+    const single = vi.fn(async () => ({ data: savedRow, error: null }));
+    const select = vi.fn(() => ({ single }));
+    const upsert = vi.fn((payload: Record<string, unknown>) => {
+      savedRow = { ...payload, updated_at: "2026-11-05T10:00:00.000Z" };
+      return { select };
+    });
+    mocks.requireAdmin.mockResolvedValue({
+      userId: "admin-user",
+      supabase: { from: vi.fn(() => ({ upsert })) },
+    });
+
+    const formData = new FormData();
+    formData.set("path", "/time-in/france");
+    formData.set("seo_title", "Time in France Now and Current UTC Offset");
+    formData.set("meta_description", "Check the current time in mainland France, its UTC offset, daylight-saving rules and next clock change.");
+
+    await expect(savePageSeoOverride({ status: "idle" }, formData)).resolves.toEqual({ status: "success" });
+    expect(savedRow).toMatchObject({ path: "/time-in/france" });
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/time-in/france");
+  });
 });
