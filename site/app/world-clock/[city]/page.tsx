@@ -66,6 +66,21 @@ export default async function CityPage({ params }: CityPageProps) {
   const transition = zone.nextTransition
     ? new Intl.DateTimeFormat("en-GB", { dateStyle: "long", timeStyle: "short", timeZone: city.timeZone }).format(zone.nextTransition)
     : null;
+  const daylightStatus = zone.nextTransition
+    ? (zone.isDaylightSavingTime ? "In effect" : "Not in effect")
+    : (zone.isDaylightSavingTime ? "No scheduled change" : "Not in effect");
+  const daylightDetail = zone.nextTransition
+    ? `Next change: ${transition} to ${zone.nextOffsetLabel}`
+    : zone.isDaylightSavingTime
+      ? "No future clock change is currently scheduled."
+      : `${city.name} does not observe daylight saving time.`;
+  const daylightExplanation = zone.nextTransition
+    ? zone.isDaylightSavingTime
+      ? `Daylight saving time is currently active, and the next offset change is scheduled for ${transition}.`
+      : `Daylight saving time is not active now. The next offset change is scheduled for ${transition}.`
+    : zone.isDaylightSavingTime
+      ? "No future clock change is currently scheduled for this time zone."
+      : `${city.name} keeps the same UTC offset throughout the year.`;
   const pageUrl = absoluteUrl(`/world-clock/${city.slug}`);
   const jsonLd = {
     "@context": "https://schema.org",
@@ -95,14 +110,14 @@ export default async function CityPage({ params }: CityPageProps) {
 
         <section className="city-fact-grid" aria-label={`${city.name} time and daylight facts`}>
           <article><span>UTC offset on {solarDate}</span><strong>{zone.offsetLabel}</strong><p>{zoneName}</p></article>
-          <article><span>Daylight saving time</span><strong>{zone.isDaylightSavingTime ? "In effect" : "Not in effect"}</strong><p>{zone.nextTransition ? `Next change: ${transition} to ${zone.nextOffsetLabel}` : `${city.name} does not observe daylight saving time.`}</p></article>
+          <article><span>Daylight saving time</span><strong>{daylightStatus}</strong><p>{daylightDetail}</p></article>
           <article><span>Sunrise on {solarDate}</span><strong>{solar.sunrise ?? "No sunrise"}</strong><p>Local time in {city.name}</p></article>
           <article><span>Sunset on {solarDate}</span><strong>{solar.sunset ?? "No sunset"}</strong><p>{solar.dayLengthMinutes ? `${Math.floor(solar.dayLengthMinutes / 60)} hr ${solar.dayLengthMinutes % 60} min of daylight on ${solarDate}` : `Polar day or night on ${solarDate}`}</p></article>
         </section>
 
         <section className="city-explainer">
           <h2>Time in {city.name}</h2>
-          <p>{city.name} follows the {city.timeZone} time zone. Its current offset is {zone.offsetLabel}. {zone.isDaylightSavingTime ? `Daylight saving time is currently active, and the next offset change is scheduled for ${transition}.` : zone.nextTransition ? `Daylight saving time is not active now. The next offset change is scheduled for ${transition}.` : `${city.name} keeps the same UTC offset throughout the year.`}</p>
+          <p>{city.name} follows the {city.timeZone} time zone. Its current offset is {zone.offsetLabel}. {daylightExplanation}</p>
           <p>On {solarDate}, sunrise is at {solar.sunrise ?? "an unavailable time"} and sunset is at {solar.sunset ?? "an unavailable time"}, using coordinates {Math.abs(city.latitude).toFixed(4)}°{city.latitude >= 0 ? "N" : "S"}, {Math.abs(city.longitude).toFixed(4)}°{city.longitude >= 0 ? "E" : "W"}.</p>
           {countryPage ? <p><Link href={`/time-in/${countryPage.slug}`}>See all time zones in {countryPage.name}</Link>, including their current UTC offsets and seasonal clock changes.</p> : null}
           <Link className="admin-primary" href={`/converter?from=${encodeURIComponent(city.slug)}`}>Convert {city.name} time</Link>

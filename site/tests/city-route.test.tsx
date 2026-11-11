@@ -99,6 +99,20 @@ describe("generated city route", () => {
     expect(screen.getByText(/Sunrise on \d{2} \w+ \d{4}/)).toBeVisible();
   });
 
+  it("does not show contradictory DST copy when a city has no future clock change", async () => {
+    getPageSeo.mockResolvedValue(null);
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-11-11T10:00:00.000Z"));
+    const { default: CityPage } = await import("@/app/world-clock/[city]/page");
+    render(await CityPage({ params: Promise.resolve({ city: "vancouver" }) }));
+
+    expect(screen.getByText("No scheduled change")).toBeVisible();
+    expect(screen.getByText("No future clock change is currently scheduled.")).toBeVisible();
+    expect(screen.queryByText("In effect")).not.toBeInTheDocument();
+    expect(screen.queryByText(/does not observe daylight saving time/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/scheduled for null/i)).not.toBeInTheDocument();
+  });
+
   it("links a city to its country time page when one is available", async () => {
     getPageSeo.mockResolvedValue(null);
     const { default: CityPage } = await import("@/app/world-clock/[city]/page");
