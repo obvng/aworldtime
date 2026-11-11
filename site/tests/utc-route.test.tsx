@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 describe("UTC route", () => {
   it("uses stable self-canonical metadata", async () => {
     const { generateMetadata } = await import("@/app/utc/page");
-    const metadata = generateMetadata();
+    const metadata = await generateMetadata();
 
     expect(metadata.title).toEqual({ absolute: "UTC Time Now: Current Coordinated Universal Time" });
     expect(metadata.description).toBe("See the current UTC time and compare major world time zones against Coordinated Universal Time.");

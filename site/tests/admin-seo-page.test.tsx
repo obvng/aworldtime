@@ -24,4 +24,18 @@ describe("page SEO admin", () => {
     expect(screen.getByDisplayValue("/time-in/france")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View page" })).toHaveAttribute("href", "/time-in/france");
   });
+
+  it("lists all six main pages and loads UTC for editing", async () => {
+    const { default: PageSeoAdminPage } = await import("@/app/admin/seo/page");
+
+    render(await PageSeoAdminPage({ searchParams: Promise.resolve({ path: "/utc" }) }));
+
+    const picker = screen.getByLabelText("Page");
+    expect(picker).toHaveValue("/utc");
+    expect(screen.getByRole("option", { name: "Home" })).toBeInTheDocument();
+    for (const path of ["/", "/world-clock", "/converter", "/meeting-planner", "/blog", "/utc"]) {
+      expect(picker.querySelector(`option[value="${path}"]`)).not.toBeNull();
+    }
+    expect(screen.getByRole("link", { name: "View page" })).toHaveAttribute("href", "/utc");
+  });
 });

@@ -6,13 +6,11 @@ import { LocalTimeHero } from "@/components/local-time-hero";
 import { PostCard } from "@/components/blog/post-card";
 import { SiteHeader } from "@/components/site-header";
 import { listPublishedPosts, selectLatestGuides } from "@/lib/posts";
-import { buildPageMetadata } from "@/lib/seo";
+import { getEditableMainPageMetadata } from "@/lib/editable-page-metadata";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "World Clock, Time Zone Converter & Meeting Planner",
-  description: "Check your local time, compare clocks worldwide, convert time zones, and find practical meeting times across countries.",
-  path: "/",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return getEditableMainPageMetadata("/");
+}
 
 export default async function Home() {
   const initialNow = new Date().toISOString();

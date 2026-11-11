@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { PostCard } from "@/components/blog/post-card";
 import { SiteHeader } from "@/components/site-header";
 import { listPublishedPosts } from "@/lib/posts";
-import { buildPageMetadata } from "@/lib/seo";
+import { getEditableMainPageMetadata } from "@/lib/editable-page-metadata";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "Time Zone, Travel and Meeting Guides",
-  description: "Read practical guides about time zones, daylight saving changes, international meetings, calendars, and global travel planning.",
-  path: "/blog",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return getEditableMainPageMetadata("/blog");
+}
 
 export default async function BlogPage() {
   const posts = await listPublishedPosts();

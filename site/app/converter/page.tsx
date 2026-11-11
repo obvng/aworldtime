@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { TimeConverter } from "@/components/time-converter";
-import { buildPageMetadata, buildWebApplicationJsonLd, serializeJsonLd } from "@/lib/seo";
+import { getEditableMainPageMetadata } from "@/lib/editable-page-metadata";
+import { buildWebApplicationJsonLd, serializeJsonLd } from "@/lib/seo";
 import { resolveConverterSelections } from "@/lib/converter-usage";
 
 const title = "Time Zone Converter: Compare Times Worldwide";
 const description = "Convert a date and time between cities worldwide and see the corresponding local time across international time zones.";
 
-export const metadata: Metadata = buildPageMetadata({ title, description, path: "/converter" });
+export async function generateMetadata(): Promise<Metadata> {
+  return getEditableMainPageMetadata("/converter");
+}
 
 export default async function ConverterPage({ searchParams }: { searchParams: Promise<{ from?: string; to?: string }> }) {
   const selections = resolveConverterSelections(await searchParams);

@@ -69,4 +69,27 @@ describe("city SEO admin form action", () => {
     expect(savedRow).toMatchObject({ path: "/time-in/france" });
     expect(mocks.revalidatePath).toHaveBeenCalledWith("/time-in/france");
   });
+
+  it("writes a converter override through the verified save path", async () => {
+    let savedRow: Record<string, unknown> | null = null;
+    const single = vi.fn(async () => ({ data: savedRow, error: null }));
+    const select = vi.fn(() => ({ single }));
+    const upsert = vi.fn((payload: Record<string, unknown>) => {
+      savedRow = { ...payload, updated_at: "2026-11-11T10:00:00.000Z" };
+      return { select };
+    });
+    mocks.requireAdmin.mockResolvedValue({
+      userId: "admin-user",
+      supabase: { from: vi.fn(() => ({ upsert })) },
+    });
+
+    const formData = new FormData();
+    formData.set("path", "/converter");
+    formData.set("seo_title", "Time Zone Converter for Cities Worldwide");
+    formData.set("meta_description", "Convert dates and times between cities worldwide and compare the matching local time in each selected time zone.");
+
+    await expect(savePageSeoOverride({ status: "idle" }, formData)).resolves.toEqual({ status: "success" });
+    expect(savedRow).toMatchObject({ path: "/converter" });
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/converter");
+  });
 });

@@ -1,4 +1,5 @@
 import { createClient, hasSupabaseConfig } from "@/lib/supabase/server";
+import { MAIN_PAGE_SEO } from "@/lib/main-page-seo";
 import { z } from "zod";
 
 export type PageSeo = {
@@ -8,8 +9,10 @@ export type PageSeo = {
   updated_at: string;
 };
 
+const mainPagePaths = new Set<string>(MAIN_PAGE_SEO.map((page) => page.path));
+
 export const pageSeoSchema = z.object({
-  path: z.string().regex(/^\/(?:world-clock|time-in)\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  path: z.string().refine((path) => mainPagePaths.has(path) || /^\/(?:world-clock|time-in)\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(path)),
   seo_title: z.string().trim().min(10).max(70),
   meta_description: z.string().trim().min(50).max(170),
 });

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { ZoneLiveTime } from "@/components/zone-live-time";
-import { absoluteUrl, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
+import { getEditableMainPageMetadata } from "@/lib/editable-page-metadata";
+import { absoluteUrl, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, timeZoneName } from "@/lib/time";
 import { UTC_COMPARISON_ZONES } from "@/lib/utc-comparisons";
 
@@ -11,8 +12,8 @@ const description = "See the current UTC time and compare major world time zones
 
 export const dynamic = "force-dynamic";
 
-export function generateMetadata(): Metadata {
-  return buildPageMetadata({ title, description, path: "/utc", absoluteTitle: true });
+export async function generateMetadata(): Promise<Metadata> {
+  return getEditableMainPageMetadata("/utc");
 }
 
 export default async function UtcPage() {

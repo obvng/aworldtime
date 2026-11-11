@@ -15,6 +15,17 @@ describe("page SEO persistence", () => {
     }).success).toBe(true);
   });
 
+  it.each(["/", "/world-clock", "/converter", "/meeting-planner", "/blog", "/utc"])(
+    "accepts the editable main page %s",
+    (path) => {
+      expect(pageSeoSchema.safeParse({
+        path,
+        seo_title: "Editable main page title for search results",
+        meta_description: "This main page description is long enough to save through the SEO editor and appear in search results.",
+      }).success).toBe(true);
+    },
+  );
+
   it("upserts and reads back the saved title and description", async () => {
     const stored: Record<string, unknown> = {};
     const single = vi.fn(async () => ({ data: stored, error: null }));
