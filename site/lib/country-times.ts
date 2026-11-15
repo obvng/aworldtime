@@ -1,3 +1,5 @@
+import { CITIES } from "@/lib/cities";
+
 export type CountryZone = {
   timeZone: string;
   regions: string;
@@ -12,9 +14,9 @@ export type CountryTimePage = {
   zones: CountryZone[];
 };
 
-const UPDATED_AT = "2026-10-29T00:00:00.000Z";
+const UPDATED_AT = "2026-11-15T00:00:00.000Z";
 
-export const COUNTRY_TIME_PAGES: CountryTimePage[] = [
+const CURATED_COUNTRY_TIME_PAGES: CountryTimePage[] = [
   {
     slug: "brazil",
     name: "Brazil",
@@ -104,7 +106,88 @@ export const COUNTRY_TIME_PAGES: CountryTimePage[] = [
     updatedAt: UPDATED_AT,
     zones: [{ timeZone: "Europe/Paris", regions: "Mainland France" }],
   },
+  {
+    slug: "canada",
+    name: "Canada",
+    countryCode: "CA",
+    summary: "Canada spans several time zones from Newfoundland to the Pacific and Yukon. Some regions keep a fixed offset while others change clocks seasonally.",
+    updatedAt: UPDATED_AT,
+    zones: [
+      { timeZone: "America/St_Johns", regions: "Newfoundland and southeastern Labrador" },
+      { timeZone: "America/Halifax", regions: "Atlantic Canada" },
+      { timeZone: "America/Toronto", regions: "Most of Ontario and Quebec" },
+      { timeZone: "America/Winnipeg", regions: "Manitoba and northwestern Ontario" },
+      { timeZone: "America/Regina", regions: "Most of Saskatchewan, which keeps standard time year-round" },
+      { timeZone: "America/Edmonton", regions: "Alberta and parts of western Canada" },
+      { timeZone: "America/Vancouver", regions: "Most of British Columbia" },
+      { timeZone: "America/Whitehorse", regions: "Yukon" },
+    ],
+  },
+  {
+    slug: "united-states",
+    name: "United States",
+    countryCode: "US",
+    summary: "The United States spans several time zones across the mainland, Alaska, the Aleutian Islands and Hawaii. Arizona and Hawaii do not follow the seasonal clock changes used in most states.",
+    updatedAt: UPDATED_AT,
+    zones: [
+      { timeZone: "America/New_York", regions: "Eastern Time" },
+      { timeZone: "America/Chicago", regions: "Central Time" },
+      { timeZone: "America/Denver", regions: "Mountain Time" },
+      { timeZone: "America/Phoenix", regions: "Most of Arizona, which keeps standard time year-round" },
+      { timeZone: "America/Los_Angeles", regions: "Pacific Time" },
+      { timeZone: "America/Anchorage", regions: "Most of Alaska" },
+      { timeZone: "America/Adak", regions: "Western Aleutian Islands" },
+      { timeZone: "Pacific/Honolulu", regions: "Hawaii, which keeps standard time year-round" },
+    ],
+  },
 ];
+
+function countrySlug(name: string) {
+  return name
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function derivedCountryPages(): CountryTimePage[] {
+  const curatedCodes = new Set(CURATED_COUNTRY_TIME_PAGES.map((country) => country.countryCode));
+  const countries = new Map<string, { name: string; zones: Map<string, string[]> }>();
+
+  for (const city of CITIES) {
+    if (curatedCodes.has(city.countryCode)) continue;
+    const country = countries.get(city.countryCode) ?? { name: city.country, zones: new Map<string, string[]>() };
+    const cities = country.zones.get(city.timeZone) ?? [];
+    cities.push(city.name);
+    country.zones.set(city.timeZone, cities);
+    countries.set(city.countryCode, country);
+  }
+
+  return [...countries.entries()].map(([countryCode, country]) => {
+    const zones = [...country.zones.entries()].map(([timeZone, cities]) => ({
+      timeZone,
+      regions: country.zones.size === 1 ? `All of ${country.name}` : `Areas using ${cities.join(", ")}'s time zone`,
+    }));
+    const summary = zones.length === 1
+      ? `${country.name} uses one national time zone. The same local time applies across the country.`
+      : `${country.name} uses more than one time zone. The clocks below show the zones represented by its city pages.`;
+    return {
+      slug: countrySlug(country.name),
+      name: country.name,
+      countryCode,
+      summary,
+      updatedAt: UPDATED_AT,
+      zones,
+    };
+  });
+}
+
+export const COUNTRY_TIME_PAGES: CountryTimePage[] = [
+  ...CURATED_COUNTRY_TIME_PAGES,
+  ...derivedCountryPages(),
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export function countryTimeBySlug(slug: string) {
   return COUNTRY_TIME_PAGES.find((country) => country.slug === slug);
@@ -127,9 +210,6 @@ export function countrySeoDescription(country: CountryTimePage) {
     ? `${lead}. See all ${country.zones.length} IANA zones with current times, UTC offsets and DST rules.`
     : `${lead}. See its current local time, UTC offset, DST rules and next clock change.`;
 }
-import { CITIES } from "@/lib/cities";
-
-
 export function citiesForCountryZone(countryCode: string, timeZone: string) {
   const normalizedCode = countryCode.trim().toUpperCase();
   return CITIES.filter((city) => city.countryCode === normalizedCode && city.timeZone === timeZone);

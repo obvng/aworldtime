@@ -31,11 +31,11 @@ describe("generated city route", () => {
     vi.useRealTimers();
   });
 
-  it("prebuilds exactly the 100 catalogue slugs", async () => {
+  it("prebuilds every catalogue slug", async () => {
     const { generateStaticParams } = await import("@/app/world-clock/[city]/page");
     const params = await generateStaticParams();
 
-    expect(params).toHaveLength(100);
+    expect(params).toHaveLength(CITIES.length);
     expect(params).toContainEqual({ city: "lagos" });
   });
 

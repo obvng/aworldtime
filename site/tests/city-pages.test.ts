@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { CITIES, cityBySlug } from "@/lib/cities";
 
 describe("city page catalogue", () => {
-  it("contains exactly 100 cities with unique, valid slugs", () => {
-    expect(CITIES).toHaveLength(100);
-    expect(new Set(CITIES.map((city) => city.slug)).size).toBe(100);
+  it("contains unique, valid city slugs", () => {
+    expect(CITIES.length).toBeGreaterThanOrEqual(100);
+    expect(new Set(CITIES.map((city) => city.slug)).size).toBe(CITIES.length);
     expect(CITIES.every((city) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(city.slug))).toBe(true);
   });
 

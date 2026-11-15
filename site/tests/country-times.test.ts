@@ -1,18 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { COUNTRY_TIME_PAGES, countryTimeByCode, countryTimeBySlug } from "@/lib/country-times";
+import { CITIES } from "@/lib/cities";
+import { COUNTRY_TIME_PAGES, citiesForCountryZone, countryTimeByCode, countryTimeBySlug } from "@/lib/country-times";
 
 describe("country time catalogue", () => {
-  it("contains only the eight demand-backed country routes", () => {
-    expect(COUNTRY_TIME_PAGES.map((country) => country.slug)).toEqual([
-      "brazil",
-      "bangladesh",
-      "turkey",
-      "chile",
-      "japan",
-      "germany",
-      "algeria",
-      "france",
-    ]);
+  it("contains a country route for every country represented by a city page", () => {
+    const cityCountryCodes = [...new Set(CITIES.map((city) => city.countryCode))].sort();
+    const pageCountryCodes = COUNTRY_TIME_PAGES.map((country) => country.countryCode).sort();
+
+    expect(pageCountryCodes).toEqual(cityCountryCodes);
   });
 
   it("keeps every IANA zone listed for Brazil", () => {
@@ -57,8 +52,27 @@ describe("country time catalogue", () => {
     ]);
   });
 
-  it("returns no page for an unsupported country", () => {
-    expect(countryTimeBySlug("canada")).toBeUndefined();
-    expect(countryTimeByCode("CA")).toBeUndefined();
+  it("adds pages for Canada and the United States", () => {
+    expect(countryTimeBySlug("canada")?.zones.map((zone) => zone.timeZone)).toEqual(expect.arrayContaining([
+      "America/Toronto",
+      "America/Vancouver",
+      "America/Regina",
+    ]));
+    expect(countryTimeByCode("US")?.zones.map((zone) => zone.timeZone)).toEqual(expect.arrayContaining([
+      "America/New_York",
+      "America/Chicago",
+      "America/Los_Angeles",
+      "America/Phoenix",
+      "Pacific/Honolulu",
+    ]));
+  });
+
+  it("gives every Brazilian IANA zone a matching city clock", () => {
+    const brazil = countryTimeBySlug("brazil");
+    expect(brazil).toBeDefined();
+
+    for (const zone of brazil!.zones) {
+      expect(citiesForCountryZone("BR", zone.timeZone).length, zone.timeZone).toBeGreaterThan(0);
+    }
   });
 });

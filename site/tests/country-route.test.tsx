@@ -14,19 +14,16 @@ describe("country time route", () => {
     mocks.getPageSeo.mockResolvedValue(null);
     mocks.listPublishedPosts.mockResolvedValue([]);
   });
-  it("prebuilds only the eight approved country slugs", async () => {
+  it("prebuilds a route for every represented country", async () => {
     const { generateStaticParams } = await import("@/app/time-in/[country]/page");
+    const { CITIES } = await import("@/lib/cities");
 
-    expect(await generateStaticParams()).toEqual([
+    expect(await generateStaticParams()).toHaveLength(new Set(CITIES.map((city) => city.countryCode)).size);
+    expect(await generateStaticParams()).toEqual(expect.arrayContaining([
       { country: "brazil" },
-      { country: "bangladesh" },
-      { country: "turkey" },
-      { country: "chile" },
-      { country: "japan" },
-      { country: "germany" },
-      { country: "algeria" },
-      { country: "france" },
-    ]);
+      { country: "canada" },
+      { country: "united-states" },
+    ]));
   });
 
   it("builds stable, self-canonical country metadata", async () => {
@@ -109,6 +106,10 @@ describe("country time route", () => {
     expect(within(directory).getByRole("link", { name: "São Paulo" })).toHaveAttribute("href", "/world-clock/sao-paulo");
     expect(within(directory).getByRole("link", { name: "Rio de Janeiro" })).toHaveAttribute("href", "/world-clock/rio-de-janeiro");
     expect(within(directory).getByRole("link", { name: "Brasília" })).toHaveAttribute("href", "/world-clock/brasilia");
+
+    for (const zoneCard of screen.getAllByTestId("country-zone-card")) {
+      expect(within(zoneCard).getByRole("link", { name: /city clock/i })).toHaveAttribute("href", expect.stringMatching(/^\/world-clock\//));
+    }
   });
 
   it("links a single-zone country to its catalogue city", async () => {
@@ -133,13 +134,13 @@ describe("country time route", () => {
     expect(screen.getByRole("link", { name: "What Time Does Brazil Use?" })).toHaveAttribute("href", "/blog/what-time-does-brazil-use");
   });
 
-  it("does not render an empty city-link group for an unrepresented zone", async () => {
+  it("links the Atlantic islands zone to its representative city clock", async () => {
     const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
     render(await CountryTimePage({ params: Promise.resolve({ country: "brazil" }) }));
 
     const noronhaZone = screen.getByText("America/Noronha").closest("article");
     expect(noronhaZone).not.toBeNull();
-    expect(within(noronhaZone!).queryByLabelText("City clocks in Atlantic islands")).not.toBeInTheDocument();
+    expect(within(noronhaZone!).getByRole("link", { name: /fernando de noronha city clock/i })).toHaveAttribute("href", "/world-clock/fernando-de-noronha");
   });
 
   it("emits a country breadcrumb list with canonical URLs", async () => {

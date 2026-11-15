@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ZoneLiveTime } from "@/components/zone-live-time";
 import { CITIES, countryCodeToFlag } from "@/lib/cities";
-import { COUNTRY_TIME_PAGES, countrySeoDescription, countrySeoTitle, countryTimeBySlug } from "@/lib/country-times";
+import { citiesForCountryZone, COUNTRY_TIME_PAGES, countrySeoDescription, countrySeoTitle, countryTimeBySlug } from "@/lib/country-times";
 import { getPageSeo } from "@/lib/page-seo";
 import { listPublishedPosts } from "@/lib/posts";
 import { selectRelatedGuides } from "@/lib/related-guides";
@@ -87,6 +87,7 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
 
         <section className="country-zone-grid" aria-label={`${country.name} time zones`}>
           {zoneFacts.map((zone) => {
+            const zoneCities = citiesForCountryZone(country.countryCode, zone.timeZone);
             const transition = zone.details.nextTransition
               ? new Intl.DateTimeFormat("en-GB", { dateStyle: "long", timeStyle: "short", timeZone: zone.timeZone }).format(zone.details.nextTransition)
               : null;
@@ -106,6 +107,11 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
                     ? `Next clock change: ${transition} to ${zone.details.nextOffsetLabel}.`
                     : "No seasonal clock change is scheduled for this zone."}
                 </p>
+                {zoneCities[0] ? (
+                  <Link href={`/world-clock/${zoneCities[0].slug}`}>
+                    {zoneCities[0].name} city clock
+                  </Link>
+                ) : null}
               </article>
             );
           })}

@@ -55,7 +55,7 @@ describe("search indexing documents", () => {
       "https://www.aworldtime.com/blog",
     ]);
     const cityEntries = entries.filter((entry) => entry.url.includes("/world-clock/"));
-    expect(cityEntries).toHaveLength(100);
+    expect(cityEntries).toHaveLength(CITIES.length);
     expect(cityEntries.map((entry) => entry.url)).toEqual(
       CITIES.map((city) => `https://www.aworldtime.com/world-clock/${city.slug}`),
     );
@@ -65,7 +65,8 @@ describe("search indexing documents", () => {
       "https://www.aworldtime.com/utc",
       ...COUNTRY_TIME_PAGES.map((country) => `https://www.aworldtime.com/time-in/${country.slug}`),
     ]);
-    expect(newToolEntries.every((entry) => new Date(entry.lastModified as Date).toISOString() === "2026-10-29T00:00:00.000Z")).toBe(true);
+    expect(newToolEntries.find((entry) => entry.url.endsWith("/utc"))?.lastModified).toEqual(new Date("2026-10-29T00:00:00.000Z"));
+    expect(newToolEntries.filter((entry) => entry.url.includes("/time-in/")).every((entry) => new Date(entry.lastModified as Date).toISOString() === "2026-11-15T00:00:00.000Z")).toBe(true);
     expect(entries.slice(0, 5).every((entry) => new Date(entry.lastModified as Date).toISOString() === "2026-09-25T00:00:00.000Z")).toBe(true);
     expect(entries.some((entry) => entry.url.includes("/admin"))).toBe(false);
   });

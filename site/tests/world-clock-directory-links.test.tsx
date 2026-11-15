@@ -5,11 +5,11 @@ import { CITIES } from "@/lib/cities";
 import { COUNTRY_TIME_PAGES } from "@/lib/country-times";
 
 describe("world clock directory discovery", () => {
-  it("renders crawlable links to all 100 city pages without interaction", () => {
+  it("renders crawlable links to every city page without interaction", () => {
     render(<WorldClockDirectory />);
     const cityLinks = screen.getAllByRole("link").filter((link) => link.getAttribute("href")?.startsWith("/world-clock/"));
 
-    expect(cityLinks).toHaveLength(100);
+    expect(cityLinks).toHaveLength(CITIES.length);
     expect(cityLinks.map((link) => link.getAttribute("href"))).toEqual(
       CITIES.map((city) => `/world-clock/${city.slug}`),
     );
