@@ -3,9 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ZoneLiveTime } from "@/components/zone-live-time";
-import { countryCodeToFlag } from "@/lib/cities";
-import { COUNTRY_TIME_PAGES, citiesForCountryZone, countrySeoDescription, countrySeoTitle, countryTimeBySlug } from "@/lib/country-times";
+import { CITIES, countryCodeToFlag } from "@/lib/cities";
+import { COUNTRY_TIME_PAGES, countrySeoDescription, countrySeoTitle, countryTimeBySlug } from "@/lib/country-times";
 import { getPageSeo } from "@/lib/page-seo";
+import { listPublishedPosts } from "@/lib/posts";
+import { selectRelatedGuides } from "@/lib/related-guides";
 import { absoluteUrl, buildBreadcrumbJsonLd, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, timeZoneName } from "@/lib/time";
 
@@ -36,6 +38,9 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
   const country = countryTimeBySlug(slug);
   if (!country) notFound();
 
+  const posts = await listPublishedPosts();
+  const countryCities = CITIES.filter((city) => city.countryCode === country.countryCode);
+  const relatedGuides = selectRelatedGuides(posts, { countryCode: country.countryCode });
   const now = new Date();
   const initialNow = now.toISOString();
   const pageUrl = absoluteUrl(`/time-in/${country.slug}`);
@@ -43,7 +48,6 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
     ...entry,
     details: describeTimeZone(now, entry.timeZone),
     name: timeZoneName(now, entry.timeZone),
-    cities: citiesForCountryZone(country.countryCode, entry.timeZone),
   }));
   const jsonLd = {
     "@context": "https://schema.org",
@@ -102,16 +106,26 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
                     ? `Next clock change: ${transition} to ${zone.details.nextOffsetLabel}.`
                     : "No seasonal clock change is scheduled for this zone."}
                 </p>
-                {zone.cities.length ? (
-                  <nav className="country-zone-cities" aria-label={`City clocks in ${zone.regions}`}>
-                    <span>City clocks</span>
-                    <div>{zone.cities.map((city) => <Link key={city.slug} href={`/world-clock/${city.slug}`}>{city.name}</Link>)}</div>
-                  </nav>
-                ) : null}
               </article>
             );
           })}
         </section>
+
+        {countryCities.length ? (
+          <section className="related-cities">
+            <h2>City clocks in {country.name}</h2>
+            <nav aria-label={`City clocks in ${country.name}`}>
+              <div>{countryCities.map((city) => <Link key={city.slug} href={`/world-clock/${city.slug}`}>{city.name}</Link>)}</div>
+            </nav>
+          </section>
+        ) : null}
+
+        {relatedGuides.length ? (
+          <section className="related-cities">
+            <h2>Related time guides</h2>
+            <div>{relatedGuides.map((guide) => <Link key={guide.slug} href={`/blog/${guide.slug}`}>{guide.title}</Link>)}</div>
+          </section>
+        ) : null}
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />

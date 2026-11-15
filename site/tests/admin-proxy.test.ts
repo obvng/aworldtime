@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 
-const getClaims = vi.fn();
+const { getClaims, createServerClient } = vi.hoisted(() => ({ getClaims: vi.fn(), createServerClient: vi.fn() }));
 
 vi.mock("@supabase/ssr", () => ({
-  createServerClient: () => ({ auth: { getClaims } }),
+  createServerClient,
 }));
 
 import { updateSession } from "@/lib/supabase/proxy";
@@ -14,6 +14,14 @@ describe("admin session proxy", () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL = "https://example.supabase.co";
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "publishable";
     getClaims.mockResolvedValue({ data: { claims: null } });
+    createServerClient.mockImplementation((_url, _key, options) => ({
+      auth: {
+        getClaims: async () => {
+          options.cookies.setAll([{ name: "sb-session", value: "refreshed", options: {} }], {});
+          return getClaims();
+        },
+      },
+    }));
   });
 
   afterEach(() => {
@@ -32,5 +40,16 @@ describe("admin session proxy", () => {
     const response = await updateSession(new NextRequest("https://www.aworldtime.com/admin/forgot-password"));
 
     expect(response.headers.get("location")).toBeNull();
+  });
+
+  it("keeps refreshed admin cookies for 90 days", async () => {
+    const response = await updateSession(new NextRequest("https://www.aworldtime.com/admin/login"));
+
+    expect(response.cookies.get("sb-session")).toMatchObject({ value: "refreshed" });
+    expect(createServerClient).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.any(String),
+      expect.objectContaining({ cookieOptions: expect.objectContaining({ maxAge: 7_776_000 }) }),
+    );
   });
 });

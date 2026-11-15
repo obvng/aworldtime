@@ -7,6 +7,8 @@ import { CITIES, cityBySlug, countryCodeToFlag } from "@/lib/cities";
 import { citySeoTitle } from "@/lib/city-seo";
 import { countryTimeByCode } from "@/lib/country-times";
 import { getPageSeo } from "@/lib/page-seo";
+import { listPublishedPosts } from "@/lib/posts";
+import { selectRelatedGuides } from "@/lib/related-guides";
 import { absoluteUrl, buildBreadcrumbJsonLd, buildPageMetadata, serializeJsonLd } from "@/lib/seo";
 import { describeTimeZone, getSolarTimes, timeZoneName } from "@/lib/time";
 
@@ -60,6 +62,7 @@ export default async function CityPage({ params }: CityPageProps) {
   const facts = cityFacts(slug, now);
   if (!facts) notFound();
   const { city, zone, solar, zoneName } = facts;
+  const relatedGuides = selectRelatedGuides(await listPublishedPosts(), { countryCode: city.countryCode, timeZone: city.timeZone });
   const countryPage = countryTimeByCode(city.countryCode);
   const related = CITIES.filter((candidate) => candidate.slug !== city.slug && (candidate.country === city.country || candidate.timeZone === city.timeZone)).slice(0, 6);
   const solarDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric", timeZone: city.timeZone }).format(now);
@@ -124,6 +127,7 @@ export default async function CityPage({ params }: CityPageProps) {
         </section>
 
         {related.length ? <section className="related-cities"><h2>Related city clocks</h2><div>{related.map((item) => <Link key={item.slug} href={`/world-clock/${item.slug}`}>{item.name}, {item.country}</Link>)}</div></section> : null}
+        {relatedGuides.length ? <section className="related-cities"><h2>Related time guides</h2><div>{relatedGuides.map((guide) => <Link key={guide.slug} href={`/blog/${guide.slug}`}>{guide.title}</Link>)}</div></section> : null}
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />

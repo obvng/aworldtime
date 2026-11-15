@@ -1,12 +1,19 @@
 import { render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ getPageSeo: vi.fn() }));
+const mocks = vi.hoisted(() => ({ getPageSeo: vi.fn(), listPublishedPosts: vi.fn() }));
 
 vi.mock("@/lib/page-seo", () => ({ getPageSeo: mocks.getPageSeo }));
+vi.mock("@/lib/posts", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/posts")>()),
+  listPublishedPosts: mocks.listPublishedPosts,
+}));
 
 describe("country time route", () => {
-  beforeEach(() => mocks.getPageSeo.mockResolvedValue(null));
+  beforeEach(() => {
+    mocks.getPageSeo.mockResolvedValue(null);
+    mocks.listPublishedPosts.mockResolvedValue([]);
+  });
   it("prebuilds only the eight approved country slugs", async () => {
     const { generateStaticParams } = await import("@/app/time-in/[country]/page");
 
@@ -98,18 +105,32 @@ describe("country time route", () => {
     const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
     render(await CountryTimePage({ params: Promise.resolve({ country: "brazil" }) }));
 
-    const saoPauloZone = screen.getByText("America/Sao_Paulo").closest("article");
-    expect(saoPauloZone).not.toBeNull();
-    expect(within(saoPauloZone!).getByRole("link", { name: "São Paulo" })).toHaveAttribute("href", "/world-clock/sao-paulo");
-    expect(within(saoPauloZone!).getByRole("link", { name: "Rio de Janeiro" })).toHaveAttribute("href", "/world-clock/rio-de-janeiro");
-    expect(within(saoPauloZone!).getByRole("link", { name: "Brasília" })).toHaveAttribute("href", "/world-clock/brasilia");
+    const directory = screen.getByRole("navigation", { name: "City clocks in Brazil" });
+    expect(within(directory).getByRole("link", { name: "São Paulo" })).toHaveAttribute("href", "/world-clock/sao-paulo");
+    expect(within(directory).getByRole("link", { name: "Rio de Janeiro" })).toHaveAttribute("href", "/world-clock/rio-de-janeiro");
+    expect(within(directory).getByRole("link", { name: "Brasília" })).toHaveAttribute("href", "/world-clock/brasilia");
   });
 
   it("links a single-zone country to its catalogue city", async () => {
     const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
     render(await CountryTimePage({ params: Promise.resolve({ country: "bangladesh" }) }));
 
-    expect(screen.getByRole("link", { name: "Dhaka" })).toHaveAttribute("href", "/world-clock/dhaka");
+    const directory = screen.getByRole("navigation", { name: "City clocks in Bangladesh" });
+    expect(within(directory).getByRole("link", { name: "Dhaka" })).toHaveAttribute("href", "/world-clock/dhaka");
+  });
+
+  it("renders one crawlable country-to-city directory and a matching published guide", async () => {
+    const { fixturePost } = await import("@/lib/posts");
+    mocks.listPublishedPosts.mockResolvedValue([
+      fixturePost({ slug: "what-time-does-brazil-use", title: "What Time Does Brazil Use?" }),
+    ]);
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    render(await CountryTimePage({ params: Promise.resolve({ country: "brazil" }) }));
+
+    const directory = screen.getByRole("navigation", { name: "City clocks in Brazil" });
+    expect(within(directory).getByRole("link", { name: "São Paulo" })).toHaveAttribute("href", "/world-clock/sao-paulo");
+    expect(within(directory).getByRole("link", { name: "Rio de Janeiro" })).toHaveAttribute("href", "/world-clock/rio-de-janeiro");
+    expect(screen.getByRole("link", { name: "What Time Does Brazil Use?" })).toHaveAttribute("href", "/blog/what-time-does-brazil-use");
   });
 
   it("does not render an empty city-link group for an unrepresented zone", async () => {

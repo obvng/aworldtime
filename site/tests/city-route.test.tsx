@@ -4,9 +4,13 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { CityLiveClock } from "@/components/city-live-clock";
 import { CITIES } from "@/lib/cities";
 
-const { getPageSeo } = vi.hoisted(() => ({ getPageSeo: vi.fn() }));
+const { getPageSeo, listPublishedPosts } = vi.hoisted(() => ({ getPageSeo: vi.fn(), listPublishedPosts: vi.fn() }));
 
 vi.mock("@/lib/page-seo", () => ({ getPageSeo }));
+vi.mock("@/lib/posts", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/posts")>()),
+  listPublishedPosts,
+}));
 
 function findLiveClock(node: ReactNode): Record<string, unknown> | null {
   if (!isValidElement(node)) return null;
@@ -22,6 +26,8 @@ describe("generated city route", () => {
   afterEach(() => {
     getPageSeo.mockReset();
     getPageSeo.mockResolvedValue(null);
+    listPublishedPosts.mockReset();
+    listPublishedPosts.mockResolvedValue([]);
     vi.useRealTimers();
   });
 
@@ -119,6 +125,17 @@ describe("generated city route", () => {
     render(await CityPage({ params: Promise.resolve({ city: "sao-paulo" }) }));
 
     expect(screen.getByRole("link", { name: /all time zones in brazil/i })).toHaveAttribute("href", "/time-in/brazil");
+  });
+
+  it("links Toronto to its matching published guide in server-rendered HTML", async () => {
+    const { fixturePost } = await import("@/lib/posts");
+    listPublishedPosts.mockResolvedValue([
+      fixturePost({ slug: "is-toronto-on-est-or-edt", title: "Is Toronto on EST or EDT?" }),
+    ]);
+    const { default: CityPage } = await import("@/app/world-clock/[city]/page");
+    render(await CityPage({ params: Promise.resolve({ city: "toronto" }) }));
+
+    expect(screen.getByRole("link", { name: "Is Toronto on EST or EDT?" })).toHaveAttribute("href", "/blog/is-toronto-on-est-or-edt");
   });
 
   it("emits a city breadcrumb list with canonical URLs", async () => {
