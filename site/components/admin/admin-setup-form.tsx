@@ -35,8 +35,8 @@ export function AdminSetupForm({ mode = "setup" }: { mode?: "setup" | "reset" })
     const confirmation = String(form.get("password_confirmation") ?? "");
     const isRecovery = mode === "reset";
 
-    if (password.length < 8) {
-      setError("Use at least 8 characters for your password.");
+    if (password.length < 12) {
+      setError("Use at least 12 characters for your password.");
       return;
     }
     if (password !== confirmation) {
@@ -88,11 +88,11 @@ export function AdminSetupForm({ mode = "setup" }: { mode?: "setup" | "reset" })
       {error ? <div className="admin-error" role="alert">{error}</div> : null}
       <label>
         New password
-        <input name="password" type="password" autoComplete="new-password" minLength={8} required />
+        <input name="password" type="password" autoComplete="new-password" minLength={12} required />
       </label>
       <label>
         Confirm password
-        <input name="password_confirmation" type="password" autoComplete="new-password" minLength={8} required />
+        <input name="password_confirmation" type="password" autoComplete="new-password" minLength={12} required />
       </label>
       <button type="submit" className="admin-primary" disabled={saving}>
         {saving ? "Saving…" : mode === "reset" ? "Save new password" : "Create admin password"}

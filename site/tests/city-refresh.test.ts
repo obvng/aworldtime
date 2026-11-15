@@ -13,6 +13,17 @@ describe("daily city refresh", () => {
     expect(revalidatePath).not.toHaveBeenCalled();
   });
 
+  it("rejects a secret with the right prefix but different bytes", async () => {
+    vi.stubEnv("CRON_SECRET", "release-secret");
+    const { GET } = await import("@/app/api/cron/refresh-city-pages/route");
+    const response = await GET(new Request("https://www.aworldtime.com/api/cron/refresh-city-pages", {
+      headers: { authorization: "Bearer release-secret-extra" },
+    }));
+
+    expect(response.status).toBe(401);
+    expect(revalidatePath).not.toHaveBeenCalled();
+  });
+
   it("invalidates every generated city page pattern after authorization", async () => {
     vi.stubEnv("CRON_SECRET", "release-secret");
     const { GET } = await import("@/app/api/cron/refresh-city-pages/route");

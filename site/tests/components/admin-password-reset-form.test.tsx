@@ -82,4 +82,18 @@ describe("AdminPasswordResetForm", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("That code is invalid or has expired.");
     expect(updateUser).not.toHaveBeenCalled();
   });
+
+  it("requires a password of at least twelve characters", async () => {
+    const user = userEvent.setup();
+    render(<AdminPasswordResetForm />);
+    await user.type(screen.getByLabelText("Admin email"), "owner@example.com");
+    await user.click(screen.getByRole("button", { name: "Send reset code" }));
+    await user.type(await screen.findByLabelText("Reset code"), "482913");
+    await user.type(screen.getByLabelText("New password"), "shortpass");
+    await user.type(screen.getByLabelText("Confirm password"), "shortpass");
+    await user.click(screen.getByRole("button", { name: "Save new password" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Use at least 12 characters");
+    expect(verifyOtp).not.toHaveBeenCalled();
+  });
 });

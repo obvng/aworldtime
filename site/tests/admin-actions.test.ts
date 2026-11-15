@@ -11,6 +11,11 @@ describe("admin post validation", () => {
     expect(normalizeSlug("  Meeting Across Time Zones ")).toBe("meeting-across-time-zones");
   });
 
+  it("rejects an excessively long slug before normalization", () => {
+    const result = postSchema.safeParse({ title: "Long slug", slug: "a".repeat(5000), content: "Body", status: "draft" });
+    expect(result.success).toBe(false);
+  });
+
   it("requires a publication date for scheduled posts", () => {
     const result = postSchema.safeParse({ title: "Scheduled guide", slug: "scheduled-guide", content: "Body", status: "scheduled", published_at: "" });
     expect(result.success).toBe(false);

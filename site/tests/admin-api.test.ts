@@ -15,7 +15,7 @@ function imageRequest(file: File, alt?: string) {
   const body = new FormData();
   body.set("image", file);
   if (alt) body.set("alt", alt);
-  return new Request("http://localhost/api/admin/images", { method: "POST", body });
+  return new Request("http://localhost/api/admin/images", { method: "POST", body, headers: { origin: "http://localhost" } });
 }
 
 const onePixelPng = Uint8Array.from(
@@ -29,6 +29,19 @@ describe("admin API", () => {
   it("returns 401 when an image upload has no admin session", async () => {
     requireAdmin.mockRejectedValue(new AdminAuthError(401, "Sign in to continue."));
     expect((await POST(imageRequest(new File(["x"], "city.png", { type: "image/png" })))).status).toBe(401);
+  });
+
+  it("rejects cross-site admin writes before reading the session", async () => {
+    const body = new FormData();
+    body.set("image", new File([onePixelPng], "city.png", { type: "image/png" }));
+    const response = await POST(new Request("https://www.aworldtime.com/api/admin/images", {
+      method: "POST",
+      body,
+      headers: { origin: "https://attacker.example" },
+    }));
+
+    expect(response.status).toBe(403);
+    expect(requireAdmin).not.toHaveBeenCalled();
   });
 
   it("rejects unsupported image formats and oversized images", async () => {
@@ -93,8 +106,20 @@ describe("admin API", () => {
     const request = new Request("http://localhost/api/admin/posts/post-1/autosave", {
       method: "PATCH",
       body: JSON.stringify({ title: "Title", slug: "title", excerpt: "", content: "Body", category: "Guides" }),
+      headers: { origin: "http://localhost", "content-type": "application/json" },
     });
     const response = await PATCH(request, { params: Promise.resolve({ id: "post-1" }) });
     expect(response.status).toBe(409);
+  });
+
+  it("rejects oversized autosave content", async () => {
+    requireAdmin.mockResolvedValue({ supabase: {}, userId: "owner-1" });
+    const response = await PATCH(new Request("http://localhost/api/admin/posts/post-1/autosave", {
+      method: "PATCH",
+      body: JSON.stringify({ title: "Title", slug: "title", excerpt: "", content: "x".repeat(250_001), category: "Guides" }),
+      headers: { origin: "http://localhost", "content-type": "application/json" },
+    }), { params: Promise.resolve({ id: "post-1" }) });
+
+    expect(response.status).toBe(400);
   });
 });

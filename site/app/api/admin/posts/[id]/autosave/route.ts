@@ -2,17 +2,24 @@ import { z } from "zod";
 
 import { adminAuthResponse, requireAdmin } from "@/lib/admin-auth";
 import { normalizeSlug } from "@/lib/post-validation";
+import { exceedsContentLength, hasContentType, rejectCrossSiteMutation } from "@/lib/request-security";
+
+const MAX_AUTOSAVE_BYTES = 300_000;
 
 const autosaveSchema = z.object({
   title: z.string().trim().max(180),
   slug: z.string().transform(normalizeSlug),
   excerpt: z.string().trim().max(320),
-  content: z.string(),
+  content: z.string().max(250_000),
   category: z.string().trim().min(1).max(80),
 });
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const crossSite = rejectCrossSiteMutation(request);
+    if (crossSite) return crossSite;
+    if (!hasContentType(request, "application/json")) return Response.json({ error: "Expected JSON." }, { status: 415 });
+    if (exceedsContentLength(request, MAX_AUTOSAVE_BYTES)) return Response.json({ error: "The draft is too large." }, { status: 413 });
     const { supabase, userId } = await requireAdmin();
     const parsed = autosaveSchema.safeParse(await request.json());
     if (!parsed.success) return Response.json({ error: "The draft contains invalid fields." }, { status: 400 });

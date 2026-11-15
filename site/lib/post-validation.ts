@@ -6,9 +6,9 @@ export function normalizeSlug(value: string) {
 
 export const postSchema = z.object({
   title: z.string().trim().min(1, "Title is required.").max(180),
-  slug: z.string().transform(normalizeSlug).pipe(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use a readable URL slug.")),
+  slug: z.string().max(200).transform(normalizeSlug).pipe(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use a readable URL slug.")),
   excerpt: z.string().trim().max(320).default(""),
-  content: z.string().trim().min(1, "Article content is required."),
+  content: z.string().trim().min(1, "Article content is required.").max(250_000, "Article content is too large."),
   category: z.string().trim().min(1).max(80).default("Guides"),
   featured_image_url: z.union([z.literal(""), z.string().url()]).optional().default(""),
   featured_image_alt: z.string().trim().max(240).optional().default(""),

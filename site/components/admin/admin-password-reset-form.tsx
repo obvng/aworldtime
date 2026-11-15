@@ -56,8 +56,8 @@ export function AdminPasswordResetForm() {
       setError("Enter the numeric reset code from the email.");
       return;
     }
-    if (password.length < 8) {
-      setError("Use at least 8 characters for your password.");
+    if (password.length < 12) {
+      setError("Use at least 12 characters for your password.");
       return;
     }
     if (password !== confirmation) {
@@ -110,11 +110,11 @@ export function AdminPasswordResetForm() {
         </label>
         <label>
           New password
-          <input name="password" type="password" autoComplete="new-password" minLength={8} required />
+          <input name="password" type="password" autoComplete="new-password" minLength={12} required />
         </label>
         <label>
           Confirm password
-          <input name="password_confirmation" type="password" autoComplete="new-password" minLength={8} required />
+          <input name="password_confirmation" type="password" autoComplete="new-password" minLength={12} required />
         </label>
         <button type="submit" className="admin-primary" disabled={busy}>
           {busy ? "Saving…" : "Save new password"}

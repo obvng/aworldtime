@@ -120,4 +120,15 @@ describe("AdminSetupForm", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("Passwords do not match.");
     expect(updateUser).not.toHaveBeenCalled();
   });
+
+  it("requires a password of at least twelve characters", async () => {
+    const user = userEvent.setup();
+    render(<AdminSetupForm />);
+    await user.type(screen.getByLabelText("New password"), "shortpass");
+    await user.type(screen.getByLabelText("Confirm password"), "shortpass");
+    await user.click(screen.getByRole("button", { name: "Create admin password" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Use at least 12 characters");
+    expect(updateUser).not.toHaveBeenCalled();
+  });
 });
