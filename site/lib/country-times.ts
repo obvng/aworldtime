@@ -88,7 +88,11 @@ export function countrySeoDescription(country: CountryTimePage, date = new Date(
     return `${country.summary} ${country.zones[0].timeZone} currently uses ${offsets[0]}. ${clockCopy}`;
   }
   const offsetCopy = offsets.length === 1 ? offsets[0] : `${offsets[0]} to ${offsets.at(-1)}`;
-  return `${country.summary.split(".")[0]}. It has ${country.zones.length} IANA zones with current UTC offsets from ${offsetCopy}. ${clockCopy}`;
+  const lead = country.summary.split(".")[0];
+  const offsetSentence = /IANA time zones/i.test(lead)
+    ? `Current UTC offsets run from ${offsetCopy}.`
+    : `Its ${country.zones.length} IANA zones currently run from ${offsetCopy}.`;
+  return `${lead}. ${offsetSentence} ${clockCopy}`;
 }
 
 export function citiesForCountryZone(countryCode: string, timeZone: string) {

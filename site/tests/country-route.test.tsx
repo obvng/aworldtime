@@ -54,7 +54,8 @@ describe("country time route", () => {
     const nigeria = await generateMetadata({ params: Promise.resolve({ country: "nigeria" }) });
 
     expect(russia.title).toEqual({ absolute: expect.stringContaining("27 Time Zones") });
-    expect(russia.description).toMatch(/27 IANA zones/i);
+    expect(russia.description).toMatch(/27 IANA (?:time )?zones/i);
+    expect(russia.description?.match(/27 IANA/gi)).toHaveLength(1);
     expect(russia.description).toMatch(/UTC[+-]\d{2}:\d{2}/);
     expect(nigeria.title).toEqual({ absolute: expect.stringMatching(/UTC\+01:00/) });
     expect(nigeria.description).toContain("Africa/Lagos");
