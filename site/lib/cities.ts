@@ -12,6 +12,12 @@ export type City = {
 };
 
 const CONTENT_UPDATED_AT = "2026-10-14T00:00:00.000Z";
+const EXPANSION_UPDATED_AT = "2026-11-15T00:00:00.000Z";
+const EXPANSION_CITIES = new Set([
+  "fernando-de-noronha", "belem", "fortaleza", "recife", "araguaina", "maceio", "salvador",
+  "campo-grande", "cuiaba", "santarem", "porto-velho", "boa-vista", "manaus", "eirunepe",
+  "rio-branco", "regina", "phoenix",
+]);
 const CUSTOM_SKYLINES = new Set([
   "lagos", "london", "new-york", "dubai", "tokyo", "accra", "johannesburg",
   "nairobi", "cairo", "paris", "berlin", "toronto", "los-angeles", "sao-paulo",
@@ -149,7 +155,7 @@ export const CITIES: City[] = CITY_ROWS.map(([
   slug, name, country, countryCode, timeZone, latitude, longitude,
   aliases: [...aliases],
   skylineImage: CUSTOM_SKYLINES.has(slug) ? `/cities/${slug}.webp` : "/cities/fallback.webp",
-  contentUpdatedAt: CONTENT_UPDATED_AT,
+  contentUpdatedAt: EXPANSION_CITIES.has(slug) ? EXPANSION_UPDATED_AT : CONTENT_UPDATED_AT,
 }));
 
 export const POPULAR_CITIES = ["london", "new-york", "dubai", "tokyo", "toronto", "beijing"]

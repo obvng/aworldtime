@@ -23,4 +23,10 @@ describe("city page catalogue", () => {
     expect(cityBySlug("new-york")?.timeZone).toBe("America/New_York");
     expect(cityBySlug("does-not-exist")).toBeUndefined();
   });
+
+  it("gives newly added zone clocks a current sitemap date", () => {
+    expect(cityBySlug("fernando-de-noronha")?.contentUpdatedAt).toBe("2026-11-15T00:00:00.000Z");
+    expect(cityBySlug("phoenix")?.contentUpdatedAt).toBe("2026-11-15T00:00:00.000Z");
+    expect(cityBySlug("regina")?.contentUpdatedAt).toBe("2026-11-15T00:00:00.000Z");
+  });
 });
