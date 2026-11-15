@@ -31,11 +31,11 @@ describe("country time route", () => {
     const brazil = await generateMetadata({ params: Promise.resolve({ country: "brazil" }) });
     const chile = await generateMetadata({ params: Promise.resolve({ country: "chile" }) });
 
-    expect(brazil.title).toEqual({ absolute: "Time in Brazil Now: Current Local Times by Region" });
-    expect(brazil.description).toBe("Brazil spans several time zones across the mainland and its Atlantic islands. See all 16 IANA zones with current times, UTC offsets and DST rules.");
+    expect(brazil.title).toEqual({ absolute: "Time in Brazil Now: 16 Time Zones and UTC Offsets" });
+    expect(brazil.description).toMatch(/Brazil spans several time zones.*16 IANA zones.*UTC/i);
     expect(brazil.alternates?.canonical).toBe("https://www.aworldtime.com/time-in/brazil");
     expect(chile.alternates?.canonical).toBe("https://www.aworldtime.com/time-in/chile");
-    expect(brazil.description).not.toMatch(/UTC[+-]\d|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/);
+    expect(brazil.description).not.toMatch(/\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/);
   });
 
   it("uses distinct stable catalogue data in country descriptions", async () => {
@@ -43,9 +43,21 @@ describe("country time route", () => {
     const brazil = await generateMetadata({ params: Promise.resolve({ country: "brazil" }) });
     const bangladesh = await generateMetadata({ params: Promise.resolve({ country: "bangladesh" }) });
 
-    expect(bangladesh.description).toBe("Bangladesh uses one national time zone. See its current local time, UTC offset, DST rules and next clock change.");
+    expect(bangladesh.description).toMatch(/Bangladesh.*Asia\/Dhaka.*UTC\+06:00/i);
     expect(brazil.description).not.toBe(bangladesh.description);
-    expect(`${brazil.description} ${bangladesh.description}`).not.toMatch(/UTC[+-]\d|in effect|not in effect|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/i);
+    expect(`${brazil.description} ${bangladesh.description}`).not.toMatch(/in effect|not in effect|\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/i);
+  });
+
+  it("builds metadata from each country's zone facts", async () => {
+    const { generateMetadata } = await import("@/app/time-in/[country]/page");
+    const russia = await generateMetadata({ params: Promise.resolve({ country: "russia" }) });
+    const nigeria = await generateMetadata({ params: Promise.resolve({ country: "nigeria" }) });
+
+    expect(russia.title).toEqual({ absolute: expect.stringContaining("27 Time Zones") });
+    expect(russia.description).toMatch(/27 IANA zones/i);
+    expect(russia.description).toMatch(/UTC[+-]\d{2}:\d{2}/);
+    expect(nigeria.title).toEqual({ absolute: expect.stringMatching(/UTC\+01:00/) });
+    expect(nigeria.description).toContain("Africa/Lagos");
   });
 
   it("uses a saved country title and description in public metadata", async () => {
@@ -86,7 +98,7 @@ describe("country time route", () => {
     const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
     render(await CountryTimePage({ params: Promise.resolve({ country: "algeria" }) }));
 
-    expect(screen.getByText(/No seasonal clock change is scheduled/)).toBeVisible();
+    expect(screen.getByText(/uses a permanent UTC\+01:00 offset/i)).toBeVisible();
   });
 
   it("renders all 16 Brazilian IANA zones without collapsing equal offsets", async () => {

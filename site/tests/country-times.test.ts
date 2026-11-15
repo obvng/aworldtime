@@ -10,6 +10,14 @@ describe("country time catalogue", () => {
     expect(pageCountryCodes).toEqual(cityCountryCodes);
   });
 
+  it("uses IANA zones supported by the production JavaScript runtime", () => {
+    for (const country of COUNTRY_TIME_PAGES) {
+      for (const zone of country.zones) {
+        expect(() => new Intl.DateTimeFormat("en", { timeZone: zone.timeZone }), `${country.countryCode}: ${zone.timeZone}`).not.toThrow();
+      }
+    }
+  });
+
   it("keeps every IANA zone listed for Brazil", () => {
     expect(countryTimeBySlug("brazil")?.zones.map((zone) => zone.timeZone)).toEqual([
       "America/Noronha",
@@ -38,6 +46,25 @@ describe("country time catalogue", () => {
       "America/Punta_Arenas",
       "Pacific/Easter",
     ]);
+  });
+
+  it.each([
+    ["russia", 27],
+    ["argentina", 12],
+    ["mexico", 12],
+    ["indonesia", 4],
+    ["portugal", 3],
+    ["china", 2],
+    ["malaysia", 2],
+    ["new-zealand", 2],
+  ])("uses the complete IANA zone list for %s", (slug, count) => {
+    expect(countryTimeBySlug(slug)?.zones).toHaveLength(count);
+  });
+
+  it("does not claim a multi-zone country uses one national time zone", () => {
+    for (const slug of ["russia", "argentina", "mexico", "indonesia", "portugal", "china", "malaysia", "new-zealand"]) {
+      expect(countryTimeBySlug(slug)?.summary).not.toMatch(/uses one national time zone/i);
+    }
   });
 
   it.each([

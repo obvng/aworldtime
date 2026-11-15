@@ -1,0 +1,2193 @@
+{
+  "source": "https://data.iana.org/time-zones/tzdb/zone1970.tab",
+  "version": "2026f",
+  "generatedAt": "2026-11-15T00:00:00.000Z",
+  "countries": {
+    "AD": [
+      {
+        "timeZone": "Europe/Andorra",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AE": [
+      {
+        "timeZone": "Asia/Dubai",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "OM": [
+      {
+        "timeZone": "Asia/Dubai",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "RE": [
+      {
+        "timeZone": "Asia/Dubai",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SC": [
+      {
+        "timeZone": "Asia/Dubai",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TF": [
+      {
+        "timeZone": "Asia/Dubai",
+        "regions": "Principal location: Dubai"
+      },
+      {
+        "timeZone": "Indian/Maldives",
+        "regions": "Principal location: Maldives"
+      }
+    ],
+    "AF": [
+      {
+        "timeZone": "Asia/Kabul",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AL": [
+      {
+        "timeZone": "Europe/Tirane",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AM": [
+      {
+        "timeZone": "Asia/Yerevan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AQ": [
+      {
+        "timeZone": "Antarctica/Casey",
+        "regions": "Casey"
+      },
+      {
+        "timeZone": "Antarctica/Davis",
+        "regions": "Davis"
+      },
+      {
+        "timeZone": "Antarctica/Mawson",
+        "regions": "Mawson"
+      },
+      {
+        "timeZone": "Antarctica/Palmer",
+        "regions": "Palmer"
+      },
+      {
+        "timeZone": "Antarctica/Rothera",
+        "regions": "Rothera"
+      },
+      {
+        "timeZone": "Antarctica/Troll",
+        "regions": "Troll"
+      },
+      {
+        "timeZone": "Antarctica/Vostok",
+        "regions": "Vostok"
+      },
+      {
+        "timeZone": "Pacific/Auckland",
+        "regions": "Principal location: Auckland"
+      },
+      {
+        "timeZone": "Pacific/Port_Moresby",
+        "regions": "Principal location: Port Moresby"
+      },
+      {
+        "timeZone": "Asia/Riyadh",
+        "regions": "Principal location: Riyadh"
+      },
+      {
+        "timeZone": "Asia/Singapore",
+        "regions": "Principal location: Singapore"
+      }
+    ],
+    "AR": [
+      {
+        "timeZone": "America/Argentina/Buenos_Aires",
+        "regions": "Buenos Aires (BA, CF)"
+      },
+      {
+        "timeZone": "America/Argentina/Cordoba",
+        "regions": "most areas: CB, CC, CN, ER, FM, MN, SE, SF"
+      },
+      {
+        "timeZone": "America/Argentina/Salta",
+        "regions": "Salta (SA, LP, NQ, RN)"
+      },
+      {
+        "timeZone": "America/Argentina/Jujuy",
+        "regions": "Jujuy (JY)"
+      },
+      {
+        "timeZone": "America/Argentina/Tucuman",
+        "regions": "Tucumán (TM)"
+      },
+      {
+        "timeZone": "America/Argentina/Catamarca",
+        "regions": "Catamarca (CT), Chubut (CH)"
+      },
+      {
+        "timeZone": "America/Argentina/La_Rioja",
+        "regions": "La Rioja (LR)"
+      },
+      {
+        "timeZone": "America/Argentina/San_Juan",
+        "regions": "San Juan (SJ)"
+      },
+      {
+        "timeZone": "America/Argentina/Mendoza",
+        "regions": "Mendoza (MZ)"
+      },
+      {
+        "timeZone": "America/Argentina/San_Luis",
+        "regions": "San Luis (SL)"
+      },
+      {
+        "timeZone": "America/Argentina/Rio_Gallegos",
+        "regions": "Santa Cruz (SC)"
+      },
+      {
+        "timeZone": "America/Argentina/Ushuaia",
+        "regions": "Tierra del Fuego (TF)"
+      }
+    ],
+    "AS": [
+      {
+        "timeZone": "Pacific/Pago_Pago",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "UM": [
+      {
+        "timeZone": "Pacific/Pago_Pago",
+        "regions": "Principal location: Pago Pago"
+      },
+      {
+        "timeZone": "Pacific/Tarawa",
+        "regions": "Principal location: Tarawa"
+      }
+    ],
+    "AT": [
+      {
+        "timeZone": "Europe/Vienna",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AU": [
+      {
+        "timeZone": "Australia/Lord_Howe",
+        "regions": "Lord Howe Island"
+      },
+      {
+        "timeZone": "Antarctica/Macquarie",
+        "regions": "Macquarie Island"
+      },
+      {
+        "timeZone": "Australia/Hobart",
+        "regions": "Tasmania"
+      },
+      {
+        "timeZone": "Australia/Melbourne",
+        "regions": "Victoria"
+      },
+      {
+        "timeZone": "Australia/Sydney",
+        "regions": "New South Wales (most areas)"
+      },
+      {
+        "timeZone": "Australia/Broken_Hill",
+        "regions": "New South Wales (Yancowinna)"
+      },
+      {
+        "timeZone": "Australia/Brisbane",
+        "regions": "Queensland (most areas)"
+      },
+      {
+        "timeZone": "Australia/Lindeman",
+        "regions": "Queensland (Whitsunday Islands)"
+      },
+      {
+        "timeZone": "Australia/Adelaide",
+        "regions": "South Australia"
+      },
+      {
+        "timeZone": "Australia/Darwin",
+        "regions": "Northern Territory"
+      },
+      {
+        "timeZone": "Australia/Perth",
+        "regions": "Western Australia (most areas)"
+      },
+      {
+        "timeZone": "Australia/Eucla",
+        "regions": "Western Australia (Eucla)"
+      },
+      {
+        "timeZone": "Asia/Tokyo",
+        "regions": "Principal location: Tokyo"
+      }
+    ],
+    "AZ": [
+      {
+        "timeZone": "Asia/Baku",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BB": [
+      {
+        "timeZone": "America/Barbados",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BD": [
+      {
+        "timeZone": "Asia/Dhaka",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BE": [
+      {
+        "timeZone": "Europe/Brussels",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LU": [
+      {
+        "timeZone": "Europe/Brussels",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NL": [
+      {
+        "timeZone": "Europe/Brussels",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BG": [
+      {
+        "timeZone": "Europe/Sofia",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BM": [
+      {
+        "timeZone": "Atlantic/Bermuda",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BO": [
+      {
+        "timeZone": "America/La_Paz",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BR": [
+      {
+        "timeZone": "America/Noronha",
+        "regions": "Atlantic islands"
+      },
+      {
+        "timeZone": "America/Belem",
+        "regions": "Pará (east), Amapá"
+      },
+      {
+        "timeZone": "America/Fortaleza",
+        "regions": "Brazil (northeast: MA, PI, CE, RN, PB)"
+      },
+      {
+        "timeZone": "America/Recife",
+        "regions": "Pernambuco"
+      },
+      {
+        "timeZone": "America/Araguaina",
+        "regions": "Tocantins"
+      },
+      {
+        "timeZone": "America/Maceio",
+        "regions": "Alagoas, Sergipe"
+      },
+      {
+        "timeZone": "America/Bahia",
+        "regions": "Bahia"
+      },
+      {
+        "timeZone": "America/Sao_Paulo",
+        "regions": "Brazil (southeast: GO, DF, MG, ES, RJ, SP, PR, SC, RS)"
+      },
+      {
+        "timeZone": "America/Campo_Grande",
+        "regions": "Mato Grosso do Sul"
+      },
+      {
+        "timeZone": "America/Cuiaba",
+        "regions": "Mato Grosso"
+      },
+      {
+        "timeZone": "America/Santarem",
+        "regions": "Pará (west)"
+      },
+      {
+        "timeZone": "America/Porto_Velho",
+        "regions": "Rondônia"
+      },
+      {
+        "timeZone": "America/Boa_Vista",
+        "regions": "Roraima"
+      },
+      {
+        "timeZone": "America/Manaus",
+        "regions": "Amazonas (east)"
+      },
+      {
+        "timeZone": "America/Eirunepe",
+        "regions": "Amazonas (west)"
+      },
+      {
+        "timeZone": "America/Rio_Branco",
+        "regions": "Acre"
+      }
+    ],
+    "BT": [
+      {
+        "timeZone": "Asia/Thimphu",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BY": [
+      {
+        "timeZone": "Europe/Minsk",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BZ": [
+      {
+        "timeZone": "America/Belize",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CA": [
+      {
+        "timeZone": "America/St_Johns",
+        "regions": "Newfoundland, Labrador (SE)"
+      },
+      {
+        "timeZone": "America/Halifax",
+        "regions": "Atlantic - NS (most areas), PE"
+      },
+      {
+        "timeZone": "America/Glace_Bay",
+        "regions": "Atlantic - NS (Cape Breton)"
+      },
+      {
+        "timeZone": "America/Moncton",
+        "regions": "Atlantic - New Brunswick"
+      },
+      {
+        "timeZone": "America/Goose_Bay",
+        "regions": "Atlantic - Labrador (most areas)"
+      },
+      {
+        "timeZone": "America/Toronto",
+        "regions": "Principal location: Toronto"
+      },
+      {
+        "timeZone": "America/Iqaluit",
+        "regions": "Eastern - NU (most areas)"
+      },
+      {
+        "timeZone": "America/Winnipeg",
+        "regions": "EST - Manitoba, ON (northwest)"
+      },
+      {
+        "timeZone": "America/Resolute",
+        "regions": "Central - NU (Resolute)"
+      },
+      {
+        "timeZone": "America/Rankin_Inlet",
+        "regions": "Central - NU (central)"
+      },
+      {
+        "timeZone": "America/Regina",
+        "regions": "CST - SK (most areas)"
+      },
+      {
+        "timeZone": "America/Swift_Current",
+        "regions": "CST - SK (midwest)"
+      },
+      {
+        "timeZone": "America/Edmonton",
+        "regions": "CST - AB, BC(E), NT(E), SK(W)"
+      },
+      {
+        "timeZone": "America/Cambridge_Bay",
+        "regions": "Mountain - NU (west)"
+      },
+      {
+        "timeZone": "America/Inuvik",
+        "regions": "CST - NT (west)"
+      },
+      {
+        "timeZone": "America/Vancouver",
+        "regions": "MST - BC (most areas)"
+      },
+      {
+        "timeZone": "America/Dawson_Creek",
+        "regions": "MST - BC (Dawson Cr, Ft St John)"
+      },
+      {
+        "timeZone": "America/Fort_Nelson",
+        "regions": "MST - BC (Ft Nelson)"
+      },
+      {
+        "timeZone": "America/Whitehorse",
+        "regions": "MST - Yukon (east)"
+      },
+      {
+        "timeZone": "America/Dawson",
+        "regions": "MST - Yukon (west)"
+      },
+      {
+        "timeZone": "America/Panama",
+        "regions": "Principal location: Panama"
+      },
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "Principal location: Puerto Rico"
+      },
+      {
+        "timeZone": "America/Phoenix",
+        "regions": "Principal location: Phoenix"
+      }
+    ],
+    "BS": [
+      {
+        "timeZone": "America/Toronto",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CH": [
+      {
+        "timeZone": "Europe/Zurich",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "DE": [
+      {
+        "timeZone": "Europe/Zurich",
+        "regions": "Principal location: Zurich"
+      },
+      {
+        "timeZone": "Europe/Berlin",
+        "regions": "Principal location: Berlin"
+      }
+    ],
+    "LI": [
+      {
+        "timeZone": "Europe/Zurich",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CI": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BF": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GH": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GM": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GN": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IS": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ML": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MR": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SH": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SL": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SN": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TG": [
+      {
+        "timeZone": "Africa/Abidjan",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CK": [
+      {
+        "timeZone": "Pacific/Rarotonga",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CL": [
+      {
+        "timeZone": "America/Santiago",
+        "regions": "most of Chile"
+      },
+      {
+        "timeZone": "America/Coyhaique",
+        "regions": "Aysén Region"
+      },
+      {
+        "timeZone": "America/Punta_Arenas",
+        "regions": "Magallanes Region"
+      },
+      {
+        "timeZone": "Pacific/Easter",
+        "regions": "Easter Island"
+      }
+    ],
+    "CN": [
+      {
+        "timeZone": "Asia/Shanghai",
+        "regions": "Beijing Time"
+      },
+      {
+        "timeZone": "Asia/Urumqi",
+        "regions": "Xinjiang Time"
+      }
+    ],
+    "CO": [
+      {
+        "timeZone": "America/Bogota",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CR": [
+      {
+        "timeZone": "America/Costa_Rica",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CU": [
+      {
+        "timeZone": "America/Havana",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CV": [
+      {
+        "timeZone": "Atlantic/Cape_Verde",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CY": [
+      {
+        "timeZone": "Asia/Nicosia",
+        "regions": "most of Cyprus"
+      },
+      {
+        "timeZone": "Asia/Famagusta",
+        "regions": "Northern Cyprus"
+      }
+    ],
+    "CZ": [
+      {
+        "timeZone": "Europe/Prague",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SK": [
+      {
+        "timeZone": "Europe/Prague",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "DK": [
+      {
+        "timeZone": "Europe/Berlin",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NO": [
+      {
+        "timeZone": "Europe/Berlin",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SE": [
+      {
+        "timeZone": "Europe/Berlin",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SJ": [
+      {
+        "timeZone": "Europe/Berlin",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "DO": [
+      {
+        "timeZone": "America/Santo_Domingo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "DZ": [
+      {
+        "timeZone": "Africa/Algiers",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "EC": [
+      {
+        "timeZone": "America/Guayaquil",
+        "regions": "Ecuador (mainland)"
+      },
+      {
+        "timeZone": "Pacific/Galapagos",
+        "regions": "Galápagos Islands"
+      }
+    ],
+    "EE": [
+      {
+        "timeZone": "Europe/Tallinn",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "EG": [
+      {
+        "timeZone": "Africa/Cairo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "EH": [
+      {
+        "timeZone": "Africa/El_Aaiun",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ES": [
+      {
+        "timeZone": "Europe/Madrid",
+        "regions": "Spain (mainland)"
+      },
+      {
+        "timeZone": "Africa/Ceuta",
+        "regions": "Ceuta, Melilla"
+      },
+      {
+        "timeZone": "Atlantic/Canary",
+        "regions": "Canary Islands"
+      }
+    ],
+    "FI": [
+      {
+        "timeZone": "Europe/Helsinki",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AX": [
+      {
+        "timeZone": "Europe/Helsinki",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "FJ": [
+      {
+        "timeZone": "Pacific/Fiji",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "FK": [
+      {
+        "timeZone": "Atlantic/Stanley",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "FM": [
+      {
+        "timeZone": "Pacific/Kosrae",
+        "regions": "Kosrae"
+      },
+      {
+        "timeZone": "Pacific/Port_Moresby",
+        "regions": "Principal location: Port Moresby"
+      },
+      {
+        "timeZone": "Pacific/Guadalcanal",
+        "regions": "Principal location: Guadalcanal"
+      }
+    ],
+    "FO": [
+      {
+        "timeZone": "Atlantic/Faroe",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "FR": [
+      {
+        "timeZone": "Europe/Paris",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MC": [
+      {
+        "timeZone": "Europe/Paris",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GB": [
+      {
+        "timeZone": "Europe/London",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GG": [
+      {
+        "timeZone": "Europe/London",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IM": [
+      {
+        "timeZone": "Europe/London",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "JE": [
+      {
+        "timeZone": "Europe/London",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GE": [
+      {
+        "timeZone": "Asia/Tbilisi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GF": [
+      {
+        "timeZone": "America/Cayenne",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GI": [
+      {
+        "timeZone": "Europe/Gibraltar",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GL": [
+      {
+        "timeZone": "America/Nuuk",
+        "regions": "most of Greenland"
+      },
+      {
+        "timeZone": "America/Danmarkshavn",
+        "regions": "National Park (east coast)"
+      },
+      {
+        "timeZone": "America/Scoresbysund",
+        "regions": "Scoresbysund/Ittoqqortoormiit"
+      },
+      {
+        "timeZone": "America/Thule",
+        "regions": "Thule/Pituffik"
+      }
+    ],
+    "GR": [
+      {
+        "timeZone": "Europe/Athens",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GS": [
+      {
+        "timeZone": "Atlantic/South_Georgia",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GT": [
+      {
+        "timeZone": "America/Guatemala",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GU": [
+      {
+        "timeZone": "Pacific/Guam",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MP": [
+      {
+        "timeZone": "Pacific/Guam",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GW": [
+      {
+        "timeZone": "Africa/Bissau",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GY": [
+      {
+        "timeZone": "America/Guyana",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "HK": [
+      {
+        "timeZone": "Asia/Hong_Kong",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "HN": [
+      {
+        "timeZone": "America/Tegucigalpa",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "HT": [
+      {
+        "timeZone": "America/Port-au-Prince",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "HU": [
+      {
+        "timeZone": "Europe/Budapest",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ID": [
+      {
+        "timeZone": "Asia/Jakarta",
+        "regions": "Java, Sumatra"
+      },
+      {
+        "timeZone": "Asia/Pontianak",
+        "regions": "Borneo (west, central)"
+      },
+      {
+        "timeZone": "Asia/Makassar",
+        "regions": "Borneo (east, south), Sulawesi/Celebes, Bali, Nusa Tengarra, Timor (west)"
+      },
+      {
+        "timeZone": "Asia/Jayapura",
+        "regions": "New Guinea (West Papua / Irian Jaya), Malukus/Moluccas"
+      }
+    ],
+    "IE": [
+      {
+        "timeZone": "Europe/Dublin",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IL": [
+      {
+        "timeZone": "Asia/Jerusalem",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IN": [
+      {
+        "timeZone": "Asia/Kolkata",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IO": [
+      {
+        "timeZone": "Indian/Chagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IQ": [
+      {
+        "timeZone": "Asia/Baghdad",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IR": [
+      {
+        "timeZone": "Asia/Tehran",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "IT": [
+      {
+        "timeZone": "Europe/Rome",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SM": [
+      {
+        "timeZone": "Europe/Rome",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "VA": [
+      {
+        "timeZone": "Europe/Rome",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "JM": [
+      {
+        "timeZone": "America/Jamaica",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "JO": [
+      {
+        "timeZone": "Asia/Amman",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "JP": [
+      {
+        "timeZone": "Asia/Tokyo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KE": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "DJ": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ER": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ET": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KM": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MG": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SO": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TZ": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "UG": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "YT": [
+      {
+        "timeZone": "Africa/Nairobi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KG": [
+      {
+        "timeZone": "Asia/Bishkek",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KI": [
+      {
+        "timeZone": "Pacific/Tarawa",
+        "regions": "Principal location: Tarawa"
+      },
+      {
+        "timeZone": "Pacific/Kanton",
+        "regions": "Phoenix Islands"
+      },
+      {
+        "timeZone": "Pacific/Kiritimati",
+        "regions": "Line Islands"
+      }
+    ],
+    "MH": [
+      {
+        "timeZone": "Pacific/Tarawa",
+        "regions": "Principal location: Tarawa"
+      },
+      {
+        "timeZone": "Pacific/Kwajalein",
+        "regions": "Kwajalein"
+      }
+    ],
+    "TV": [
+      {
+        "timeZone": "Pacific/Tarawa",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "WF": [
+      {
+        "timeZone": "Pacific/Tarawa",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KP": [
+      {
+        "timeZone": "Asia/Pyongyang",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KR": [
+      {
+        "timeZone": "Asia/Seoul",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KZ": [
+      {
+        "timeZone": "Asia/Almaty",
+        "regions": "most of Kazakhstan"
+      },
+      {
+        "timeZone": "Asia/Qyzylorda",
+        "regions": "Qyzylorda/Kyzylorda/Kzyl-Orda"
+      },
+      {
+        "timeZone": "Asia/Qostanay",
+        "regions": "Qostanay/Kostanay/Kustanay"
+      },
+      {
+        "timeZone": "Asia/Aqtobe",
+        "regions": "Aqtöbe/Aktobe"
+      },
+      {
+        "timeZone": "Asia/Aqtau",
+        "regions": "Mangghystaū/Mankistau"
+      },
+      {
+        "timeZone": "Asia/Atyrau",
+        "regions": "Atyraū/Atirau/Gur’yev"
+      },
+      {
+        "timeZone": "Asia/Oral",
+        "regions": "West Kazakhstan"
+      }
+    ],
+    "LB": [
+      {
+        "timeZone": "Asia/Beirut",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LK": [
+      {
+        "timeZone": "Asia/Colombo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LR": [
+      {
+        "timeZone": "Africa/Monrovia",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LT": [
+      {
+        "timeZone": "Europe/Vilnius",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LV": [
+      {
+        "timeZone": "Europe/Riga",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LY": [
+      {
+        "timeZone": "Africa/Tripoli",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MA": [
+      {
+        "timeZone": "Africa/Casablanca",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MD": [
+      {
+        "timeZone": "Europe/Chisinau",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MM": [
+      {
+        "timeZone": "Asia/Yangon",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CC": [
+      {
+        "timeZone": "Asia/Yangon",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MN": [
+      {
+        "timeZone": "Asia/Ulaanbaatar",
+        "regions": "most of Mongolia"
+      },
+      {
+        "timeZone": "Asia/Hovd",
+        "regions": "Bayan-Ölgii, Hovd, Uvs"
+      }
+    ],
+    "MO": [
+      {
+        "timeZone": "Asia/Macau",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MQ": [
+      {
+        "timeZone": "America/Martinique",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MT": [
+      {
+        "timeZone": "Europe/Malta",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MU": [
+      {
+        "timeZone": "Indian/Mauritius",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MV": [
+      {
+        "timeZone": "Indian/Maldives",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MX": [
+      {
+        "timeZone": "America/Mexico_City",
+        "regions": "Central Mexico"
+      },
+      {
+        "timeZone": "America/Cancun",
+        "regions": "Quintana Roo"
+      },
+      {
+        "timeZone": "America/Merida",
+        "regions": "Campeche, Yucatán"
+      },
+      {
+        "timeZone": "America/Monterrey",
+        "regions": "Durango; Coahuila, Nuevo León, Tamaulipas (most areas)"
+      },
+      {
+        "timeZone": "America/Matamoros",
+        "regions": "Coahuila, Nuevo León, Tamaulipas (US border)"
+      },
+      {
+        "timeZone": "America/Chihuahua",
+        "regions": "Chihuahua (most areas)"
+      },
+      {
+        "timeZone": "America/Ciudad_Juarez",
+        "regions": "Chihuahua (US border - west)"
+      },
+      {
+        "timeZone": "America/Ojinaga",
+        "regions": "Chihuahua (US border - east)"
+      },
+      {
+        "timeZone": "America/Mazatlan",
+        "regions": "Baja California Sur, Nayarit (most areas), Sinaloa"
+      },
+      {
+        "timeZone": "America/Bahia_Banderas",
+        "regions": "Bahía de Banderas"
+      },
+      {
+        "timeZone": "America/Hermosillo",
+        "regions": "Sonora"
+      },
+      {
+        "timeZone": "America/Tijuana",
+        "regions": "Baja California"
+      }
+    ],
+    "MY": [
+      {
+        "timeZone": "Asia/Kuching",
+        "regions": "Principal location: Kuching"
+      },
+      {
+        "timeZone": "Asia/Singapore",
+        "regions": "Principal location: Singapore"
+      }
+    ],
+    "BN": [
+      {
+        "timeZone": "Asia/Kuching",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MZ": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BI": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BW": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CD": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "Principal location: Maputo"
+      },
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "Principal location: Lagos"
+      }
+    ],
+    "MW": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "RW": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ZM": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ZW": [
+      {
+        "timeZone": "Africa/Maputo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NA": [
+      {
+        "timeZone": "Africa/Windhoek",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NC": [
+      {
+        "timeZone": "Pacific/Noumea",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NF": [
+      {
+        "timeZone": "Pacific/Norfolk",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NG": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AO": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BJ": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CF": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CG": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CM": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GA": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GQ": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NE": [
+      {
+        "timeZone": "Africa/Lagos",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NI": [
+      {
+        "timeZone": "America/Managua",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NP": [
+      {
+        "timeZone": "Asia/Kathmandu",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NR": [
+      {
+        "timeZone": "Pacific/Nauru",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NU": [
+      {
+        "timeZone": "Pacific/Niue",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "NZ": [
+      {
+        "timeZone": "Pacific/Auckland",
+        "regions": "Principal location: Auckland"
+      },
+      {
+        "timeZone": "Pacific/Chatham",
+        "regions": "Chatham Islands"
+      }
+    ],
+    "PA": [
+      {
+        "timeZone": "America/Panama",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KY": [
+      {
+        "timeZone": "America/Panama",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PE": [
+      {
+        "timeZone": "America/Lima",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PF": [
+      {
+        "timeZone": "Pacific/Tahiti",
+        "regions": "Society Islands"
+      },
+      {
+        "timeZone": "Pacific/Marquesas",
+        "regions": "Marquesas Islands"
+      },
+      {
+        "timeZone": "Pacific/Gambier",
+        "regions": "Gambier Islands"
+      }
+    ],
+    "PG": [
+      {
+        "timeZone": "Pacific/Port_Moresby",
+        "regions": "Principal location: Port Moresby"
+      },
+      {
+        "timeZone": "Pacific/Bougainville",
+        "regions": "Bougainville"
+      }
+    ],
+    "PH": [
+      {
+        "timeZone": "Asia/Manila",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PK": [
+      {
+        "timeZone": "Asia/Karachi",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PL": [
+      {
+        "timeZone": "Europe/Warsaw",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PM": [
+      {
+        "timeZone": "America/Miquelon",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PN": [
+      {
+        "timeZone": "Pacific/Pitcairn",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PR": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AG": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AI": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "AW": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BL": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BQ": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CW": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "DM": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GD": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "GP": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KN": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LC": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MF": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MS": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SX": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TT": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "VC": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "VG": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "VI": [
+      {
+        "timeZone": "America/Puerto_Rico",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PS": [
+      {
+        "timeZone": "Asia/Gaza",
+        "regions": "Gaza Strip"
+      },
+      {
+        "timeZone": "Asia/Hebron",
+        "regions": "West Bank"
+      }
+    ],
+    "PT": [
+      {
+        "timeZone": "Europe/Lisbon",
+        "regions": "Portugal (mainland)"
+      },
+      {
+        "timeZone": "Atlantic/Madeira",
+        "regions": "Madeira Islands"
+      },
+      {
+        "timeZone": "Atlantic/Azores",
+        "regions": "Azores"
+      }
+    ],
+    "PW": [
+      {
+        "timeZone": "Pacific/Palau",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "PY": [
+      {
+        "timeZone": "America/Asuncion",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "QA": [
+      {
+        "timeZone": "Asia/Qatar",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BH": [
+      {
+        "timeZone": "Asia/Qatar",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "RO": [
+      {
+        "timeZone": "Europe/Bucharest",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "RS": [
+      {
+        "timeZone": "Europe/Belgrade",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "BA": [
+      {
+        "timeZone": "Europe/Belgrade",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "HR": [
+      {
+        "timeZone": "Europe/Belgrade",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ME": [
+      {
+        "timeZone": "Europe/Belgrade",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "MK": [
+      {
+        "timeZone": "Europe/Belgrade",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SI": [
+      {
+        "timeZone": "Europe/Belgrade",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "RU": [
+      {
+        "timeZone": "Europe/Kaliningrad",
+        "regions": "MSK-01 - Kaliningrad"
+      },
+      {
+        "timeZone": "Europe/Moscow",
+        "regions": "MSK+00 - Moscow area"
+      },
+      {
+        "timeZone": "Europe/Simferopol",
+        "regions": "Principal location: Simferopol"
+      },
+      {
+        "timeZone": "Europe/Kirov",
+        "regions": "MSK+00 - Kirov"
+      },
+      {
+        "timeZone": "Europe/Volgograd",
+        "regions": "MSK+00 - Volgograd"
+      },
+      {
+        "timeZone": "Europe/Astrakhan",
+        "regions": "MSK+01 - Astrakhan"
+      },
+      {
+        "timeZone": "Europe/Saratov",
+        "regions": "MSK+01 - Saratov"
+      },
+      {
+        "timeZone": "Europe/Ulyanovsk",
+        "regions": "MSK+01 - Ulyanovsk"
+      },
+      {
+        "timeZone": "Europe/Samara",
+        "regions": "MSK+01 - Samara, Udmurtia"
+      },
+      {
+        "timeZone": "Asia/Yekaterinburg",
+        "regions": "MSK+02 - Urals"
+      },
+      {
+        "timeZone": "Asia/Omsk",
+        "regions": "MSK+03 - Omsk"
+      },
+      {
+        "timeZone": "Asia/Novosibirsk",
+        "regions": "MSK+04 - Novosibirsk"
+      },
+      {
+        "timeZone": "Asia/Barnaul",
+        "regions": "MSK+04 - Altai"
+      },
+      {
+        "timeZone": "Asia/Tomsk",
+        "regions": "MSK+04 - Tomsk"
+      },
+      {
+        "timeZone": "Asia/Novokuznetsk",
+        "regions": "MSK+04 - Kemerovo"
+      },
+      {
+        "timeZone": "Asia/Krasnoyarsk",
+        "regions": "MSK+04 - Krasnoyarsk area"
+      },
+      {
+        "timeZone": "Asia/Irkutsk",
+        "regions": "MSK+05 - Irkutsk, Buryatia"
+      },
+      {
+        "timeZone": "Asia/Chita",
+        "regions": "MSK+06 - Zabaykalsky"
+      },
+      {
+        "timeZone": "Asia/Yakutsk",
+        "regions": "MSK+06 - Lena River"
+      },
+      {
+        "timeZone": "Asia/Khandyga",
+        "regions": "MSK+06 - Tomponsky, Ust-Maysky"
+      },
+      {
+        "timeZone": "Asia/Vladivostok",
+        "regions": "MSK+07 - Amur River"
+      },
+      {
+        "timeZone": "Asia/Ust-Nera",
+        "regions": "MSK+07 - Oymyakonsky"
+      },
+      {
+        "timeZone": "Asia/Magadan",
+        "regions": "MSK+08 - Magadan"
+      },
+      {
+        "timeZone": "Asia/Sakhalin",
+        "regions": "MSK+08 - Sakhalin Island"
+      },
+      {
+        "timeZone": "Asia/Srednekolymsk",
+        "regions": "MSK+08 - Sakha (E), N Kuril Is"
+      },
+      {
+        "timeZone": "Asia/Kamchatka",
+        "regions": "MSK+09 - Kamchatka"
+      },
+      {
+        "timeZone": "Asia/Anadyr",
+        "regions": "MSK+09 - Bering Sea"
+      }
+    ],
+    "UA": [
+      {
+        "timeZone": "Europe/Simferopol",
+        "regions": "Principal location: Simferopol"
+      },
+      {
+        "timeZone": "Europe/Kyiv",
+        "regions": "most of Ukraine"
+      }
+    ],
+    "SA": [
+      {
+        "timeZone": "Asia/Riyadh",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KW": [
+      {
+        "timeZone": "Asia/Riyadh",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "YE": [
+      {
+        "timeZone": "Asia/Riyadh",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SB": [
+      {
+        "timeZone": "Pacific/Guadalcanal",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SD": [
+      {
+        "timeZone": "Africa/Khartoum",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SG": [
+      {
+        "timeZone": "Asia/Singapore",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SR": [
+      {
+        "timeZone": "America/Paramaribo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SS": [
+      {
+        "timeZone": "Africa/Juba",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ST": [
+      {
+        "timeZone": "Africa/Sao_Tome",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SV": [
+      {
+        "timeZone": "America/El_Salvador",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SY": [
+      {
+        "timeZone": "Asia/Damascus",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TC": [
+      {
+        "timeZone": "America/Grand_Turk",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TD": [
+      {
+        "timeZone": "Africa/Ndjamena",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TH": [
+      {
+        "timeZone": "Asia/Bangkok",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "CX": [
+      {
+        "timeZone": "Asia/Bangkok",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "KH": [
+      {
+        "timeZone": "Asia/Bangkok",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LA": [
+      {
+        "timeZone": "Asia/Bangkok",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "VN": [
+      {
+        "timeZone": "Asia/Bangkok",
+        "regions": "Principal location: Bangkok"
+      },
+      {
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "regions": "south Vietnam"
+      }
+    ],
+    "TJ": [
+      {
+        "timeZone": "Asia/Dushanbe",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TK": [
+      {
+        "timeZone": "Pacific/Fakaofo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TL": [
+      {
+        "timeZone": "Asia/Dili",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TM": [
+      {
+        "timeZone": "Asia/Ashgabat",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TN": [
+      {
+        "timeZone": "Africa/Tunis",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TO": [
+      {
+        "timeZone": "Pacific/Tongatapu",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TR": [
+      {
+        "timeZone": "Europe/Istanbul",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "TW": [
+      {
+        "timeZone": "Asia/Taipei",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "US": [
+      {
+        "timeZone": "America/New_York",
+        "regions": "Eastern (most areas)"
+      },
+      {
+        "timeZone": "America/Detroit",
+        "regions": "Eastern - MI (most areas)"
+      },
+      {
+        "timeZone": "America/Kentucky/Louisville",
+        "regions": "Eastern - KY (Louisville area)"
+      },
+      {
+        "timeZone": "America/Kentucky/Monticello",
+        "regions": "Eastern - KY (Wayne)"
+      },
+      {
+        "timeZone": "America/Indiana/Indianapolis",
+        "regions": "Eastern - IN (most areas)"
+      },
+      {
+        "timeZone": "America/Indiana/Vincennes",
+        "regions": "Eastern - IN (Da, Du, K, Mn)"
+      },
+      {
+        "timeZone": "America/Indiana/Winamac",
+        "regions": "Eastern - IN (Pulaski)"
+      },
+      {
+        "timeZone": "America/Indiana/Marengo",
+        "regions": "Eastern - IN (Crawford)"
+      },
+      {
+        "timeZone": "America/Indiana/Petersburg",
+        "regions": "Eastern - IN (Pike)"
+      },
+      {
+        "timeZone": "America/Indiana/Vevay",
+        "regions": "Eastern - IN (Switzerland)"
+      },
+      {
+        "timeZone": "America/Chicago",
+        "regions": "Central (most areas)"
+      },
+      {
+        "timeZone": "America/Indiana/Tell_City",
+        "regions": "Central - IN (Perry)"
+      },
+      {
+        "timeZone": "America/Indiana/Knox",
+        "regions": "Central - IN (Starke)"
+      },
+      {
+        "timeZone": "America/Menominee",
+        "regions": "Central - MI (Wisconsin border)"
+      },
+      {
+        "timeZone": "America/North_Dakota/Center",
+        "regions": "Central - ND (Oliver)"
+      },
+      {
+        "timeZone": "America/North_Dakota/New_Salem",
+        "regions": "Central - ND (Morton rural)"
+      },
+      {
+        "timeZone": "America/North_Dakota/Beulah",
+        "regions": "Central - ND (Mercer)"
+      },
+      {
+        "timeZone": "America/Denver",
+        "regions": "Mountain (most areas)"
+      },
+      {
+        "timeZone": "America/Boise",
+        "regions": "Mountain - ID (south), OR (east)"
+      },
+      {
+        "timeZone": "America/Phoenix",
+        "regions": "Principal location: Phoenix"
+      },
+      {
+        "timeZone": "America/Los_Angeles",
+        "regions": "Pacific"
+      },
+      {
+        "timeZone": "America/Anchorage",
+        "regions": "Alaska (most areas)"
+      },
+      {
+        "timeZone": "America/Juneau",
+        "regions": "Alaska - Juneau area"
+      },
+      {
+        "timeZone": "America/Sitka",
+        "regions": "Alaska - Sitka area"
+      },
+      {
+        "timeZone": "America/Metlakatla",
+        "regions": "Alaska - Annette Island"
+      },
+      {
+        "timeZone": "America/Yakutat",
+        "regions": "Alaska - Yakutat"
+      },
+      {
+        "timeZone": "America/Nome",
+        "regions": "Alaska (west)"
+      },
+      {
+        "timeZone": "America/Adak",
+        "regions": "Alaska - western Aleutians"
+      },
+      {
+        "timeZone": "Pacific/Honolulu",
+        "regions": "Hawaii"
+      }
+    ],
+    "UY": [
+      {
+        "timeZone": "America/Montevideo",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "UZ": [
+      {
+        "timeZone": "Asia/Samarkand",
+        "regions": "Uzbekistan (west)"
+      },
+      {
+        "timeZone": "Asia/Tashkent",
+        "regions": "Uzbekistan (east)"
+      }
+    ],
+    "VE": [
+      {
+        "timeZone": "America/Caracas",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "VU": [
+      {
+        "timeZone": "Pacific/Efate",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "WS": [
+      {
+        "timeZone": "Pacific/Apia",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "ZA": [
+      {
+        "timeZone": "Africa/Johannesburg",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "LS": [
+      {
+        "timeZone": "Africa/Johannesburg",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ],
+    "SZ": [
+      {
+        "timeZone": "Africa/Johannesburg",
+        "regions": "All areas represented by this IANA country code"
+      }
+    ]
+  }
+}

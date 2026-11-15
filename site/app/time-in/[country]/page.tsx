@@ -100,12 +100,12 @@ export default async function CountryTimePage({ params }: CountryPageProps) {
                 <ZoneLiveTime timeZone={zone.timeZone} initialNow={initialNow} includeDate />
                 <dl>
                   <div><dt>Time-zone name</dt><dd>{zone.name}</dd></div>
-                  <div><dt>Daylight saving</dt><dd>{zone.details.isDaylightSavingTime ? "In effect" : "Not in effect"}</dd></div>
+                  <div><dt>Daylight saving</dt><dd>{zone.details.nextTransition ? (zone.details.isDaylightSavingTime ? "In effect" : "Not in effect") : "Fixed year-round"}</dd></div>
                 </dl>
                 <p className="country-zone-change">
                   {zone.details.nextTransition
                     ? `Next clock change: ${transition} to ${zone.details.nextOffsetLabel}.`
-                    : "No seasonal clock change is scheduled for this zone."}
+                    : `${zone.timeZone} uses a permanent ${zone.details.offsetLabel} offset with no scheduled seasonal clock change.`}
                 </p>
                 {zoneCities[0] ? (
                   <Link href={`/world-clock/${zoneCities[0].slug}`}>
