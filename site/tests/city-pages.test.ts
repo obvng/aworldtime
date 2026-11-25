@@ -29,4 +29,12 @@ describe("city page catalogue", () => {
     expect(cityBySlug("phoenix")?.contentUpdatedAt).toBe("2026-11-15T00:00:00.000Z");
     expect(cityBySlug("regina")?.contentUpdatedAt).toBe("2026-11-15T00:00:00.000Z");
   });
+
+  it("keeps every generated city title within 65 characters", async () => {
+    const { citySeoTitle } = await import("@/lib/city-seo");
+
+    for (const city of CITIES) {
+      expect(citySeoTitle(city).length, city.slug).toBeLessThanOrEqual(65);
+    }
+  });
 });

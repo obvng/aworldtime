@@ -85,14 +85,11 @@ export function countrySeoDescription(country: CountryTimePage, date = new Date(
     : "No seasonal clock change is currently scheduled.";
 
   if (country.zones.length === 1) {
-    return `${country.summary} ${country.zones[0].timeZone} currently uses ${offsets[0]}. ${clockCopy}`;
+    const scope = country.countryCode === "FR" ? "mainland France" : country.name;
+    return `Current time in ${scope}: ${country.zones[0].timeZone} uses ${offsets[0]}. ${clockCopy}`;
   }
   const offsetCopy = offsets.length === 1 ? offsets[0] : `${offsets[0]} to ${offsets.at(-1)}`;
-  const lead = country.summary.split(".")[0];
-  const offsetSentence = /IANA time zones/i.test(lead)
-    ? `Current UTC offsets run from ${offsetCopy}.`
-    : `Its ${country.zones.length} IANA zones currently run from ${offsetCopy}.`;
-  return `${lead}. ${offsetSentence} ${clockCopy}`;
+  return `${country.name} spans ${country.zones.length} IANA zones, currently ${offsetCopy}. ${clockCopy}`;
 }
 
 export function citiesForCountryZone(countryCode: string, timeZone: string) {

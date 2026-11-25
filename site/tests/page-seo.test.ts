@@ -47,6 +47,23 @@ describe("page SEO persistence", () => {
     expect(result.meta_description).toContain("sunrise and sunset");
   });
 
+  it("persists unique country page text with the SEO fields", async () => {
+    const saved = {
+      path: "/time-in/bangladesh",
+      seo_title: "Time in Bangladesh Now and Current UTC Offset",
+      meta_description: "Check the current time, UTC offset and clock-change rules used across Bangladesh.",
+      country_text: "Bangladesh Standard Time is used nationwide, including Dhaka and Chattogram.",
+      updated_at: "2026-11-25T10:00:00.000Z",
+    };
+    const single = vi.fn().mockResolvedValue({ data: saved, error: null });
+    const select = vi.fn(() => ({ single }));
+    const upsert = vi.fn(() => ({ select }));
+    const client = { from: vi.fn(() => ({ upsert })) };
+
+    await expect(persistPageSeo(client, saved)).resolves.toMatchObject(saved);
+    expect(upsert).toHaveBeenCalledWith(expect.objectContaining({ country_text: saved.country_text }), { onConflict: "path" });
+  });
+
   it("rejects a swallowed write when the database returns the old row", async () => {
     const oldRow = {
       path: "/world-clock/lagos",

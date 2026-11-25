@@ -32,11 +32,19 @@ describe("country time route", () => {
     const chile = await generateMetadata({ params: Promise.resolve({ country: "chile" }) });
 
     expect(brazil.title).toEqual({ absolute: "Time in Brazil Now: 16 Time Zones and UTC Offsets" });
-    expect(brazil.description).toMatch(/Brazil spans several time zones.*16 IANA zones.*UTC/i);
+    expect(brazil.description).toMatch(/Brazil spans 16 IANA zones.*UTC/i);
     expect(brazil.alternates?.canonical).toBe("https://www.aworldtime.com/time-in/brazil");
     expect(chile.alternates?.canonical).toBe("https://www.aworldtime.com/time-in/chile");
     expect(brazil.description).not.toMatch(/\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)/);
   });
+
+  it("keeps every generated country meta description within 160 characters", async () => {
+    const { COUNTRY_TIME_PAGES, countrySeoDescription } = await import("@/lib/country-times");
+
+    for (const country of COUNTRY_TIME_PAGES) {
+      expect(countrySeoDescription(country).length, country.slug).toBeLessThanOrEqual(160);
+    }
+  }, 15_000);
 
   it("uses distinct stable catalogue data in country descriptions", async () => {
     const { generateMetadata } = await import("@/app/time-in/[country]/page");
@@ -93,6 +101,35 @@ describe("country time route", () => {
     expect(screen.getByText("Asia/Dhaka")).toBeVisible();
     expect(screen.getByText("All of Bangladesh")).toBeVisible();
     expect(screen.getByTestId("zone-live-time")).toHaveTextContent(/\d{2}:\d{2}:\d{2} (AM|PM)/);
+  });
+
+  it("renders country comparisons, FAQs and FAQ schema", async () => {
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    const { container } = render(await CountryTimePage({ params: Promise.resolve({ country: "bangladesh" }) }));
+
+    expect(screen.getByRole("heading", { name: "Time differences from Bangladesh" })).toBeVisible();
+    expect(screen.getByText(/London/)).toBeVisible();
+    expect(screen.getByText(/New York/)).toBeVisible();
+    expect(screen.getByText(/Lagos/)).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Questions about time in Bangladesh" })).toBeVisible();
+    expect(screen.getByText(/Does Bangladesh use daylight saving time\?/)).toBeVisible();
+
+    const schemas = [...container.querySelectorAll('script[type="application/ld+json"]')].map((script) => JSON.parse(script.textContent ?? "{}"));
+    expect(schemas.find((schema) => schema["@type"] === "FAQPage")?.mainEntity).toHaveLength(4);
+  });
+
+  it("renders saved unique country text", async () => {
+    mocks.getPageSeo.mockResolvedValue({
+      path: "/time-in/bangladesh",
+      seo_title: null,
+      meta_description: null,
+      country_text: "Bangladesh Standard Time is used nationwide, including Dhaka, Chattogram and Sylhet.",
+      updated_at: "2026-11-25T10:00:00.000Z",
+    });
+    const { default: CountryTimePage } = await import("@/app/time-in/[country]/page");
+    render(await CountryTimePage({ params: Promise.resolve({ country: "bangladesh" }) }));
+
+    expect(screen.getByText(/Bangladesh Standard Time is used nationwide/)).toBeVisible();
   });
 
   it("explains that Algeria has no scheduled seasonal change", async () => {

@@ -50,6 +50,17 @@
 .country-zone-card dt { color: #667895; font-size: .75rem; }
 .country-zone-card dd { margin: .2rem 0 0; color: #172b4d; font-weight: 750; }
 .country-zone-change { margin: 0; color: #425777; font-size: .9rem; line-height: 1.55; }
+.country-time-copy { margin-top: 1.25rem; padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid #d9e6f5; border-radius: 20px; background: #fff; }
+.country-time-copy h2 { margin: 0 0 .7rem; color: #07163f; font-size: clamp(1.35rem, 2.5vw, 1.8rem); }
+.country-time-copy > p { color: #425777; line-height: 1.7; white-space: pre-wrap; }
+.country-comparison-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; margin: 1rem 0 0; }
+.country-comparison-list div { padding: .9rem 1rem; border-radius: 14px; background: #f5f9fe; }
+.country-comparison-list dt { color: #526583; font-size: .82rem; }
+.country-comparison-list dd { margin: .25rem 0 0; color: #07163f; font-weight: 800; }
+.country-faq-list { display: grid; gap: .7rem; }
+.country-faq-list article { padding: 1rem; border-radius: 14px; background: #f5f9fe; }
+.country-faq-list h3 { margin: 0 0 .35rem; color: #07163f; font-size: 1rem; }
+.country-faq-list p { margin: 0; color: #425777; line-height: 1.6; }
 .country-zone-cities { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e4edf8; }
 .country-zone-cities > span { color: #667895; font-size: .75rem; font-weight: 750; }
 .country-zone-cities > div { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .5rem; }
@@ -74,6 +85,7 @@
 .directory-country-links a { padding: .55rem .75rem; border: 1px solid #c8dcf5; border-radius: 999px; color: #0a55c7; background: #fff; font-size: .88rem; font-weight: 700; }
 @media (max-width: 760px) {
   .country-zone-grid { grid-template-columns: 1fr; }
+  .country-comparison-list { grid-template-columns: 1fr; }
   .directory-country-links, .utc-section-heading { align-items: flex-start; flex-direction: column; }
   .directory-country-links nav { justify-content: flex-start; }
   .utc-comparison-header { display: none; }

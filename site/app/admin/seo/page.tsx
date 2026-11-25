@@ -18,7 +18,7 @@ export default async function PageSeoAdminPage({ searchParams }: { searchParams:
   const city = requestedMainPage || requestedCountry ? undefined : requestedCity ?? CITIES[0];
   const path = requestedMainPage?.path ?? (requestedCountry ? `/time-in/${requestedCountry.slug}` : `/world-clock/${city!.slug}`);
   const { supabase } = await requireAdminPage();
-  const { data } = await supabase.from("page_seo").select("path,seo_title,meta_description,updated_at").eq("path", path).maybeSingle();
+  const { data } = await supabase.from("page_seo").select("path,seo_title,meta_description,country_text,updated_at").eq("path", path).maybeSingle();
   const saved = data as PageSeo | null;
   const defaultTitle = requestedMainPage?.title ?? (requestedCountry ? countrySeoTitle(requestedCountry) : citySeoTitle(city!));
   const defaultDescription = requestedMainPage?.description ?? (requestedCountry
@@ -37,7 +37,7 @@ export default async function PageSeoAdminPage({ searchParams }: { searchParams:
         </select></label>
         <button type="submit">Load page</button>
       </form>
-      <AdminPageSeoForm key={path} path={path} title={saved?.seo_title ?? defaultTitle} description={saved?.meta_description ?? defaultDescription} />
+      <AdminPageSeoForm key={path} path={path} title={saved?.seo_title ?? defaultTitle} description={saved?.meta_description ?? defaultDescription} countryText={requestedCountry ? saved?.country_text : undefined} />
     </main>
   );
 }

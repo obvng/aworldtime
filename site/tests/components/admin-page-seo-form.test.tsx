@@ -23,4 +23,15 @@ describe("AdminPageSeoForm", () => {
     expect(await screen.findByRole("status")).toHaveTextContent("Saved to the database");
     expect(screen.getByRole("button", { name: "Save SEO settings" })).toBeEnabled();
   });
+
+  it("shows a separate editable field for country page text", () => {
+    render(<AdminPageSeoForm
+      path="/time-in/bangladesh"
+      title="Time in Bangladesh Now"
+      description="Check the current time and UTC offset used across Bangladesh."
+      countryText="Bangladesh uses one national time zone."
+    />);
+
+    expect(screen.getByLabelText("Unique country page text")).toHaveValue("Bangladesh uses one national time zone.");
+  });
 });

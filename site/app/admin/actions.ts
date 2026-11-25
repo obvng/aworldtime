@@ -96,6 +96,7 @@ export async function savePageSeoOverride(_previousState: SavePageSeoState, form
     path: formData.get("path"),
     seo_title: formData.get("seo_title"),
     meta_description: formData.get("meta_description"),
+    country_text: formData.get("country_text"),
   });
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Check the SEO fields." };
   try {
